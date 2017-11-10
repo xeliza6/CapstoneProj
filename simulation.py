@@ -13,12 +13,25 @@ cap = 12000
 maintenance_lim = 8000
 maintenance = 180
 system_clock = 0
+old_system_clock = 0
 cur.execute("SELECT * FROM unit_state")
 unit_ids = []
 temp = cur.fetchall()
 for unit in temp:
     unit_ids.append(unit[0])
 # go through each asset and find the next event
+
+def initialize_unit_states():
+    for unit in unit_ids:
+        cur.execute("SELECT id FROM asset_states WHERE curr_unit = '"+ unit + "'")
+        cur.execute("UPDATE unit_state SET assets = " + str(len(cur.fetchall())) + ", state = 1 WHERE unit_id = '" + unit + "'")
+        cur.execute("SELECT asset_demand FROM unit" + unit + " WHERE id = 1")
+        cur.execute("UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
+
+
+    cur.execute("SELECT * FROM unit_state")
+    print(cur.fetchall())
+
 def asset_milestone():
     cur.execute("SELECT * FROM asset_states;")
     asset_data = cur.fetchall()
@@ -56,7 +69,7 @@ def asset_milestone():
                 remaining = int((maintenance_checkpoint - curr_util)/hrs_per_day)
                 # print(remaining)
                 exec_date = start_time+ remaining
-                print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
+                # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
                 command = """
                                 INSERT INTO "events" (id, object_type, event_date, event_type)
                                 VALUES('""" + asset_id + "', 'asset',"+ str(exec_date) + ", 'maintenance')"
@@ -76,16 +89,21 @@ def asset_milestone():
                 break
             else:
                 curr_util = temp_curr_util
-    find_next_event()
     update_state()
 
 def update_state():
-    # print(unit_ids)
+    # calculate downtime up until current clock time
+    cur.execute("SELECT * FROM unit_state")
+    unit_states = cur.fetchall()
+    for state in unit_states:
+        if state[3]<state[4]:
+            cur.execute("UPDATE unit_state SET downtime = " + str(system_clock - old_system_clock) + " WHERE unit_id ='" +state[0] + "'")
+
+    find_next_event()
     for unit in unit_ids:
         cur.execute("SELECT * FROM unit" + unit)
         unit_schedule = cur.fetchall()
         for time in unit_schedule:
-            print("system clock: " + str(system_clock))
             if time[3] > system_clock:
                 curr_state = time[0]
                 assets_needed = time[4]
@@ -94,8 +112,8 @@ def update_state():
                     """UPDATE unit_state
                     SET state = """ + str(curr_state) + """, assets =  """+ str(assets_in) +""", assets_required ="""+ str(assets_needed)+"""
                     WHERE unit_id = '""" + unit + "'")
-    # update asset states
-    # pop off unit schedule rows
+
+
 
 
 def find_next_event():
@@ -116,6 +134,7 @@ def assets_in_unit(unit_id):
     return cur.fetchall()
 
 if __name__ == '__main__':
+    initialize_unit_states()
     asset_milestone()
     update_state()
 
