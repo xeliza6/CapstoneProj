@@ -81,6 +81,8 @@ def generate_options(empty_spots):
 		score = score(option)
 		if score > best_option_score:
 			best_option = option
+			best_option_score = score
+	return best_option
 		# option becomes option from each of the spots, increment index for
 		# the 0 index
 		# if it's too long for that spot's options reset to 0
