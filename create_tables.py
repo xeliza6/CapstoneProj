@@ -5,7 +5,7 @@ date_format = "%Y-%m-%d"
 
 
 try:
-    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
+    conn = psycopg2.connect("dbname='test' user='postgres' host='localhost' password='pass'")
 except:
     print ("I am unable to connect to the database")
 
@@ -59,6 +59,7 @@ def create_units():
             print("creating table for unit "+ row[0])
             command = """
             CREATE TABLE IF NOT EXISTS unit""" + row[0] + """(
+            id SERIAL PRIMARY KEY,
             phase VARCHAR(2) NOT NULL,
             start_date INT NOT NULL,
             end_date INT NOT NULL,
@@ -85,7 +86,7 @@ def create_assets():
     util_type VARCHAR(255) NOT NULL,
     curr_unit VARCHAR(2),
     curr_util_value INT NOT NULL,
-    num_maintenance INT
+    state VARCHAR(255)
     )
     """
     cur.execute(command)
@@ -97,8 +98,8 @@ def create_assets():
             next(reader2)
             for row, row2 in zip(reader,reader2):
                 command = """
-                    INSERT INTO "asset_states" (id, as_of_date, util_type, curr_unit, curr_util_value, num_maintenance)
-                    VALUES('""" + row[0] + "','" + date_to_int(row[1]) + "','" + row[2] + "','" + row2[1]+"'," + row[3] + ", 0)"
+                    INSERT INTO "asset_states" (id, as_of_date, util_type, curr_unit, curr_util_value, state)
+                    VALUES('""" + row[0] + "','" + date_to_int(row[1]) + "','" + row[2] + "','" + row2[1]+"'," + row[3] + ", 'online')"
                 #print(command)
                 cur.execute(command)
 
@@ -110,6 +111,7 @@ def create_unit_state():
     command = """
                 CREATE TABLE unit_state (
                     unit_id VARCHAR(2) NOT NULL,
+                    state int NOT NULL,
                     downtime int NOT NULL,
                     assets int NOT NULL,
                     assets_required int NOT NULL,
@@ -122,8 +124,8 @@ def create_unit_state():
         next(reader)
         for row in reader:
             command = """
-                INSERT INTO "unit_state" (unit_id, downtime, assets, assets_required)
-                VALUES ('""" + row[0] +"', 0,0,0)" +"""
+                INSERT INTO "unit_state" (unit_id, state, downtime, assets, assets_required)
+                VALUES ('""" + row[0] +"',0,0,0,0)" +"""
                 ON CONFLICT DO NOTHING"""
             #print(command)
             cur.execute(command)
