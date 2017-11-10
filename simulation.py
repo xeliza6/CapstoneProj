@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 date_format = "%Y-%m-%d"
 
 try:
-    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
+    conn = psycopg2.connect("dbname='test' user='postgres' host='localhost' password='pass'")
 except:
     print ("I am unable to connect to the database")
 
@@ -13,7 +13,7 @@ cap = 12000
 maintenance_lim = 8000
 maintenance = 180
 system_clock = 0
-cur.execute("SELECT * FROM downtime")
+cur.execute("SELECT * FROM unit_state")
 unit_ids = []
 temp = cur.fetchall()
 for unit in temp:
@@ -33,18 +33,18 @@ def asset_milestone():
         all_transfers = cur.fetchall()
         #finding the next event for the asset
         for transfer in all_transfers:
-            start_time = transfer[1]
-            end_time = transfer[2]
+            start_time = transfer[2]
+            end_time = transfer[3]
             day_diff = end_time-start_time
             # print(str(day_diff))
             cur.execute("""SELECT * FROM phases
-             WHERE phase_id = '""" + transfer[0] + "'")
+             WHERE phase_id = '""" + transfer[1] + "'")
             phase = cur.fetchone()
             # print(phase)
             if phase[2] == 'perAsset_PerDay':
                 hrs_per_day = int(phase[3])
             else:
-                hrs_per_day = phase[3]/transfer[3]
+                hrs_per_day = phase[3]/transfer[4]
 
             added_hours = day_diff * hrs_per_day
             temp_curr_util = curr_util + added_hours
@@ -87,9 +87,13 @@ def update_state():
         for time in unit_schedule:
             print("system clock: " + str(system_clock))
             if time[3] > system_clock:
-                curr_phase = time[0]
-
-                cur.execute("SELECT phase_id FROM ")
+                curr_state = time[0]
+                assets_needed = time[4]
+                assets_in = len(assets_in_unit(unit))
+                cur.execute(
+                    """UPDATE unit_state
+                    SET state = """ + str(curr_state) + """, assets =  """+ str(assets_in) +""", assets_required ="""+ str(assets_needed)+"""
+                    WHERE unit_id = '""" + unit + "'")
     # update asset states
     # pop off unit schedule rows
 
@@ -103,10 +107,13 @@ def find_next_event():
         if event[2]<nearest[2]:
             nearest = event
     system_clock = nearest[2]
+    if nearest[3] == "maintenance":
+        cur.execute("UPDATE asset_states SET state = 'maintenance' WHERE id = " + nearest[0])
+
 
 def assets_in_unit(unit_id):
-    cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "'")
-    print(cur.fetchall())
+    cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'online'" )
+    return cur.fetchall()
 
 if __name__ == '__main__':
     asset_milestone()
