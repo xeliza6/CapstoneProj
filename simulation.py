@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 date_format = "%Y-%m-%d"
 
 try:
-    conn = psycopg2.connect("dbname='test' user='postgres' host='localhost' password='pass'")
+    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
 except:
     print ("I am unable to connect to the database")
 
@@ -14,6 +14,9 @@ maintenance_lim = 8000
 maintenance = 180
 system_clock = 0
 old_system_clock = 0
+
+total_system_transfers = 0
+
 cur.execute("SELECT * FROM unit_state")
 unit_ids = []
 temp = cur.fetchall()

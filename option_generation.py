@@ -30,21 +30,22 @@ def generate_options(empty_spots):
 	spot_options = {}
 	spot_id = 0
 	for spot in empty_spots:
-		# spot is a tuplet of unit, and asset type
+		# spot is a tuple of unit, and asset type
 		spot_options[spot_id] = [None]
 		
-		unit_list = list_of_units_query()
+		unit_list = unit_ids
 		for unit in unit_list:
 		
-			if unit != spot(unit):
+			if unit != spot[0]:
 			
-				for asset in unit(assets):
-				
-					if asset.type == spot(asset_type):
+				for asset in assets_in_unit(unit):
+					# TODO: implement this conditional when we have multiple asset types
+					#if asset.type == spot(asset_type):
 						# each alternative stored as a triplet 
 						# form (asset, unit from, unit to)
-						spot_options[spot_id].append( (asset, unit, spot(unit)) )
-					
+						#spot_options[spot_id].append( (asset, unit, spot[0]) )
+					# TODO: remove this line once the above TODO is taken care of
+					spot_options[spot_id].append( (asset, unit, spot[0]) )	
 		spot_id += 1
 		
 	# full option generations (pick one for each spot) 
@@ -61,16 +62,17 @@ def generate_options(empty_spots):
 		
 		spot_id = 0
 		for spot in spot_options:
-			swap = spot[spot_indices[spot_id]]
-			swapped_asset = swap[0]
+		
+			swap = spot[spot_indices[spot_id]]	# deciding which "option" to pick for this spot
+			swapped_asset = swap[0] # asset ID being swapped
 			
 			asset_match = False
 			for spot in option:
-				if swapped_asset.id != option(1).id: #asset ID check
+				if swapped_asset != option[0]: #asset ID check
 					asset_match = True
 					
 			if !asset_match:
-				option.append(spot[spot_indices[spot_id]])
+				option.append(spot[spot_indices[spot_id]]) # may pass None, None indicates no swap
 				
 		# incrementing index
 		spot_indices = increment_indices(spot_indices, spot_options, 0)

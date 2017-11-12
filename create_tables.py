@@ -5,7 +5,7 @@ date_format = "%Y-%m-%d"
 
 
 try:
-    conn = psycopg2.connect("dbname='test' user='postgres' host='localhost' password='pass'")
+    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
 except:
     print ("I am unable to connect to the database")
 
