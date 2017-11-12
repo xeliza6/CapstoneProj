@@ -133,6 +133,14 @@ def assets_in_unit(unit_id):
     cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'online'" )
     return cur.fetchall()
 
+def get_holes():
+    cur.execute("SELECT * FROM unit_state WHERE assets < assets_required")
+    stuff = cur.fetchall()
+    holes_tuple = []
+    for s in stuff:
+        holes_tuple.append((s[0],s[5]))
+    return holes_tuple
+
 if __name__ == '__main__':
     initialize_unit_states()
     asset_milestone()
