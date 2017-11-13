@@ -5,7 +5,7 @@ date_format = "%Y-%m-%d"
 
 
 try:
-    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
+    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
 except:
     print ("I am unable to connect to the database")
 
@@ -27,11 +27,12 @@ def create_phases():
         reader = csv.reader(csvfile, dialect='excel')
         next(reader)
         for row in reader:
-            command = """
-            INSERT INTO "phases" (phase_id, util_type, rate_unit, rate_value)
-            VALUES ('""" + row[0] + "', '" + row[1] + "','" + row[2] + "','" + row[3] + "')"
-            #print(command)
-            cur.execute(command)
+            if row[1] == "Hours":
+                command = """
+                INSERT INTO "phases" (phase_id, util_type, rate_unit, rate_value)
+                VALUES ('""" + row[0] + "', '" + row[1] + "','" + row[2] + "','" + row[3] + "')"
+                #print(command)
+                cur.execute(command)
 
 def drop_phases():
     cur.execute("DROP TABLE IF EXISTS phases")
@@ -115,6 +116,7 @@ def create_unit_state():
                     downtime int NOT NULL,
                     assets int NOT NULL,
                     assets_required int NOT NULL,
+                    asset_type INT NOT NULL,
                     PRIMARY KEY(unit_id)
                 )
                 """
@@ -124,8 +126,8 @@ def create_unit_state():
         next(reader)
         for row in reader:
             command = """
-                INSERT INTO "unit_state" (unit_id, state, downtime, assets, assets_required)
-                VALUES ('""" + row[0] +"',0,0,0,0)" +"""
+                INSERT INTO "unit_state" (unit_id, state, downtime, assets, assets_required, asset_type)
+                VALUES ('""" + row[0] +"',0,0,0,0,0)" +"""
                 ON CONFLICT DO NOTHING"""
             #print(command)
             cur.execute(command)
