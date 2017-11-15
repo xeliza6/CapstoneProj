@@ -1,5 +1,8 @@
+
+
 import psycopg2
 import math
+import random
 from datetime import datetime, timedelta
 date_format = "%Y-%m-%d"
 
@@ -26,6 +29,7 @@ for unit in temp:
     unit_ids.append(unit[0])
 # go through each asset and find the next event
 
+
 def initialize_unit_states():
     for unit in unit_ids:
         cur.execute("SELECT id FROM asset_states WHERE curr_unit = '"+ unit + "'")
@@ -33,9 +37,9 @@ def initialize_unit_states():
         cur.execute("SELECT asset_demand FROM unit" + unit + " WHERE id = 1")
         cur.execute("UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
 
-
     cur.execute("SELECT * FROM unit_state")
     print(cur.fetchall())
+
 
 def asset_milestone():
     cur.execute("SELECT * FROM asset_states;")
@@ -69,7 +73,7 @@ def asset_milestone():
             # record the events appropriately in the event table
             # update the state of the asset in the asset table
             # freeze the data
-            if temp_curr_util >=maintenance_checkpoint:
+            if temp_curr_util >= maintenance_checkpoint:
 
                 remaining = int((maintenance_checkpoint - curr_util)/hrs_per_day)
                 # print(remaining)
@@ -201,6 +205,14 @@ def increment_index(indices, options, incr_index):
         indices[incr_index] = 0
         return increment_index(indices, options, incr_index + 1)
 
+def get_rand_option(options):
+    indices = [0]*len(options)
+    i = 0
+    for spot, spot_options in options.items():
+        indices[i] = random.randint(0, len(spot_options))
+        i += 1
+
+    return indices
 
 # arguments passed in should be a list of tuplets of shortages
 # of form (unit, asset type)
@@ -223,9 +235,9 @@ def generate_options(empty_spots):
         spot_options[spot_id] = [None]
 
         unit_list = unit_ids
-        for unit in unit_list:
+        for spot_unit in unit_list:
 
-            if unit != spot[0]:
+            if spot_unit != spot[0]:
 
                 for asset in assets_in_unit(unit):
                     # TODO: implement this conditional when we have multiple asset types
@@ -234,7 +246,7 @@ def generate_options(empty_spots):
                     # form (asset, unit from, unit to)
                     # spot_options[spot_id].append( (asset, unit, spot[0]) )
                     # TODO: remove this line once the above TODO is taken care of
-                    spot_options[spot_id].append((asset, unit, spot[0]))
+                    spot_options[spot_id].append((asset, spot_unit, spot[0]))
         spot_id += 1
 
     # full option generations (pick one for each spot)
@@ -251,7 +263,6 @@ def generate_options(empty_spots):
         # generating option
         option = []
 
-        spot_id = 0
         for spot_id, spot in spot_options.items():
             if spot[spot_indices[spot_id]] is not None:
                 swap = spot[spot_indices[spot_id]]  # deciding which "option" to pick for this spot
@@ -266,8 +277,15 @@ def generate_options(empty_spots):
                     option.append(spot[spot_indices[spot_id]])  # may pass None, None indicates no swap
 
         # incrementing index
-        spot_indices = increment_index(spot_indices, spot_options, 0)
+
+        ## REPLACE WHEN SWITCHING OFF OF RANDOMIZATION
+        ## spot_indices = increment_index(spot_indices, spot_options, 0)
+
+        ## USE FOR RANDOM SELECTION
+        spot_indices = get_rand_option(spot_options)
+
         print(spot_indices)
+
         options_exhausted = (spot_indices is None)
 
         # evaluate option
