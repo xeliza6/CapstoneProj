@@ -16,6 +16,14 @@ except:
 
 cur = conn.cursor()
 
+online_assets = []
+maintenance_assets = []
+eol_assets = []
+total_asset_demands = []
+
+time_stepper = 30
+step_count = 0
+
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
 cap = 12000
