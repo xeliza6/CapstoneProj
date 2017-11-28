@@ -500,8 +500,34 @@ def calculate_average_uptime():
     time_array.append(system_clock)
 
 
+def check_month():
+    global step_count
+    global online_assets
+    global maintenance_assets
+    global eol_assets
+    global total_asset_demands
+    steps_passed = int(system_clock/time_stepper)
+    # finding the states
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O'")
+    online_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'M'")
+    maintenance_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'EOL'")
+    eol_count = cur.fetchone()[0]
+    cur.execute("SELECT SUM(assets_required) FROM unit_state")
+    total_asset_demand = cur.fetchone()[0]
+    for i in range(steps_passed):
+        online_assets.append(online_count)
+        maintenance_assets.append(maintenance_count)
+        eol_assets.append(eol_count)
+        total_asset_demands.append(total_asset_demand)
+
+def get_data():
+    data = (online_assets,maintenance_assets,eol_assets,total_asset_demands)
+    print(data)
+
+
 if __name__ == '__main__':
-    global old_system_clock
     global total_system_uptime
     global baseline_uptime
     initialize_unit_states()
@@ -513,6 +539,7 @@ if __name__ == '__main__':
         calculate_average_uptime()
         set_events()
         find_next_event()
+        check_month()
         boom = generate_options(get_holes())
         if boom[0] is not None:
             for b in boom[0]:
@@ -531,3 +558,4 @@ if __name__ == '__main__':
 logger.close()
 cur.close()
 conn.commit()
+get_data()
