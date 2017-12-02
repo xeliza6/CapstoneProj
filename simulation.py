@@ -21,11 +21,10 @@ maintenance_assets = []
 eol_assets = []
 total_asset_demands = []
 
-time_stepper = 30
-step_count = 0
 
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
+data_file = open("data.txt", "w")
 cap = 12000
 maintenance_lim = 8000
 maintenance = 180
@@ -34,6 +33,8 @@ old_system_clock = 0
 baseline_uptime = 0
 total_system_uptime = 0
 total_system_transfers = 0
+time_stepper = 30
+step_count = 0
 transfers_array = []
 uptimes_array = []
 time_array = []
@@ -377,7 +378,7 @@ def generate_options(empty_spots):
 
                 asset_match = False
                 for opt_spot in option:
-                    if swapped_asset != opt_spot[0]:  # asset ID check
+                    if swapped_asset[0] == opt_spot[0]:  # asset ID check
                         asset_match = True
 
                 if not asset_match:
@@ -416,8 +417,8 @@ def score_option(option, holes):
     # option[0][0] = asset_id #for option 0
     alpha = 5
 
-    scale_uptime = 0.9
-    scale_transfer = 0.1
+    scale_uptime = 0.7
+    scale_transfer = 0.3
 
     cur.execute("SELECT * FROM unit_state")
     old_unit_states = cur.fetchall()
@@ -507,7 +508,6 @@ def calculate_average_uptime():
     transfers_array.append(total_system_transfers)
     time_array.append(system_clock)
 
-
 def check_month():
     global step_count
     global online_assets
@@ -530,9 +530,12 @@ def check_month():
         eol_assets.append(eol_count)
         total_asset_demands.append(total_asset_demand)
 
-def get_data():
-    data = (online_assets,maintenance_assets,eol_assets,total_asset_demands)
-    print(data)
+def write_data():
+    data_file.write(str(online_assets)+ '\n')
+    data_file.write(str(maintenance_assets)+ '\n')
+    data_file.write(str(eol_assets)+ '\n')
+    data_file.write(str(total_asset_demands)+ '\n')
+    data_file.close()
 
 
 if __name__ == '__main__':
@@ -566,4 +569,4 @@ if __name__ == '__main__':
 logger.close()
 cur.close()
 conn.commit()
-get_data()
+write_data()
