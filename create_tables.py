@@ -158,7 +158,7 @@ def main():
     global clock_zero
     #print("main placeholder")
     try:
-        conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
+        conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
     except:
         print("I am unable to connect to the database")
 
