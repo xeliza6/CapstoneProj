@@ -96,11 +96,33 @@ def create_assets():
                 command = """
                     INSERT INTO "asset_states" (id, util_type, curr_unit, curr_util_value, state, maintenance)
                     VALUES('""" + row[0] + "','" + row[2] + "','" + row2[1]+"'," + row[3] + ", 'O', 0)"
-                #print(command)
+                # print(command)
                 cur.execute(command)
+
 
 def drop_assets():
     cur.execute("DROP TABLE IF EXISTS asset_states")
+
+
+def create_phase_priority():
+    command = """
+                CREATE TABLE phase_priority (
+                    phase_id VARCHAR(255) NOT NULL,
+                    priority int NOT NULL)
+                """
+    cur.execute(command)
+    with open('Phase_Asset_Priority.csv', 'rt', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile, dialect = 'excel')
+        next(reader)
+        for row in reader:
+            command = """
+                INSERT INTO "phase_priority" (phase_id, priority)
+                VALUES('""" + row[0] + "'," + row[1] + ")"
+            cur.execute(command)
+
+
+def drop_phase_priority():
+    cur.execute("DROP TABLE IF EXISTS phase_priority")
 
 
 def create_unit_state():
@@ -136,7 +158,7 @@ def main():
     global clock_zero
     #print("main placeholder")
     try:
-        conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
+        conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
     except:
         print("I am unable to connect to the database")
 
@@ -153,6 +175,8 @@ def main():
     create_events()
     drop_unit_state()
     create_unit_state()
+    drop_phase_priority()
+    create_phase_priority()
     cur.close()
     conn.commit()
 
