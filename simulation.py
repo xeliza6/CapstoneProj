@@ -10,22 +10,31 @@ date_format = "%Y-%m-%d"
 create_tables.main()
 
 try:
-    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
+    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
 except:
     print("I am unable to connect to the database")
 
 cur = conn.cursor()
 
+online_assets = []
+maintenance_assets = []
+eol_assets = []
+total_asset_demands = []
+
+
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
-cap = 7000
-maintenance_lim = 3500
+data_file = open("data.txt", "w")
+cap = 6000
+maintenance_lim = 3000
 maintenance = 180
 system_clock = 0
 old_system_clock = 0
 baseline_uptime = 0
 total_system_uptime = 0
 total_system_transfers = 0
+time_stepper = 30
+step_count = 0
 transfers_array = []
 uptimes_array = []
 time_array = []
@@ -107,23 +116,8 @@ def find_asset_event(asset, phase):
 
     # If asset is not in maintenance
     if asset[4] == 'O':
-        # Check if asset hits maintenance
-        if asset[5] == -1:
-            maintenance_checkpoint = maintenance_checkpoint + maintenance_lim
-            cur.execute("UPDATE asset_states SET maintenance = 0")
-        if temp_curr_util >= maintenance_checkpoint:
-
-            remaining = int((maintenance_checkpoint - curr_util) / hrs_per_day)
-            # print(remaining)
-            exec_date = system_clock + remaining
-            # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
-            command = """
-                            INSERT INTO events (id, object_type, event_date, event_type)
-                            VALUES(""" + str(asset[0]) + ", 'asset'," + str(exec_date) + ", 'M')"
-
-            cur.execute(command)
         # Check if asset hits EOL
-        if curr_util >= cap:
+        if temp_curr_util >= cap:
             remaining = int((cap - curr_util) / hrs_per_day)
             # print(remaining)
             exec_date = system_clock + remaining
@@ -132,9 +126,26 @@ def find_asset_event(asset, phase):
             cur.execute(command)
             # print("Asset " + str(asset[0]) + " EOL ")
 
+        # Check if asset hits maintenance
+        else:
+            if asset[5] == -1:
+                maintenance_checkpoint = maintenance_checkpoint + maintenance_lim
+                cur.execute("UPDATE asset_states SET maintenance = 0")
+            if temp_curr_util >= maintenance_checkpoint:
+
+                remaining = int((maintenance_checkpoint - curr_util) / hrs_per_day)
+                # print(remaining)
+                exec_date = system_clock + remaining
+                # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
+                command = """
+                                INSERT INTO events (id, object_type, event_date, event_type)
+                                VALUES(""" + str(asset[0]) + ", 'asset'," + str(exec_date) + ", 'M')"
+
+                cur.execute(command)
+
 
     # If asset was in maintenance
-    else:
+    elif asset[4] == 'M':
         # Check if asset comes back online
         if temp_curr_util >= maintenance_checkpoint2:
             remaining = int((maintenance_checkpoint2 - curr_util) / hrs_per_day)
@@ -154,6 +165,7 @@ def find_asset_event(asset, phase):
 def find_next_event():
     global system_clock
     global end_condition
+    nearest_events = []
     cur.execute("SELECT * FROM events")
     events = cur.fetchall()
     if len(events)==0:
@@ -161,79 +173,94 @@ def find_next_event():
         return
     nearest = events[0]
     for event in events:
-        if event[2] <= nearest[2]:
-            nearest = event
-    print("------------------------------------ next event is: " + str(nearest))
-    logger.write("\nAt " + str(datetime.strftime(clock_zero + timedelta(days=nearest[2]), date_format)) + ": " + str(
-        nearest[1]) + " " + str(nearest[0]) + " " + str(nearest[3]) + "\n")
+        if event[2] == nearest[2]:
+            nearest_events.append(event)
+        if event[2] < nearest[2]:
+            nearest_events.clear()
+            nearest_events.append(event)
+            nearest=event
+    print("------------------------------------ next events: "+ str(nearest_events))
+
     system_clock = nearest[2]
-    event_id = nearest[0]
-    # print("next event is: " + str(nearest))
-    # print(system_clock)
+    update_assets()
 
-    cur.execute("DELETE FROM events WHERE id = '" + event_id + "'")
-
-    # Update asset state
-    # Update unit_state.assets
-    # Update next event in events table
-    if nearest[1] == 'asset':
-        update_assets()
-
-        cur.execute("SELECT * FROM asset_states WHERE id = '" + event_id + "'")
-        asset = cur.fetchone()
-        if nearest[3] == "M":
-            cur.execute("UPDATE asset_states SET state = 'M' WHERE id = " + str(event_id))
-            cur.execute("SELECT curr_unit FROM asset_states")
-            curr_unit = cur.fetchone()[0]
-            cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
-
-        elif nearest[3] == 'EOL':
-            cur.execute("UPDATE asset_states SET state = 'EOL', maintenance =0 WHERE id = " + str(event_id))
-            cur.execute("SELECT curr_unit FROM asset_states")
-            curr_unit = cur.fetchone()[0]
-            cur.execute(
-                "UPDATE unit_state SET assets = unit_state.assets-1, curr_unit = 'n/a' WHERE unit_id = '" + curr_unit + "'")
-
-        elif nearest[3] == "EM":
-            cur.execute("UPDATE asset_states SET state = 'O', maintenance = -1 WHERE id = " + event_id)
-            cur.execute("SELECT curr_unit FROM asset_states")
-            curr_unit = cur.fetchone()[0]
-            cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + curr_unit + "'")
+    for event in nearest_events:
+        logger.write("\nAt " + str(datetime.strftime(clock_zero + timedelta(days=event[2]), date_format)) + ": " + str(
+            event[1]) + " " + str(event[0]) + " " + str(event[3]) + "\n")
+        event_id = event[0]
+        # print("next event is: " + str(nearest))
+        # print(system_clock)
 
 
-    # Update unit state
-    # Update unit_state.asset_requirement
-    # Update next event in events table
-    elif nearest[1] == 'unit':
-        cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
-            nearest[4]) + " WHERE unit_id = '" + event_id + "'")
-        update_assets()
-        find_unit_event(event_id)
+
+        # Update asset state
+        # Update unit_state.assets
+        # Update next event in events table
+        if event[1] == 'asset':
+
+            cur.execute("SELECT * FROM asset_states WHERE id = '" + event_id + "'")
+            asset = cur.fetchone()
+            if event[3] == "M":
+                cur.execute("UPDATE asset_states SET state = 'M' WHERE id = " + str(event_id))
+                cur.execute("SELECT curr_unit FROM asset_states")
+                curr_unit = cur.fetchone()[0]
+                cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
+
+            elif event[3] == 'EOL':
+                cur.execute("UPDATE asset_states SET state = 'EOL', maintenance =0 WHERE id = " + str(event_id))
+                cur.execute("SELECT curr_unit FROM asset_states")
+                curr_unit = cur.fetchone()[0]
+                cur.execute(
+                    "UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
+
+            elif event[3] == "EM":
+                cur.execute("UPDATE asset_states SET state = 'O', maintenance = -1 WHERE id = " + event_id)
+                cur.execute("SELECT curr_unit FROM asset_states")
+                curr_unit = cur.fetchone()[0]
+                cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + curr_unit + "'")
+
+
+        # Update unit state
+        # Update unit_state.asset_requirement
+        # Update next event in events table
+        elif event[1] == 'unit':
+            cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
+                event[4]) + " WHERE unit_id = '" + event_id + "'")
+            #find_unit_event(event_id)
 
 # -------------------------------------------UPDATING STATE-----------------------------------------------
 def update_assets():
     day_diff = system_clock - old_system_clock
-    #print("DAY DIFF: " + str(system_clock) + " - " + str(old_system_clock) + " = " + str(day_diff))
     for unit in unit_ids:
         cur.execute("SELECT state, assets, assets_required FROM unit_state WHERE unit_id = '" + unit + "'")
         line = cur.fetchone()
-        if line[1] >= line[2]:
-            state = line[0]
-            table = 'unit' + unit
-            cur.execute(
-                "SELECT phase, asset_demand, rate_unit, rate_value FROM unit" + unit + " RIGHT OUTER JOIN phases ON phases.phase_id = " + table + ".phase WHERE " + table + ".id = " + str(
-                    state))
-            phase = cur.fetchone()
+        state = line[0]
+        table = 'unit' + unit
+        cur.execute(
+            "SELECT phase, asset_demand, rate_unit, rate_value FROM unit" + unit + " RIGHT OUTER JOIN phases ON phases.phase_id = " + table + ".phase WHERE " + table + ".id = " + str(
+                state))
+        phase = cur.fetchone()
 
-            if phase[2] == 'perAsset_PerDay':
-                hrs_per_day = int(phase[3])
-            else:
-                hrs_per_day = phase[3] / phase[1]
-            added_hours = day_diff * hrs_per_day
-            cur.execute("UPDATE asset_states SET curr_util_value = curr_util_value + " + str(
-                added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'O'")
-            cur.execute("UPDATE asset_states SET maintenance = maintenance + " + str(
-                added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
+        if phase[2] == 'perAsset_PerDay':
+            hrs_per_day = int(phase[3])
+        else:
+            hrs_per_day = phase[3] / phase[1]
+        added_hours = day_diff * hrs_per_day
+
+
+
+        cur.execute("UPDATE asset_states SET curr_util_value = curr_util_value + " + str(
+            added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'O'")
+        cur.execute("UPDATE asset_states SET maintenance = maintenance + " + str(
+            added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
+    # cur.execute("SELECT * FROM asset_states WHERE state = 'O'")
+    # test = cur.fetchall()
+    # for t in test:
+    #     hours = t[3]
+    #     if hours + added_hours > cap:
+    #         print("asset " + str(t[0]) + " has exceeded cap: " + str(hours + added_hours))
+    #         global end_condition
+    #         end_condition = True
 
 
 # def update_state():
@@ -293,6 +320,7 @@ def signum(x):
 def increment_index(indices, options, rank_depth, incr_index):
     threshold = min(rank_depth, len(options[incr_index]))
     if (indices[incr_index] + 1) < threshold:
+
         indices[incr_index] += 1
         return indices
     elif (indices[incr_index] + 1) == threshold:
@@ -310,7 +338,6 @@ def get_rand_option(options):
         i += 1
 
     return indices
-
 
 def get_ranked_options(all_options, num_spots, rank_depth):
 
@@ -380,6 +407,7 @@ def get_ranked_options(all_options, num_spots, rank_depth):
     return best_options
 
 
+
 # arguments passed in should be a list of tuplets of shortages
 # of form (unit, asset type)
 def generate_options(empty_spots):
@@ -418,8 +446,6 @@ def generate_options(empty_spots):
     # full option generations (pick one for each spot)
     # need to recursively iterate through all combinations of options
     spot_indices = [0] * len(spot_options)
-
-
     # SWITCHING TO RANKED OPTIONS HERE
     all_options = spot_options
 
@@ -428,11 +454,14 @@ def generate_options(empty_spots):
 
     options_exhausted = False
     options_evaluated = 0
+
     while not options_exhausted and options_evaluated < 200:
         # options_evaluated += 1
+
         # generating option
         option = []
         option_ids = [0] * len(spot_indices)
+
         for spot_id, spot in spot_options.items():
             if spot[spot_indices[spot_id]] is not None:
                 swap = spot[spot_indices[spot_id]]  # deciding which "option" to pick for this spot
@@ -469,9 +498,9 @@ def generate_options(empty_spots):
         # USE WHEN SWITCHING OFF OF RANDOMIZATION
         option_depth = 3
         spot_indices = increment_index(spot_indices, spot_options, option_depth, 0)
-        #print(option_ids)
+        # print(option_ids)
         # USE FOR RANDOM SELECTION
-        #spot_indices = get_rand_option(spot_options)
+        # spot_indices = get_rand_option(spot_options)
 
         # print(spot_indices)
 
@@ -484,6 +513,7 @@ def generate_options(empty_spots):
             best_option_score = score
 
     return best_option, best_option_score
+
     # option becomes option from each of the spots, increment index for
     # the 0 index
     # if it's too long for that spot's options reset to 0
@@ -503,6 +533,7 @@ def get_phase_priority(unit_id):
     return cur.fetchall()[0][0]
 
 
+
 def score_option(option, holes):
     # option[i] = (asset_id, unit_from_id, unit_to_id)
     # option[0][0] = asset_id #for option 0
@@ -510,6 +541,7 @@ def score_option(option, holes):
 
     scale_uptime = 0.8
     scale_transfer = 0.2
+
     cur.execute("SELECT * FROM unit_state")
     old_unit_states = cur.fetchall()
 
@@ -556,15 +588,16 @@ def score_option(option, holes):
         if phase_priority == 0:
             phase_weight = 10
         else:
-            phase_weight = (10 - phase_priority) * 0.5
+           phase_weight = (10 - phase_priority) * 0.5
 
         if new_state != 0:
-            score_uptime += phase_weight*new_state * alpha * unit_downtime[unit_id]
+            score_uptime += phase_weight * new_state * alpha * unit_downtime[unit_id]
         else:
-            score_uptime += phase_weight*alpha * unit_downtime[unit_id]
+            score_uptime += phase_weight * alpha * unit_downtime[unit_id]
 
     # transfer score
     beta = 0.005
+
     holes_total = len(holes)
     transfer_num = len(option)
     score_transfer = transfer_num / holes_total - beta * (total_system_transfers)
@@ -577,13 +610,12 @@ def assets_in_unit(unit_id):
     cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'O'")
     return cur.fetchall()
 
-
 def calculate_downtime():
     global total_system_uptime
     cur.execute("SELECT * FROM unit_state")
     units = cur.fetchall()
     for unit in units:
-        period_downtime = int((system_clock - old_system_clock)*max(0, ((unit[4] - unit[3])/float(unit[4]))))
+        period_downtime = int((system_clock - old_system_clock) * max(0, ((unit[4] - unit[3]) / float(unit[4]))))
         cur.execute("UPDATE unit_state SET downtime = unit_state.downtime +" + str(
             period_downtime) + " WHERE unit_id = '" + unit[0] + "'")
         total_system_uptime = total_system_uptime - period_downtime
@@ -597,7 +629,6 @@ def get_holes():
         holes_tuple.append((s[0], s[5]))
     return holes_tuple
 
-
 def calculate_average_uptime():
     global transfers_array
     global uptimes_array
@@ -606,11 +637,40 @@ def calculate_average_uptime():
     transfers_array.append(total_system_transfers)
     time_array.append(system_clock)
 
+def check_month():
+    global step_count
+    global online_assets
+    global maintenance_assets
+    global eol_assets
+    global total_asset_demands
+    steps_passed = int(system_clock/time_stepper)
+    # finding the states
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O'")
+    online_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'M'")
+    maintenance_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'EOL'")
+    eol_count = cur.fetchone()[0]
+    cur.execute("SELECT SUM(assets_required) FROM unit_state")
+    total_asset_demand = cur.fetchone()[0]
+    for i in range(steps_passed):
+        online_assets.append(online_count)
+        maintenance_assets.append(maintenance_count)
+        eol_assets.append(eol_count)
+        total_asset_demands.append(total_asset_demand)
+
+def write_data():
+    data_file.write(str(online_assets)+ '\n')
+    data_file.write(str(maintenance_assets)+ '\n')
+    data_file.write(str(eol_assets)+ '\n')
+    data_file.write(str(total_asset_demands)+ '\n')
+    data_file.close()
+
 
 if __name__ == '__main__':
-    old_system_clock = 0
 
     initialize_unit_states()
+
 
     while end_condition is False:
         calculate_downtime()
@@ -618,6 +678,7 @@ if __name__ == '__main__':
         calculate_average_uptime()
         set_events()
         find_next_event()
+        check_month()
         boom = generate_options(get_holes())
         if boom[0] is not None:
             for b in boom[0]:
@@ -628,6 +689,7 @@ if __name__ == '__main__':
             logger.write("    No action was taken, action score = " + str(boom[1]) + "\n")
         day_diff = system_clock - old_system_clock
         if day_diff < 0:
+            print("day diff is negative. check for bugs")
             break
         logger.write("\n-----------------\n")
     print("Exiting Simulation")
@@ -638,16 +700,18 @@ if __name__ == '__main__':
 
     avg_uptime = 0
 
+
     for unit in unit_states:
         u_id = unit[0]
-        uptime = 100 - 100*(float(unit[2]) / float(system_clock))
+        uptime = 100 - 100 * (float(unit[2]) / float(system_clock))
         logger.write("\nUnit " + str(u_id) + " uptime is " + str(uptime) + "%")
         avg_uptime += uptime
 
-    logger.write("\nAverage System Uptime is " + str(avg_uptime/len(unit_states)) + "%")
+    logger.write("\nAverage System Uptime is " + str(avg_uptime / len(unit_states)) + "%")
 
 
 
 logger.close()
 cur.close()
 conn.commit()
+write_data()
