@@ -496,7 +496,7 @@ def generate_options(empty_spots):
         # incrementing index
 
         # USE WHEN SWITCHING OFF OF RANDOMIZATION
-        option_depth = 3
+        option_depth = 1
         spot_indices = increment_index(spot_indices, spot_options, option_depth, 0)
         # print(option_ids)
         # USE FOR RANDOM SELECTION
@@ -643,7 +643,7 @@ def check_month():
     global maintenance_assets
     global eol_assets
     global total_asset_demands
-    steps_passed = int(system_clock/time_stepper)
+    steps_passed = int((system_clock-old_system_clock)/time_stepper)
     # finding the states
     cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O'")
     online_count = cur.fetchone()[0]
