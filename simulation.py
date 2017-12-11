@@ -6,7 +6,7 @@ import create_tables
 from datetime import datetime, timedelta
 import matplotlib as plt
 date_format = "%Y-%m-%d"
-
+imp.reload(create_tables)
 create_tables.main()
 
 try:
@@ -34,7 +34,6 @@ baseline_uptime = 0
 total_system_uptime = 0
 total_system_transfers = 0
 time_stepper = 30
-step_count = 0
 transfers_array = []
 uptimes_array = []
 time_array = []
@@ -57,8 +56,17 @@ def initialize_unit_states():
         cur.execute(
             "UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
 
-    cur.execute("SELECT * FROM unit_state")
+    # cur.execute("SELECT * FROM unit_state")
     # print(cur.fetchall())
+
+def initialize_asset_states():
+    cur.execute("SELECT id,curr_util_value FROM asset_states")
+    assets = cur.fetchall()
+    for asset in assets:
+        maintenance_count = int(asset[1] / maintenance_lim)
+        cur.execute("UPDATE asset_states SET maintenance_count = " + str(maintenance_count) + "WHERE id = " + str(asset[0]))
+    cur.execute("SELECT * FROM asset_states")
+    #print(cur.fetchall())
 
 # ----------------------------------------DETECTING NEXT EVENT-------------------------------------------
 
@@ -72,48 +80,59 @@ def find_unit_event(unit):
     cur.execute("SELECT state,assets, assets_required FROM unit_state WHERE unit_id = '" + unit + "'")
     line = cur.fetchone()
     state = line[0]
+    assets_in = len(assets_in_unit(unit))
 
     unit_table = 'unit' + unit
-    cur.execute(
-        "SELECT start_date, end_date, asset_demand, util_type, rate_unit, rate_value FROM " + unit_table +
-        " LEFT OUTER JOIN phases ON " + unit_table + ".phase = phases.phase_id WHERE " + unit_table + ".id = " + str(
-            state))
 
-    phase = cur.fetchone()
-    cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit + "'")
-    assets = cur.fetchall()
+    cur.execute("SELECT COUNT(id) FROM " + unit_table)
+    schedule_length = cur.fetchone()[0]
+    if state != -1:
+        cur.execute(
+            "SELECT start_date, end_date, asset_demand, util_type, rate_unit, rate_value FROM " + unit_table +
+            " LEFT OUTER JOIN phases ON " + unit_table + ".phase = phases.phase_id WHERE " + unit_table + ".id = " + str(
+                state))
 
-    for asset in assets:
-        find_asset_event(asset, phase)
+        phase = cur.fetchone()
+        cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit + "'")
+        assets = cur.fetchall()
+        if assets_in != 0:
+            for asset in assets:
+                find_asset_event(asset, phase, assets_in)
 
-    cur.execute("SELECT * FROM unit" + unit + " WHERE id > " + str(state))
+        cur.execute("SELECT * FROM unit" + unit + " WHERE id > " + str(state))
 
-    next_phase = cur.fetchone()
-    # print(next_phase)
-    # print(unit)
+        next_phase = cur.fetchone()
+        # print(next_phase)
+        # print(unit)
 
-    if next_phase != None:
-        cur.execute("INSERT INTO events(id, object_type, event_date, event_type, new_required)"
-                    "VALUES ('" + unit + "', 'unit'," + str(next_phase[2]) + ",'PC', " + str(next_phase[4]) + ")")
+        if next_phase != None:
+            cur.execute("INSERT INTO events(id, object_type, event_date, event_type, new_required)"
+                        "VALUES ('" + unit + "', 'unit'," + str(next_phase[2]) + ",'PC', " + str(next_phase[4]) + ")")
+        else:
+            cur.execute("INSERT INTO events(id, object_type, event_date, event_type, new_required)"
+                        "VALUES ('" + unit + "', 'unit'," + str(phase[1]+1) + ",'PC', -1)")
 
-
-def find_asset_event(asset, phase):
+def find_asset_event(asset, phase, assets_in):
     curr_util = 0
     if asset[4] == 'O':
         curr_util = asset[3]
     if asset[4] == 'M':
         curr_util = asset[5]
-    maintenance_checkpoint = int(curr_util / maintenance_lim) * maintenance_lim + maintenance_lim
+    maintenance_checkpoint = (asset[6]+1) * maintenance_lim
     maintenance_checkpoint2 = 180
     end_date = phase[1]
-    day_diff = end_date - system_clock
+    day_diff = end_date - system_clock+1
     if phase[4] == 'perAsset_PerDay':
         hrs_per_day = int(phase[5])
     else:
-        hrs_per_day = phase[5] / phase[2]
+        hrs_per_day = phase[5] / assets_in
     added_hours = day_diff * hrs_per_day
     temp_curr_util = curr_util + added_hours
-
+    # if asset[0] == 24:
+    #     print(phase)
+    #     print(assets_in)
+    #     print(added_hours)
+    #     print(temp_curr_util)
     # If asset is not in maintenance
     if asset[4] == 'O':
         # Check if asset hits EOL
@@ -128,9 +147,6 @@ def find_asset_event(asset, phase):
 
         # Check if asset hits maintenance
         else:
-            if asset[5] == -1:
-                maintenance_checkpoint = maintenance_checkpoint + maintenance_lim
-                cur.execute("UPDATE asset_states SET maintenance = 0")
             if temp_curr_util >= maintenance_checkpoint:
 
                 remaining = int((maintenance_checkpoint - curr_util) / hrs_per_day)
@@ -168,9 +184,10 @@ def find_next_event():
     nearest_events = []
     cur.execute("SELECT * FROM events")
     events = cur.fetchall()
-    if len(events)==0:
+    if len(events) == 0:
         end_condition = True
         return
+   # print(events)
     nearest = events[0]
     for event in events:
         if event[2] == nearest[2]:
@@ -178,8 +195,10 @@ def find_next_event():
         if event[2] < nearest[2]:
             nearest_events.clear()
             nearest_events.append(event)
-            nearest=event
-    print("------------------------------------ next events: "+ str(nearest_events))
+            nearest = event
+    print("------------------------------------ next events: ")
+    for event in nearest_events:
+        print(event)
 
     system_clock = nearest[2]
     update_assets()
@@ -187,15 +206,15 @@ def find_next_event():
     for event in nearest_events:
         logger.write("\nAt " + str(datetime.strftime(clock_zero + timedelta(days=event[2]), date_format)) + ": " + str(
             event[1]) + " " + str(event[0]) + " " + str(event[3]) + "\n")
-        event_id = event[0]
         # print("next event is: " + str(nearest))
         # print(system_clock)
+        execute_event(event)
 
 
-
+def execute_event(event):
+        event_id = event[0]
         # Update asset state
         # Update unit_state.assets
-        # Update next event in events table
         if event[1] == 'asset':
 
             cur.execute("SELECT * FROM asset_states WHERE id = '" + event_id + "'")
@@ -214,7 +233,7 @@ def find_next_event():
                     "UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
 
             elif event[3] == "EM":
-                cur.execute("UPDATE asset_states SET state = 'O', maintenance = -1 WHERE id = " + event_id)
+                cur.execute("UPDATE asset_states SET state = 'O', maintenance_count = maintenance_count+1 WHERE id = " + event_id)
                 cur.execute("SELECT curr_unit FROM asset_states")
                 curr_unit = cur.fetchone()[0]
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + curr_unit + "'")
@@ -224,9 +243,17 @@ def find_next_event():
         # Update unit_state.asset_requirement
         # Update next event in events table
         elif event[1] == 'unit':
-            cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
-                event[4]) + " WHERE unit_id = '" + event_id + "'")
-            #find_unit_event(event_id)
+            if event[4] == -1:
+                cur.execute("UPDATE unit_state SET state = -1, assets_required = 0 WHERE unit_id = '" + event_id + "'")
+                cur.execute("SELECT * FROM events")
+                e = cur.fetchall()
+                print(e)
+                if len(e) == 1:
+                    global end_condition
+                    end_condition = True
+            else:
+                cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
+                    event[4]) + " WHERE unit_id = '" + event_id + "'")
 
 # -------------------------------------------UPDATING STATE-----------------------------------------------
 def update_assets():
@@ -234,75 +261,46 @@ def update_assets():
     for unit in unit_ids:
         cur.execute("SELECT state, assets, assets_required FROM unit_state WHERE unit_id = '" + unit + "'")
         line = cur.fetchone()
-        state = line[0]
-        table = 'unit' + unit
-        cur.execute(
-            "SELECT phase, asset_demand, rate_unit, rate_value FROM unit" + unit + " RIGHT OUTER JOIN phases ON phases.phase_id = " + table + ".phase WHERE " + table + ".id = " + str(
-                state))
-        phase = cur.fetchone()
+        if line[0] !=-1:
+            assets = len(assets_in_unit(unit))
+            if assets != 0:
+                state = line[0]
+                table = 'unit' + unit
+                cur.execute(
+                    "SELECT phase, asset_demand, rate_unit, rate_value FROM unit" + unit + " RIGHT OUTER JOIN phases ON phases.phase_id = " + table + ".phase WHERE " + table + ".id = " + str(
+                        state))
+                phase = cur.fetchone()
+                if phase[2] == 'perAsset_PerDay':
+                    hrs_per_day = int(phase[3])
+                else:
+                    hrs_per_day = phase[3] / assets
+                added_hours = day_diff * hrs_per_day
+                #if added_hours == 0:
+                    #print(added_hours)
+                    #end_condition = True
 
-        if phase[2] == 'perAsset_PerDay':
-            hrs_per_day = int(phase[3])
-        else:
-            hrs_per_day = phase[3] / phase[1]
-        added_hours = day_diff * hrs_per_day
+                cur.execute("UPDATE asset_states SET curr_util_value = curr_util_value + " + str(
+                    added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'O'")
+                cur.execute("UPDATE asset_states SET maintenance = maintenance + " + str(
+                    added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
+    cur.execute("SELECT * FROM asset_states WHERE state = 'O'")
+    test = cur.fetchall()
+    for t in test:
+        hours = t[3]
+        if hours > cap:
+            print("asset " + str(t[0]) + " has exceeded cap: " + str(hours))
+            global end_condition
+            # end_condition = True
 
 
-
-        cur.execute("UPDATE asset_states SET curr_util_value = curr_util_value + " + str(
-            added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'O'")
-        cur.execute("UPDATE asset_states SET maintenance = maintenance + " + str(
-            added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
-    # cur.execute("SELECT * FROM asset_states WHERE state = 'O'")
-    # test = cur.fetchall()
-    # for t in test:
-    #     hours = t[3]
-    #     if hours + added_hours > cap:
-    #         print("asset " + str(t[0]) + " has exceeded cap: " + str(hours + added_hours))
-    #         global end_condition
-    #         end_condition = True
-
-
-# def update_state():
-#     update_assets()
-
-# # Updating asset_states table
-# def update_assets():
-#     for unit in unit_ids:
-#         table = 'unit' + unit
-#         cur.execute("SELECT * FROM "+ table  + " LEFT OUTER JOIN phases ON "+ table + ".phase = phases.phase_id")
-#         schedule = cur.fetchall()
-#         # print(schedule)
-#         cur.execute("SELECT * FROM unit_state WHERE unit_id ='" +unit + "'")
-#         state = cur.fetchone()
-#         assets_in_unit = state[3]
-#         state = state[1]
-#
-#         added_time = 0
-#         for phase in schedule:
-#             if phase[0] == state:
-#                 break
-#             elif phase[0] > state:
-#                 print("state_id is greater than state, this should not have happened")
-#             else:
-#                 if phase[7] == "perUnit_perDay" :
-#                     per_unit = phase[8]/assets_in_unit
-#                     added_time += (phase[3]- phase[2])*per_unit
-#                 else:
-#                     added_time += (phase[3]-phase[2])*phase[8]
-#
-#         # print("ADDED TIME " + str(added_time))
-#         cur.execute("UPDATE asset_states SET curr_util_value = asset_states.curr_util_value + " + str(added_time) + " WHERE curr_unit = '" + unit + "'")
-#
 
 def transfer(asset, unit_a, unit_b):
     global total_system_transfers
-    # print("transfering: " + str(asset[0]) + unit_a + unit_b)
     asset_id = str(asset[0])
     cur.execute("UPDATE asset_states SET curr_unit = '" + unit_b + "' WHERE id = " + asset_id)
     cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + unit_a + "'")
     cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + unit_b + "'")
-    total_system_transfers +=1
+    total_system_transfers += 1
 
 
 
@@ -454,10 +452,9 @@ def generate_options(empty_spots):
 
     options_exhausted = False
     options_evaluated = 0
-
-    while not options_exhausted and options_evaluated < 200:
-        # options_evaluated += 1
-
+    evaluation_max = 500
+    while not options_exhausted and len(empty_spots) > 0 and options_evaluated < evaluation_max:
+        #options_evaluated += 1
         # generating option
         option = []
         option_ids = [0] * len(spot_indices)
@@ -496,7 +493,7 @@ def generate_options(empty_spots):
         # incrementing index
 
         # USE WHEN SWITCHING OFF OF RANDOMIZATION
-        option_depth = 1
+        option_depth = 2
         spot_indices = increment_index(spot_indices, spot_options, option_depth, 0)
         # print(option_ids)
         # USE FOR RANDOM SELECTION
@@ -526,11 +523,14 @@ def generate_options(empty_spots):
 # Returns phase priority for a unit's current state
 def get_phase_priority(unit_id):
     cur.execute("SELECT state FROM unit_state WHERE unit_id = '" + unit_id + "'" )
-    curr_phase_status = str(cur.fetchall()[0][0])
-    cur.execute("SELECT phase FROM unit" + unit_id + " WHERE id = " + curr_phase_status)
-    phase = str(cur.fetchall()[0][0])
-    cur.execute("SELECT priority from phase_priority WHERE phase_id = '" + phase + "'")
-    return cur.fetchall()[0][0]
+    curr_phase_status = cur.fetchall()[0][0]
+    if curr_phase_status == -1:
+        return 6
+    else:
+        cur.execute("SELECT phase FROM unit" + unit_id + " WHERE id = " + str(curr_phase_status))
+        phase = cur.fetchall()[0][0]
+        cur.execute("SELECT priority from phase_priority WHERE phase_id = '" + phase + "'")
+        return cur.fetchall()[0][0]
 
 
 
@@ -615,14 +615,18 @@ def calculate_downtime():
     cur.execute("SELECT * FROM unit_state")
     units = cur.fetchall()
     for unit in units:
-        period_downtime = int((system_clock - old_system_clock) * max(0, ((unit[4] - unit[3]) / float(unit[4]))))
-        cur.execute("UPDATE unit_state SET downtime = unit_state.downtime +" + str(
-            period_downtime) + " WHERE unit_id = '" + unit[0] + "'")
-        total_system_uptime = total_system_uptime - period_downtime
+        if unit[1] != -1:
+            if unit[4] != 0:
+                period_downtime = int((system_clock - old_system_clock) * max(0, ((unit[4] - unit[3]) / float(unit[4]))))
+            else:
+                period_downtime = 0
+            cur.execute("UPDATE unit_state SET downtime = unit_state.downtime +" + str(
+                period_downtime) + " WHERE unit_id = '" + unit[0] + "'")
+            total_system_uptime = total_system_uptime - period_downtime
 
 
 def get_holes():
-    cur.execute("SELECT * FROM unit_state WHERE assets < assets_required")
+    cur.execute("SELECT * FROM unit_state WHERE assets < assets_required AND state > 0")
     stuff = cur.fetchall()
     holes_tuple = []
     for s in stuff:
@@ -637,8 +641,16 @@ def calculate_average_uptime():
     transfers_array.append(total_system_transfers)
     time_array.append(system_clock)
 
+def check_month_unit(unit_id):
+    unit_data = open("data_" + unit_id,"w")
+    steps_passed = int((system_clock-old_system_clock)/time_stepper)
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O' AND curr_unit = '" + unit_id + "'")
+    online_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'M' AND curr_unit = '" + unit_id + "'")
+    maintenance_asset = cur.fetchone()[0]
+
+
 def check_month():
-    global step_count
     global online_assets
     global maintenance_assets
     global eol_assets
@@ -670,6 +682,7 @@ def write_data():
 if __name__ == '__main__':
 
     initialize_unit_states()
+    initialize_asset_states()
 
 
     while end_condition is False:
@@ -678,6 +691,10 @@ if __name__ == '__main__':
         calculate_average_uptime()
         set_events()
         find_next_event()
+        # cur.execute("SELECT * FROM unit_state WHERE unit_id = 'J'")
+        # print(cur.fetchone())
+        if end_condition is True:
+            break
         check_month()
         boom = generate_options(get_holes())
         if boom[0] is not None:

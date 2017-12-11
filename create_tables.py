@@ -82,7 +82,8 @@ def create_assets():
     curr_unit VARCHAR(2),
     curr_util_value INT NOT NULL,
     state VARCHAR(255),
-    maintenance int NOT NULL
+    maintenance int NOT NULL,
+    maintenance_count int
     )
     """
     cur.execute(command)
