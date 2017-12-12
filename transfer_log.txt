@@ -1,53 +1,70 @@
 
 At 2018-01-15: asset 35 M
-    Asset 90 was transferred from D to B, action score = 0.1
-    Asset 86 was transferred from B to D, action score = 0.1
-    Asset 4 was transferred from B to F, action score = 0.1
-    Asset 27 was transferred from A to G, action score = 0.1
+    Asset 90 was transferred from D to A, action score = 0.125
+    Asset 75 was transferred from D to B, action score = 0.125
+    Asset 86 was transferred from B to D, action score = 0.125
+    Asset 4 was transferred from B to F, action score = 0.125
+    Asset 27 was transferred from A to G, action score = 0.125
 
 -----------------
 
-At 2018-01-26: asset 7 M
-    Asset 90 was transferred from B to D, action score = 1.461
+At 2018-01-25: asset 7 M
+    Asset 86 was transferred from D to H, action score = 2.4533333333333336
+    Asset 56 was transferred from D to I, action score = 2.4533333333333336
+    Asset 16 was transferred from D to A, action score = 2.4533333333333336
+    Asset 13 was transferred from D to G, action score = 2.4533333333333336
+    Asset 94 was transferred from B to D, action score = 2.4533333333333336
 
 -----------------
 
 At 2018-01-28: asset 62 M
-    Asset 90 was transferred from D to H, action score = 0.8500264550264552
-    Asset 86 was transferred from D to I, action score = 0.8500264550264552
-    Asset 75 was transferred from D to J, action score = 0.8500264550264552
-    Asset 56 was transferred from D to G, action score = 0.8500264550264552
+    Asset 90 was transferred from A to J, action score = 0.8640740740740742
+    Asset 54 was transferred from A to F, action score = 0.8640740740740742
+    Asset 24 was transferred from A to I, action score = 0.8640740740740742
+    Asset 11 was transferred from A to B, action score = 0.8640740740740742
 
 -----------------
 
 At 2018-02-03: unit F PC
-    Asset 64 was transferred from D to B, action score = 9.588402597402599
-    Asset 16 was transferred from D to A, action score = 9.588402597402599
-    Asset 13 was transferred from D to H, action score = 9.588402597402599
-    Asset 94 was transferred from B to I, action score = 9.588402597402599
-    Asset 72 was transferred from B to D, action score = 9.588402597402599
-
------------------
-
-At 2018-02-20: asset 23 M
-    Asset 72 was transferred from D to J, action score = 0.146
-    Asset 28 was transferred from D to F, action score = 0.146
-    Asset 54 was transferred from A to B, action score = 0.146
-    Asset 64 was transferred from B to A, action score = 0.146
-
------------------
-
-At 2018-02-21: asset 7 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-02-26: asset 8 M
+At 2018-02-21: asset 58 M
+    Asset 75 was transferred from B to D, action score = 0.11933333333333335
+    Asset 72 was transferred from B to H, action score = 0.11933333333333335
+    Asset 23 was transferred from B to J, action score = 0.11933333333333335
+    Asset 68 was transferred from A to F, action score = 0.11933333333333335
+
+-----------------
+
+At 2018-02-26: asset 64 M
+    Asset 40 was transferred from G to H, action score = 9.329619047619047
+    Asset 34 was transferred from G to B, action score = 9.329619047619047
+    Asset 25 was transferred from G to J, action score = 9.329619047619047
+    Asset 94 was transferred from D to F, action score = 9.329619047619047
+
+-----------------
+
+At 2018-02-27: asset 8 M
+    Asset 27 was transferred from G to A, action score = 0.953438596491228
+    Asset 92 was transferred from G to B, action score = 0.953438596491228
+    Asset 59 was transferred from G to J, action score = 0.953438596491228
+    Asset 43 was transferred from G to I, action score = 0.953438596491228
+
+-----------------
+
+At 2018-03-01: asset 7 EM
+    Asset 96 was transferred from G to A, action score = 0.014000000000000002
+
+-----------------
+
+At 2018-03-09: asset 96 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-03-04: asset 58 M
+At 2018-03-10: asset 34 M
     No action was taken, action score = 0
 
 -----------------
@@ -57,62 +74,47 @@ At 2018-03-17: asset 83 M
 
 -----------------
 
-At 2018-03-21: asset 64 M
+At 2018-03-25: asset 92 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-03-22: asset 96 M
+At 2018-04-01: asset 23 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-03-23: asset 34 M
+At 2018-04-02: asset 64 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-03-28: asset 23 EM
+At 2018-04-09: asset 58 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2018-04-10: unit G PC
-    Asset 40 was transferred from G to J, action score = 0.11533333333333334
-    Asset 25 was transferred from G to D, action score = 0.11533333333333334
-    Asset 54 was transferred from B to F, action score = 0.11533333333333334
-    Asset 4 was transferred from F to B, action score = 0.11533333333333334
+    No action was taken, action score = 0
 
 -----------------
 
 At 2018-04-15: unit A PC
-
-At 2018-04-15: asset 92 M
-    Asset 27 was transferred from G to J, action score = 0.11133333333333334
-    Asset 59 was transferred from G to D, action score = 0.11133333333333334
-    Asset 43 was transferred from G to F, action score = 0.11133333333333334
-    Asset 54 was transferred from F to B, action score = 0.11133333333333334
+    No action was taken, action score = 0
 
 -----------------
 
-At 2018-04-20: asset 96 EM
-    Asset 56 was transferred from G to J, action score = 0.1406666666666667
-    Asset 4 was transferred from B to D, action score = 0.1406666666666667
-    Asset 23 was transferred from B to F, action score = 0.1406666666666667
-    Asset 39 was transferred from F to B, action score = 0.1406666666666667
-    Asset 66 was transferred from B to A, action score = 0.1406666666666667
-
------------------
-
-At 2018-04-21: asset 34 EM
-    Asset 34 was transferred from G to J, action score = 0.7568787878787879
-    Asset 96 was transferred from G to D, action score = 0.7568787878787879
-    Asset 54 was transferred from B to F, action score = 0.7568787878787879
-    Asset 23 was transferred from F to B, action score = 0.7568787878787879
+At 2018-04-18: asset 34 EM
+    No action was taken, action score = 0
 
 -----------------
 
 At 2018-04-22: asset 52 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2018-04-26: asset 96 EM
     No action was taken, action score = 0
 
 -----------------
@@ -122,7 +124,12 @@ At 2018-04-28: asset 62 EM
 
 -----------------
 
-At 2018-05-05: asset 68 M
+At 2018-04-30: asset 75 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2018-05-03: asset 92 EM
     No action was taken, action score = 0
 
 -----------------
@@ -137,39 +144,32 @@ At 2018-05-09: unit H PC
 
 -----------------
 
-At 2018-05-10: asset 58 EM
-
 At 2018-05-10: unit B PC
     No action was taken, action score = 0
 
 -----------------
 
 At 2018-05-16: unit F PC
-    Asset 54 was transferred from F to A, action score = 0.125
-    Asset 67 was transferred from F to D, action score = 0.125
-    Asset 38 was transferred from F to G, action score = 0.125
-    Asset 4 was transferred from D to B, action score = 0.125
+    Asset 63 was transferred from I to F, action score = 1.7793492063492065
 
 -----------------
 
-At 2018-05-19: asset 92 EM
-    Asset 92 was transferred from G to F, action score = 0.161
-    Asset 91 was transferred from F to G, action score = 0.161
-    Asset 82 was transferred from F to D, action score = 0.161
-    Asset 15 was transferred from E to B, action score = 0.161
-    Asset 96 was transferred from D to A, action score = 0.161
+At 2018-05-26: asset 68 M
+    Asset 22 was transferred from I to F, action score = 1.9832068965517244
 
 -----------------
 
-At 2018-05-25: asset 64 EM
-    Asset 92 was transferred from F to G, action score = 0.08933333333333333
-    Asset 43 was transferred from F to E, action score = 0.08933333333333333
-    Asset 28 was transferred from F to B, action score = 0.08933333333333333
-    Asset 60 was transferred from E to D, action score = 0.08933333333333333
+At 2018-05-31: asset 72 M
+    No action was taken, action score = 0
 
 -----------------
 
-At 2018-06-05: asset 17 M
+At 2018-06-04: asset 17 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2018-06-05: asset 75 EM
     No action was taken, action score = 0
 
 -----------------
@@ -184,46 +184,53 @@ At 2018-06-15: asset 83 EM
 
 -----------------
 
-At 2018-06-24: asset 54 M
-    No action was taken, action score = 0
-
------------------
-
-At 2018-07-03: asset 56 M
-    No action was taken, action score = 0
-
------------------
-
-At 2018-07-07: asset 24 M
-    Asset 57 was transferred from H to G, action score = 0.07588591800356503
-    Asset 29 was transferred from H to F, action score = 0.07588591800356503
-    Asset 3 was transferred from H to B, action score = 0.07588591800356503
-    Asset 60 was transferred from D to E, action score = 0.07588591800356503
-    Asset 92 was transferred from G to D, action score = 0.07588591800356503
-
------------------
-
 At 2018-07-09: asset 84 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2018-07-11: unit D PC
-    No action was taken, action score = 0
+    Asset 63 was transferred from F to J, action score = 0.6573874345549735
+    Asset 4 was transferred from F to G, action score = 0.6573874345549735
+    Asset 39 was transferred from F to B, action score = 0.6573874345549735
+    Asset 38 was transferred from F to C, action score = 0.6573874345549735
 
 -----------------
 
 At 2018-07-21: asset 52 EM
-    No action was taken, action score = 0
+    Asset 22 was transferred from F to H, action score = 0.092
+    Asset 94 was transferred from F to A, action score = 0.092
+    Asset 54 was transferred from F to I, action score = 0.092
+    Asset 67 was transferred from F to D, action score = 0.092
+    Asset 57 was transferred from H to F, action score = 0.092
+
+-----------------
+
+At 2018-07-27: asset 13 M
+    Asset 57 was transferred from F to J, action score = 6.811637681159421
+    Asset 91 was transferred from F to B, action score = 6.811637681159421
+    Asset 82 was transferred from F to A, action score = 6.811637681159421
+    Asset 15 was transferred from E to D, action score = 6.811637681159421
+    Asset 29 was transferred from H to F, action score = 6.811637681159421
 
 -----------------
 
 At 2018-07-27: asset 68 EM
-    No action was taken, action score = 0
+    Asset 29 was transferred from F to I, action score = 0.08200000000000002
+    Asset 60 was transferred from E to G, action score = 0.08200000000000002
+    Asset 20 was transferred from E to J, action score = 0.08200000000000002
+    Asset 12 was transferred from E to B, action score = 0.08200000000000002
+    Asset 22 was transferred from H to F, action score = 0.08200000000000002
 
 -----------------
 
-At 2018-08-05: asset 29 M
+At 2018-08-03: asset 27 M
+    Asset 22 was transferred from F to I, action score = 1.9585420560747662
+    Asset 68 was transferred from F to G, action score = 1.9585420560747662
+    Asset 87 was transferred from E to J, action score = 1.9585420560747662
+    Asset 26 was transferred from E to B, action score = 1.9585420560747662
+
+-----------------
 
 At 2018-08-05: asset 74 M
     No action was taken, action score = 0
@@ -235,12 +242,17 @@ At 2018-08-10: asset 6 M
 
 -----------------
 
-At 2018-08-16: asset 46 M
+At 2018-08-12: asset 4 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-08-25: asset 72 M
+At 2018-08-17: asset 13 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2018-08-26: asset 46 M
     No action was taken, action score = 0
 
 -----------------
@@ -248,138 +260,152 @@ At 2018-08-25: asset 72 M
 At 2018-09-04: unit C PC
 
 At 2018-09-04: unit G PC
-    Asset 88 was transferred from C to H, action score = 0.10700000000000001
-    Asset 44 was transferred from C to B, action score = 0.10700000000000001
-    Asset 37 was transferred from C to A, action score = 0.10700000000000001
-    Asset 36 was transferred from C to F, action score = 0.10700000000000001
+    Asset 88 was transferred from C to A, action score = 1.2246550522648085
+    Asset 44 was transferred from C to J, action score = 1.2246550522648085
 
 -----------------
 
-At 2018-09-10: asset 95 M
-    Asset 52 was transferred from C to G, action score = 0.07633333333333332
-    Asset 83 was transferred from C to H, action score = 0.07633333333333332
-    Asset 85 was transferred from C to B, action score = 0.07633333333333332
-    Asset 71 was transferred from C to F, action score = 0.07633333333333332
+At 2018-09-09: asset 4 EM
+    No action was taken, action score = 0
 
 -----------------
 
-At 2018-09-16: asset 29 EM
-    Asset 89 was transferred from C to H, action score = 1.2746589147286822
-
------------------
-
-At 2018-09-18: asset 6 EM
-    Asset 6 was transferred from C to G, action score = 0.018000000000000006
-    Asset 100 was transferred from C to B, action score = 0.018000000000000006
+At 2018-09-13: asset 95 M
+    Asset 52 was transferred from C to F, action score = 0.060285714285714276
+    Asset 83 was transferred from C to E, action score = 0.060285714285714276
+    Asset 37 was transferred from C to B, action score = 0.060285714285714276
+    Asset 36 was transferred from C to H, action score = 0.060285714285714276
 
 -----------------
 
 At 2018-09-21: unit F PC
-    Asset 63 was transferred from I to A, action score = 27.462844106463884
-    Asset 22 was transferred from I to G, action score = 27.462844106463884
-    Asset 10 was transferred from I to B, action score = 27.462844106463884
+    Asset 85 was transferred from C to A, action score = 27.071386203150464
+    Asset 71 was transferred from C to B, action score = 27.071386203150464
 
 -----------------
 
-At 2018-09-22: asset 54 EM
+At 2018-10-03: asset 6 EM
+
+At 2018-10-03: asset 8 EM
+    Asset 6 was transferred from C to G, action score = 1.0872727272727274
+    Asset 89 was transferred from C to E, action score = 1.0872727272727274
+    Asset 29 was transferred from I to C, action score = 1.0872727272727274
+
+-----------------
+
+At 2018-10-13: asset 95 EM
+    Asset 29 was transferred from C to H, action score = 0.0036666666666666627
+    Asset 100 was transferred from C to F, action score = 0.0036666666666666627
+
+-----------------
+
+At 2018-10-17: asset 94 M
+
+At 2018-10-17: asset 13 EOL
+    Asset 95 was transferred from C to E, action score = 0.001666666666666661
+    Asset 38 was transferred from C to H, action score = 0.001666666666666661
+
+-----------------
+
+At 2018-10-20: asset 60 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-09-25: asset 8 EM
+At 2018-10-27: asset 47 EM
+    Asset 22 was transferred from I to F, action score = 1.6716845039018953
+    Asset 24 was transferred from I to A, action score = 1.6716845039018953
+    Asset 56 was transferred from I to E, action score = 1.6716845039018953
+    Asset 10 was transferred from I to H, action score = 1.6716845039018953
+
+-----------------
+
+At 2018-10-29: asset 88 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-10-05: asset 24 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2018-10-08: asset 20 M
-    No action was taken, action score = 0
-
------------------
-
-At 2018-10-12: asset 47 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2018-10-20: asset 4 M
-    No action was taken, action score = 0
-
------------------
-
-At 2018-11-02: asset 10 M
-    No action was taken, action score = 0
-
------------------
-
-At 2018-11-12: asset 17 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2018-11-17: asset 35 EM
+At 2018-11-01: asset 27 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2018-11-23: unit A PC
+    Asset 54 was transferred from I to A, action score = 11.115707566462168
+
+-----------------
+
+At 2018-11-25: asset 35 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-12-14: asset 87 M
+At 2018-11-26: asset 54 M
+    Asset 29 was transferred from H to A, action score = 8.67865856129686
+
+-----------------
+
+At 2018-11-27: asset 72 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2018-12-30: asset 84 EM
+At 2018-12-01: asset 17 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-01-02: asset 88 M
+At 2018-12-11: asset 56 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-01-18: asset 4 EM
+At 2019-01-09: asset 84 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2019-01-10: asset 24 M
+    Asset 86 was transferred from H to A, action score = 11.735734402852051
+
+-----------------
+
+At 2019-01-15: asset 94 EM
+    Asset 29 was transferred from A to C, action score = 9.559667546174142
+
+-----------------
+
+At 2019-01-17: asset 10 M
+    No action was taken, action score = 0
+
+-----------------
 
 At 2019-01-18: unit B PC
-    Asset 15 was transferred from B to F, action score = 8.588916230366493
-    Asset 23 was transferred from B to G, action score = 8.588916230366493
 
------------------
-
-At 2019-01-22: asset 57 M
+At 2019-01-18: asset 60 EM
     No action was taken, action score = 0
 
 -----------------
+
+At 2019-01-27: asset 88 EM
 
 At 2019-01-27: unit A PC
+    Asset 92 was transferred from B to F, action score = 10.150234441602729
+    Asset 34 was transferred from B to H, action score = 10.150234441602729
+
+-----------------
+
+At 2019-01-29: asset 20 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-01-29: asset 10 EM
+At 2019-01-30: asset 29 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-02-08: asset 20 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2019-02-15: asset 46 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2019-02-28: asset 15 M
+At 2019-03-03: asset 23 EM
     No action was taken, action score = 0
 
 -----------------
@@ -389,7 +415,12 @@ At 2019-03-05: unit C PC
 
 -----------------
 
-At 2019-03-20: asset 60 M
+At 2019-03-11: asset 56 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2019-03-19: asset 46 EM
     No action was taken, action score = 0
 
 -----------------
@@ -399,12 +430,12 @@ At 2019-03-22: unit E PC
 
 -----------------
 
-At 2019-04-08: asset 87 EM
+At 2019-03-31: asset 22 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-04-22: asset 57 EM
+At 2019-04-15: asset 54 EM
     No action was taken, action score = 0
 
 -----------------
@@ -419,81 +450,49 @@ At 2019-05-08: unit I PC
 
 -----------------
 
-At 2019-05-13: asset 22 M
-    No action was taken, action score = 0
-
------------------
-
-At 2019-05-20: asset 56 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2019-05-29: asset 15 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2019-06-08: asset 60 EM
-    No action was taken, action score = 0
-
------------------
-
 At 2019-06-17: unit B PC
-    Asset 60 was transferred from E to F, action score = 0.09100000000000001
-    Asset 87 was transferred from E to G, action score = 0.09100000000000001
-    Asset 20 was transferred from E to A, action score = 0.09100000000000001
-    Asset 26 was transferred from E to I, action score = 0.09100000000000001
+    Asset 40 was transferred from H to G, action score = 1.406609022556391
 
 -----------------
 
-At 2019-06-20: asset 74 EM
-    Asset 90 was transferred from H to F, action score = 7.155037383177571
-    Asset 12 was transferred from E to G, action score = 7.155037383177571
-    Asset 10 was transferred from B to A, action score = 7.155037383177571
-    Asset 19 was transferred from H to E, action score = 7.155037383177571
-    Asset 4 was transferred from B to I, action score = 7.155037383177571
+At 2019-06-29: asset 22 EM
+
+At 2019-06-29: asset 87 M
+    No action was taken, action score = 0
 
 -----------------
 
 At 2019-07-09: unit F PC
-    Asset 46 was transferred from H to G, action score = 8.313046931407944
-    Asset 19 was transferred from E to H, action score = 8.313046931407944
-    Asset 17 was transferred from H to E, action score = 8.313046931407944
-    Asset 47 was transferred from H to I, action score = 8.313046931407944
-
------------------
-
-At 2019-07-10: asset 72 EM
-    Asset 17 was transferred from E to F, action score = 0.118
-    Asset 43 was transferred from E to G, action score = 0.118
-    Asset 62 was transferred from H to E, action score = 0.118
-    Asset 81 was transferred from E to H, action score = 0.118
-
------------------
-
-At 2019-07-13: unit G PC
-    Asset 62 was transferred from E to F, action score = 0.04733333333333333
-    Asset 83 was transferred from H to E, action score = 0.04733333333333333
-
------------------
-
-At 2019-07-19: asset 94 M
-    Asset 83 was transferred from E to F, action score = 0.04533333333333333
-    Asset 13 was transferred from H to E, action score = 0.04533333333333333
-
------------------
-
-At 2019-07-21: unit H PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2019-07-22: unit D PC
+At 2019-07-13: unit G PC
+    No action was taken, action score = 0
 
-At 2019-07-22: asset 88 EM
-    Asset 13 was transferred from E to F, action score = 5.752504409171076
-    Asset 3 was transferred from B to D, action score = 5.752504409171076
+-----------------
+
+At 2019-07-18: asset 40 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2019-07-21: unit H PC
+    Asset 56 was transferred from E to C, action score = 0.122
+    Asset 22 was transferred from F to E, action score = 0.122
+    Asset 95 was transferred from E to I, action score = 0.122
+    Asset 83 was transferred from E to F, action score = 0.122
+    Asset 81 was transferred from E to G, action score = 0.122
+
+-----------------
+
+At 2019-07-22: unit D PC
+    Asset 22 was transferred from E to D, action score = 3.632873015873016
+
+-----------------
+
+At 2019-08-01: asset 74 EM
+    No action was taken, action score = 0
 
 -----------------
 
@@ -502,21 +501,30 @@ At 2019-08-03: unit E PC
 
 -----------------
 
-At 2019-08-11: asset 22 EM
+At 2019-08-12: asset 29 EM
+
+At 2019-08-12: asset 10 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2019-08-26: unit D PC
-    Asset 92 was transferred from D to H, action score = 0.057999999999999996
-    Asset 67 was transferred from D to F, action score = 0.057999999999999996
-    Asset 7 was transferred from D to E, action score = 0.057999999999999996
+    Asset 89 was transferred from E to D, action score = 3.99584496124031
 
 -----------------
 
-At 2019-09-11: asset 86 M
-    Asset 7 was transferred from E to H, action score = 0.004999999999999994
-    Asset 3 was transferred from D to F, action score = 0.004999999999999994
+At 2019-08-27: asset 24 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2019-08-31: asset 40 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2019-09-19: asset 15 M
+    Asset 40 was transferred from G to D, action score = 3.8397071352502663
 
 -----------------
 
@@ -526,15 +534,7 @@ At 2019-10-12: unit F PC
 -----------------
 
 At 2019-10-14: unit G PC
-    Asset 59 was transferred from D to E, action score = 0.03633333333333333
-    Asset 25 was transferred from D to H, action score = 0.03633333333333333
-
------------------
-
-At 2019-10-17: asset 94 EM
-    Asset 82 was transferred from D to E, action score = 0.101
-    Asset 59 was transferred from E to D, action score = 0.101
-    Asset 79 was transferred from D to H, action score = 0.101
+    No action was taken, action score = 0
 
 -----------------
 
@@ -543,45 +543,32 @@ At 2019-11-05: unit E PC
 
 -----------------
 
-At 2019-11-23: asset 90 M
-    No action was taken, action score = 0
-
------------------
-
 At 2019-12-03: unit D PC
-    No action was taken, action score = 0
+    Asset 86 was transferred from A to D, action score = 4.415236329053733
 
 -----------------
 
-At 2019-12-10: asset 86 EM
-    No action was taken, action score = 0
+At 2019-12-12: asset 86 M
+    Asset 24 was transferred from A to D, action score = 4.357600938967137
 
 -----------------
 
-At 2019-12-26: asset 75 M
-    No action was taken, action score = 0
+At 2019-12-30: asset 15 EM
+    Asset 15 was transferred from D to I, action score = 4.254197802197802
 
 -----------------
 
-At 2020-02-03: asset 59 EOL
-    Asset 97 was transferred from J to H, action score = 0.0036356487549148164
-    Asset 55 was transferred from J to E, action score = 0.0036356487549148164
-    Asset 14 was transferred from J to D, action score = 0.0036356487549148164
+At 2020-02-01: asset 20 EM
+    No action was taken, action score = 0
 
 -----------------
 
 At 2020-02-11: unit C PC
-    Asset 14 was transferred from D to H, action score = 7.1545330739299615
-    Asset 93 was transferred from J to D, action score = 7.1545330739299615
-
------------------
-
-At 2020-02-17: unit H PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-02-22: asset 27 M
+At 2020-02-17: unit H PC
     No action was taken, action score = 0
 
 -----------------
@@ -591,111 +578,110 @@ At 2020-02-24: unit I PC
 
 -----------------
 
-At 2020-03-06: asset 93 M
-    Asset 97 was transferred from H to E, action score = 1.643
-    Asset 88 was transferred from H to J, action score = 1.643
-    Asset 31 was transferred from H to C, action score = 1.643
-
------------------
-
 At 2020-03-08: unit C PC
-    Asset 14 was transferred from H to D, action score = 4.296072772898369
-    Asset 92 was transferred from H to E, action score = 4.296072772898369
-    Asset 19 was transferred from H to C, action score = 4.296072772898369
-
------------------
-
-At 2020-03-16: asset 95 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-03-17: asset 93 EM
-    No action was taken, action score = 0
+At 2020-03-10: asset 89 M
+    Asset 10 was transferred from H to D, action score = 4.825434710054235
 
 -----------------
 
-At 2020-03-27: asset 14 M
-    No action was taken, action score = 0
-
------------------
-
-At 2020-04-05: asset 14 EM
-    No action was taken, action score = 0
+At 2020-03-11: asset 86 EM
+    Asset 86 was transferred from D to F, action score = 3.865
 
 -----------------
 
 At 2020-06-01: unit A PC
-    Asset 14 was transferred from D to J, action score = 6.932986394557823
-    Asset 93 was transferred from D to A, action score = 6.932986394557823
+    No action was taken, action score = 0
 
 -----------------
 
 At 2020-06-07: unit C PC
-    Asset 86 was transferred from I to C, action score = 3.3304054054054064
+    No action was taken, action score = 0
+
+-----------------
+
+At 2020-06-08: asset 89 EM
+    Asset 24 was transferred from D to G, action score = 3.4720596175478065
 
 -----------------
 
 At 2020-06-09: unit D PC
-    No action was taken, action score = 0
+    Asset 46 was transferred from H to E, action score = 7.106501872659176
+    Asset 17 was transferred from H to I, action score = 7.106501872659176
+    Asset 72 was transferred from H to F, action score = 7.106501872659176
+    Asset 47 was transferred from H to G, action score = 7.106501872659176
 
 -----------------
 
-At 2020-06-25: asset 38 M
-    No action was taken, action score = 0
+At 2020-07-08: asset 87 EM
+    Asset 62 was transferred from H to C, action score = 13.730478055857816
+    Asset 54 was transferred from A to D, action score = 13.730478055857816
+    Asset 88 was transferred from A to I, action score = 13.730478055857816
+    Asset 94 was transferred from A to F, action score = 13.730478055857816
 
 -----------------
 
 At 2020-07-09: unit A PC
-    Asset 86 was transferred from C to E, action score = 4.514434782608696
-    Asset 95 was transferred from C to I, action score = 4.514434782608696
-    Asset 31 was transferred from C to A, action score = 4.514434782608696
+    Asset 27 was transferred from A to E, action score = 7.839130434782608
+    Asset 96 was transferred from A to H, action score = 7.839130434782608
+    Asset 58 was transferred from A to C, action score = 7.839130434782608
+    Asset 16 was transferred from A to D, action score = 7.839130434782608
+    Asset 34 was transferred from H to A, action score = 7.839130434782608
 
 -----------------
 
 At 2020-07-17: unit B PC
-    Asset 19 was transferred from C to B, action score = 2.2677816091954024
+    Asset 34 was transferred from A to E, action score = 0.095
+    Asset 85 was transferred from A to C, action score = 0.095
+    Asset 49 was transferred from A to H, action score = 0.095
+    Asset 96 was transferred from H to A, action score = 0.095
 
 -----------------
 
 At 2020-07-26: unit E PC
-    No action was taken, action score = 0
-
------------------
-
-At 2020-07-28: asset 90 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2020-08-12: asset 40 M
-    No action was taken, action score = 0
+    Asset 96 was transferred from A to C, action score = 0.091
+    Asset 82 was transferred from A to H, action score = 0.091
+    Asset 3 was transferred from H to A, action score = 0.091
+    Asset 99 was transferred from A to E, action score = 0.091
 
 -----------------
 
 At 2020-08-13: unit B PC
-    Asset 97 was transferred from E to H, action score = 2.6147294938917978
-    Asset 55 was transferred from E to B, action score = 2.6147294938917978
+    Asset 26 was transferred from B to C, action score = 2.5464240837696335
 
 -----------------
 
-At 2020-09-09: asset 63 M
-    No action was taken, action score = 0
+At 2020-09-03: asset 79 M
+    Asset 39 was transferred from B to H, action score = 4.787803278688525
+    Asset 11 was transferred from B to A, action score = 4.787803278688525
+    Asset 66 was transferred from B to E, action score = 4.787803278688525
+    Asset 45 was transferred from B to D, action score = 4.787803278688525
+
+-----------------
+
+At 2020-09-16: asset 89 EOL
+    Asset 12 was transferred from B to C, action score = 7.21452443545669
+    Asset 91 was transferred from B to H, action score = 7.21452443545669
+    Asset 42 was transferred from B to A, action score = 7.21452443545669
+    Asset 3 was transferred from A to D, action score = 7.21452443545669
+
+-----------------
+
+At 2020-09-23: asset 100 M
+    Asset 37 was transferred from B to E, action score = 6.482819277108434
+    Asset 11 was transferred from A to F, action score = 6.482819277108434
 
 -----------------
 
 At 2020-10-04: unit A PC
-    Asset 55 was transferred from B to J, action score = 6.566315127441244
-    Asset 39 was transferred from B to A, action score = 6.566315127441244
-
------------------
-
-At 2020-10-11: asset 82 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-10-19: asset 55 M
+At 2020-10-14: asset 42 M
     No action was taken, action score = 0
 
 -----------------
@@ -705,63 +691,50 @@ At 2020-10-28: unit C PC
 
 -----------------
 
-At 2020-10-29: asset 82 EM
-
-At 2020-10-29: asset 75 EM
+At 2020-11-03: unit B PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-11-03: unit B PC
-    Asset 44 was transferred from B to H, action score = 0.10467245258759239
-    Asset 28 was transferred from B to J, action score = 0.10467245258759239
+At 2020-11-04: asset 71 M
+    No action was taken, action score = 0
 
 -----------------
 
 At 2020-11-09: unit E PC
+    Asset 15 was transferred from I to H, action score = 4.929576222435283
+    Asset 39 was transferred from H to A, action score = 4.929576222435283
+    Asset 49 was transferred from H to C, action score = 4.929576222435283
+    Asset 19 was transferred from H to E, action score = 4.929576222435283
+
+-----------------
+
+At 2020-11-18: asset 42 EM
+    Asset 39 was transferred from A to I, action score = 3.4196806083650184
+    Asset 15 was transferred from H to A, action score = 3.4196806083650184
+
+-----------------
+
+At 2020-12-02: asset 79 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-11-17: asset 97 M
+At 2020-12-08: asset 42 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2020-11-28: asset 19 M
-    No action was taken, action score = 0
-
------------------
-
-At 2020-12-07: asset 42 M
-    No action was taken, action score = 0
-
------------------
-
-At 2020-12-26: asset 27 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2020-12-27: asset 19 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-01-05: asset 42 EM
-
-At 2021-01-05: asset 9 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-01-06: asset 45 M
-    No action was taken, action score = 0
+At 2020-12-24: asset 81 M
+    Asset 15 was transferred from A to G, action score = 6.39529411764706
 
 -----------------
 
 At 2021-01-10: unit G PC
-    No action was taken, action score = 0
+    Asset 88 was transferred from I to B, action score = 6.305923076923077
+    Asset 17 was transferred from I to C, action score = 6.305923076923077
+    Asset 84 was transferred from I to H, action score = 6.305923076923077
+    Asset 8 was transferred from I to G, action score = 6.305923076923077
 
 -----------------
 
@@ -770,73 +743,73 @@ At 2021-01-13: unit A PC
 
 -----------------
 
-At 2021-01-20: asset 21 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-01-31: asset 38 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-02-01: asset 63 EM
+At 2021-01-19: asset 71 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2021-02-06: unit F PC
+    Asset 84 was transferred from H to B, action score = 8.560641931684335
+    Asset 88 was transferred from B to F, action score = 8.560641931684335
+
+-----------------
+
+At 2021-02-08: asset 71 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-02-08: asset 100 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-02-10: asset 45 EM
+At 2021-02-11: asset 28 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2021-02-17: unit G PC
+    Asset 95 was transferred from I to B, action score = 10.732816272965879
+    Asset 84 was transferred from B to G, action score = 10.732816272965879
+
+-----------------
+
+At 2021-02-25: asset 100 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2021-02-26: unit B PC
-    No action was taken, action score = 0
+    Asset 80 was transferred from I to C, action score = 0.020999999999999998
+    Asset 73 was transferred from I to A, action score = 0.020999999999999998
+    Asset 1 was transferred from I to H, action score = 0.020999999999999998
+    Asset 82 was transferred from H to I, action score = 0.020999999999999998
 
 -----------------
 
 At 2021-03-06: unit F PC
-    No action was taken, action score = 0
+    Asset 1 was transferred from H to B, action score = 41.356310344827584
+    Asset 91 was transferred from H to C, action score = 41.356310344827584
+    Asset 50 was transferred from I to H, action score = 41.356310344827584
 
 -----------------
+
+At 2021-03-12: asset 79 EOL
+    Asset 50 was transferred from H to D, action score = 6.000346483704975
+
+-----------------
+
+At 2021-03-14: asset 56 M
 
 At 2021-03-14: unit D PC
+    Asset 54 was transferred from D to A, action score = 43.772041095890415
+    Asset 40 was transferred from D to C, action score = 43.772041095890415
+
+-----------------
+
+At 2021-04-25: asset 81 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-04-06: asset 97 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-04-10: asset 100 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-04-19: asset 82 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2021-05-19: asset 79 EOL
-    No action was taken, action score = 0
+At 2021-05-12: asset 28 EM
+    Asset 10 was transferred from D to B, action score = 2.5122469437652812
 
 -----------------
 
@@ -850,32 +823,41 @@ At 2021-05-28: unit D PC
 
 -----------------
 
-At 2021-05-29: asset 31 M
+At 2021-06-12: asset 56 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-06-03: asset 19 EOL
+At 2021-06-14: asset 9 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2021-06-18: unit F PC
-
-At 2021-06-18: asset 40 EM
-    Asset 22 was transferred from G to C, action score = 4.488285714285714
-    Asset 46 was transferred from G to H, action score = 4.488285714285714
-    Asset 57 was transferred from G to E, action score = 4.488285714285714
-    Asset 6 was transferred from G to F, action score = 4.488285714285714
+    Asset 86 was transferred from F to I, action score = 0.010000000000000009
+    Asset 52 was transferred from F to H, action score = 0.010000000000000009
+    Asset 22 was transferred from D to A, action score = 0.010000000000000009
+    Asset 75 was transferred from D to B, action score = 0.010000000000000009
 
 -----------------
 
 At 2021-06-21: unit C PC
-    No action was taken, action score = 0
+    Asset 94 was transferred from F to I, action score = 0.006000000000000005
+    Asset 72 was transferred from F to H, action score = 0.006000000000000005
+    Asset 83 was transferred from F to A, action score = 0.006000000000000005
+    Asset 92 was transferred from F to B, action score = 0.006000000000000005
 
 -----------------
 
-At 2021-06-25: asset 42 EOL
+At 2021-06-22: asset 100 EOL
+    Asset 88 was transferred from F to I, action score = 0.0020000000000000018
+    Asset 11 was transferred from F to H, action score = 0.0020000000000000018
+    Asset 17 was transferred from C to A, action score = 0.0020000000000000018
+    Asset 62 was transferred from C to B, action score = 0.0020000000000000018
+
+-----------------
+
+At 2021-07-04: asset 21 M
     No action was taken, action score = 0
 
 -----------------
@@ -885,42 +867,27 @@ At 2021-07-14: unit H PC
 
 -----------------
 
+At 2021-08-03: asset 38 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2021-08-10: asset 81 EOL
+    Asset 86 was transferred from I to G, action score = 11.926003037205772
+
+-----------------
+
 At 2021-08-15: unit C PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-08-19: asset 85 M
+At 2021-09-19: asset 45 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-08-27: asset 31 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-08-30: asset 55 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-09-04: asset 76 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-09-22: asset 91 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-09-25: asset 45 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2021-10-02: asset 38 EOL
+At 2021-10-05: asset 99 M
     No action was taken, action score = 0
 
 -----------------
@@ -930,38 +897,31 @@ At 2021-10-24: unit A PC
 
 -----------------
 
-At 2021-11-07: asset 91 EM
+At 2021-11-01: asset 38 EM
     No action was taken, action score = 0
 
 -----------------
+
+At 2021-11-09: asset 28 EOL
 
 At 2021-11-09: unit I PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-11-16: asset 9 EM
+At 2021-11-13: asset 63 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2021-11-17: asset 85 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2021-11-28: asset 81 M
-    No action was taken, action score = 0
-
------------------
-
-At 2021-12-01: asset 21 EM
+At 2021-12-05: asset 56 EOL
     No action was taken, action score = 0
 
 -----------------
 
 At 2021-12-12: unit G PC
-    No action was taken, action score = 0
+    Asset 54 was transferred from A to E, action score = 7.093106870229007
+    Asset 73 was transferred from A to D, action score = 7.093106870229007
 
 -----------------
 
@@ -970,100 +930,89 @@ At 2021-12-14: unit F PC
 
 -----------------
 
-At 2021-12-16: asset 100 EOL
-
 At 2021-12-16: unit B PC
-    No action was taken, action score = 0
+    Asset 10 was transferred from B to H, action score = 0.001666666666666661
+    Asset 1 was transferred from B to I, action score = 0.001666666666666661
+    Asset 95 was transferred from B to G, action score = 0.001666666666666661
+    Asset 17 was transferred from A to F, action score = 0.001666666666666661
+    Asset 22 was transferred from A to B, action score = 0.001666666666666661
 
 -----------------
 
-At 2022-01-06: asset 71 M
-    No action was taken, action score = 0
+At 2021-12-28: asset 83 M
+    Asset 22 was transferred from B to H, action score = 24.199045984900483
+    Asset 62 was transferred from B to I, action score = 24.199045984900483
+    Asset 75 was transferred from B to G, action score = 24.199045984900483
 
 -----------------
 
-At 2022-01-07: asset 85 EOL
-
-At 2022-01-07: asset 89 M
+At 2022-01-11: asset 92 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2022-01-12: unit A PC
-    Asset 2 was transferred from J to E, action score = 2.997898550724638
-    Asset 63 was transferred from A to H, action score = 2.997898550724638
-    Asset 20 was transferred from A to G, action score = 2.997898550724638
-    Asset 24 was transferred from A to F, action score = 2.997898550724638
-
------------------
-
-At 2022-01-17: asset 78 M
-    Asset 70 was transferred from J to B, action score = 22.671958023019634
-    Asset 41 was transferred from J to F, action score = 22.671958023019634
-
------------------
-
-At 2022-01-19: asset 70 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-11: asset 2 M
+At 2022-01-29: asset 78 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-12: asset 43 M
+At 2022-02-09: asset 38 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-16: asset 7 M
+At 2022-02-09: asset 57 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-18: asset 25 M
+At 2022-02-19: asset 45 EM
+
+At 2022-02-19: asset 11 M
+    Asset 97 was transferred from J to F, action score = 0.9790971302428257
+    Asset 55 was transferred from J to I, action score = 0.9790971302428257
+    Asset 14 was transferred from J to B, action score = 0.9790971302428257
+    Asset 2 was transferred from J to A, action score = 0.9790971302428257
+    Asset 50 was transferred from D to J, action score = 0.9790971302428257
+
+-----------------
+
+At 2022-02-26: asset 14 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-19: asset 36 M
+At 2022-03-01: asset 99 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-26: asset 81 EM
+At 2022-03-09: asset 2 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-02-27: asset 92 EOL
+At 2022-03-15: asset 76 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-03-18: asset 22 EOL
+At 2022-03-16: asset 31 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-03-21: asset 36 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2022-03-22: unit H PC
-    No action was taken, action score = 0
-
------------------
-
-At 2022-04-02: asset 2 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2022-04-06: asset 71 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2022-04-08: asset 89 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1074,13 +1023,16 @@ At 2022-04-09: unit E PC
 -----------------
 
 At 2022-04-13: unit B PC
-    Asset 97 was transferred from H to G, action score = 3.526380038387716
-    Asset 44 was transferred from H to E, action score = 3.526380038387716
-    Asset 2 was transferred from E to B, action score = 3.526380038387716
+    No action was taken, action score = 0
 
 -----------------
 
-At 2022-04-18: asset 78 EM
+At 2022-04-22: asset 48 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-04-24: asset 78 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1091,56 +1043,63 @@ At 2022-05-02: unit I PC
 -----------------
 
 At 2022-05-03: unit E PC
+    Asset 55 was transferred from I to F, action score = 9.770777186174534
+    Asset 94 was transferred from I to A, action score = 9.770777186174534
+    Asset 72 was transferred from H to J, action score = 9.770777186174534
+    Asset 52 was transferred from H to E, action score = 9.770777186174534
+
+-----------------
+
+At 2022-05-07: asset 83 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-05-05: asset 70 EM
+At 2022-05-12: asset 11 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-05-13: asset 43 EM
+At 2022-05-24: asset 9 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-05-20: asset 36 EM
+At 2022-05-27: asset 55 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-05-22: asset 7 EM
+At 2022-05-28: asset 97 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-05-24: asset 25 EM
+At 2022-06-03: asset 31 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-06-03: asset 44 M
+At 2022-06-08: asset 29 M
+
+At 2022-06-08: asset 36 EM
+
+At 2022-06-08: asset 21 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2022-06-12: unit D PC
+    Asset 88 was transferred from I to D, action score = 1.2218024821758648
+
+-----------------
+
+At 2022-06-13: asset 2 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-06-21: asset 86 M
-    No action was taken, action score = 0
-
------------------
-
-At 2022-06-22: asset 91 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2022-06-23: asset 44 EM
+At 2022-07-06: asset 83 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1150,17 +1109,19 @@ At 2022-07-07: unit D PC
 
 -----------------
 
-At 2022-07-13: asset 86 EM
-    No action was taken, action score = 0
+At 2022-07-08: asset 66 M
+
+At 2022-07-08: asset 52 M
+    Asset 54 was transferred from E to D, action score = 1.421138872043663
 
 -----------------
 
-At 2022-07-16: asset 76 EM
-    No action was taken, action score = 0
+At 2022-07-09: asset 3 M
+    Asset 27 was transferred from E to D, action score = 1.4191818181818183
 
 -----------------
 
-At 2022-07-19: asset 12 M
+At 2022-07-15: asset 99 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1170,18 +1131,102 @@ At 2022-07-28: unit E PC
 
 -----------------
 
-At 2022-08-13: unit F PC
-    Asset 90 was transferred from F to J, action score = 8.914293768545996
-    Asset 60 was transferred from F to G, action score = 8.914293768545996
+At 2022-07-29: asset 45 EOL
+    Asset 46 was transferred from E to D, action score = 1.3992814371257487
 
 -----------------
 
-At 2022-09-07: asset 44 EOL
+At 2022-08-04: asset 48 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-09-22: asset 86 EOL
+At 2022-08-08: asset 68 M
+    Asset 54 was transferred from D to B, action score = 19.41161904761905
+    Asset 88 was transferred from D to F, action score = 19.41161904761905
+    Asset 73 was transferred from D to H, action score = 19.41161904761905
+    Asset 16 was transferred from D to G, action score = 19.41161904761905
+
+-----------------
+
+At 2022-08-11: asset 78 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-08-13: asset 92 EM
+
+At 2022-08-13: asset 66 EM
+
+At 2022-08-13: asset 52 EM
+
+At 2022-08-13: unit F PC
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-08-15: asset 55 EM
+
+At 2022-08-15: asset 97 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-08-17: asset 82 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-08-26: asset 19 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-06: asset 90 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-08: asset 11 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-11: asset 37 M
+
+At 2022-09-11: asset 43 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-17: asset 14 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-20: asset 3 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-21: asset 66 EOL
+
+At 2022-09-21: asset 52 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-22: asset 19 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-09-29: asset 63 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-01: asset 37 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1191,23 +1236,52 @@ At 2022-10-03: unit D PC
 
 -----------------
 
-At 2022-10-04: asset 57 M
-    No action was taken, action score = 0
-
------------------
-
 At 2022-10-05: unit G PC
+
+At 2022-10-05: asset 31 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2022-10-13: asset 12 EM
+At 2022-10-05: asset 7 M
     No action was taken, action score = 0
 
 -----------------
+
+At 2022-10-06: asset 34 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-09: asset 36 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-11: asset 67 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-13: asset 19 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-16: asset 92 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-17: asset 37 EOL
 
 At 2022-10-17: unit F PC
-    Asset 94 was transferred from I to G, action score = 7.6201428571428576
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-10-28: asset 70 M
+    No action was taken, action score = 0
 
 -----------------
 
@@ -1216,34 +1290,136 @@ At 2022-10-29: unit E PC
 
 -----------------
 
-At 2022-11-02: asset 23 M
+At 2022-11-07: asset 64 M
+
+At 2022-11-07: asset 3 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-11-08: asset 48 EOL
+
+At 2022-11-08: asset 82 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-11-09: asset 7 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-11-12: asset 67 EM
+
+At 2022-11-12: asset 68 EM
+
+At 2022-11-12: asset 39 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2022-11-13: unit G PC
-    Asset 63 was transferred from H to I, action score = 0.6948486212718065
+    No action was taken, action score = 0
 
 -----------------
 
-At 2023-01-28: asset 81 EOL
+At 2022-11-24: asset 43 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-10: asset 64 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-15: asset 57 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-20: asset 7 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-22: asset 29 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-24: asset 67 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2022-12-25: asset 93 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-01-14: asset 64 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-01-17: asset 76 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-01-26: asset 39 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-02: asset 82 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-14: asset 62 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-17: asset 46 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-20: asset 43 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-21: asset 75 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-24: asset 27 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-02-28: asset 1 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-03-01: unit C PC
-    Asset 63 was transferred from I to J, action score = 2.805328912466844
-    Asset 95 was transferred from I to E, action score = 2.805328912466844
-    Asset 47 was transferred from I to H, action score = 2.805328912466844
-    Asset 84 was transferred from I to C, action score = 2.805328912466844
+    No action was taken, action score = 0
 
 -----------------
 
-At 2023-03-07: asset 43 EOL
-    Asset 4 was transferred from I to J, action score = 0.1695309360126917
-    Asset 8 was transferred from I to E, action score = 0.1695309360126917
-    Asset 80 was transferred from I to H, action score = 0.1695309360126917
-    Asset 73 was transferred from I to D, action score = 0.1695309360126917
+At 2023-03-03: asset 73 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-03-11: asset 39 EOL
+    No action was taken, action score = 0
 
 -----------------
 
@@ -1252,28 +1428,15 @@ At 2023-03-16: unit D PC
 
 -----------------
 
-At 2023-03-17: asset 89 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2023-03-25: asset 48 M
-    No action was taken, action score = 0
-
------------------
-
-At 2023-03-30: asset 78 EOL
+At 2023-03-20: asset 22 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-03-31: unit C PC
-    Asset 1 was transferred from I to C, action score = 3.9537519582245437
 
------------------
-
-At 2023-04-09: asset 23 EM
-    No action was taken, action score = 0
+At 2023-03-31: asset 73 EM
+    Asset 40 was transferred from C to A, action score = 8.607845953002613
 
 -----------------
 
@@ -1283,95 +1446,99 @@ At 2023-04-11: unit A PC
 -----------------
 
 At 2023-04-17: unit E PC
+
+At 2023-04-17: asset 22 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-04-25: asset 57 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2023-05-03: asset 7 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2023-05-04: asset 25 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2023-05-05: asset 48 EM
+At 2023-05-06: asset 10 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-05-11: unit A PC
-    Asset 10 was transferred from A to H, action score = 0.008000000000000007
-    Asset 54 was transferred from A to I, action score = 0.008000000000000007
-    Asset 68 was transferred from A to E, action score = 0.008000000000000007
-    Asset 64 was transferred from A to D, action score = 0.008000000000000007
+    No action was taken, action score = 0
 
 -----------------
 
-At 2023-05-14: asset 99 M
-    Asset 54 was transferred from I to H, action score = 0.0040000000000000036
-    Asset 58 was transferred from A to I, action score = 0.0040000000000000036
-    Asset 16 was transferred from A to E, action score = 0.0040000000000000036
-    Asset 49 was transferred from A to D, action score = 0.0040000000000000036
+At 2023-05-15: asset 85 M
+    Asset 76 was transferred from J to C, action score = 8.402650793650794
+
+-----------------
+
+At 2023-05-17: asset 12 M
+    Asset 57 was transferred from J to C, action score = 8.392913353720694
 
 -----------------
 
 At 2023-05-20: unit E PC
-    Asset 93 was transferred from A to H, action score = 5.010992366412214
-    Asset 96 was transferred from A to I, action score = 5.010992366412214
-    Asset 58 was transferred from I to A, action score = 5.010992366412214
-    Asset 11 was transferred from A to D, action score = 5.010992366412214
-
------------------
-
-At 2023-05-24: asset 31 EOL
-    Asset 58 was transferred from A to I, action score = 0.03599999999999999
-    Asset 96 was transferred from I to A, action score = 0.03599999999999999
-    Asset 37 was transferred from A to D, action score = 0.03599999999999999
-
------------------
-
-At 2023-06-01: asset 71 EOL
-    Asset 96 was transferred from A to I, action score = 0.03300000000000001
-    Asset 58 was transferred from I to A, action score = 0.03300000000000001
-    Asset 66 was transferred from A to D, action score = 0.03300000000000001
-
------------------
-
-At 2023-06-15: asset 39 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-06-15: asset 99 EM
+At 2023-05-20: asset 73 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-07-01: asset 1 M
+At 2023-05-29: asset 22 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-06-04: asset 4 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-06-08: asset 29 EOL
+    Asset 63 was transferred from J to C, action score = 8.296964157706094
+
+-----------------
+
+At 2023-06-10: asset 94 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-06-14: asset 54 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-06-24: asset 91 M
+    Asset 21 was transferred from J to C, action score = 8.228222222222223
+
+-----------------
+
+At 2023-07-04: asset 94 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-07-06: asset 54 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-07-08: unit C PC
-    Asset 96 was transferred from I to C, action score = 4.849215491559087
+    Asset 9 was transferred from J to C, action score = 10.55214774357277
 
 -----------------
 
-At 2023-07-08: asset 39 EM
+At 2023-07-16: asset 17 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-07-15: asset 1 EM
+At 2023-07-17: asset 90 EM
     No action was taken, action score = 0
+
+-----------------
+
+At 2023-07-24: asset 49 M
+    Asset 90 was transferred from J to C, action score = 10.466616310892174
 
 -----------------
 
@@ -1380,7 +1547,17 @@ At 2023-08-01: unit H PC
 
 -----------------
 
-At 2023-08-12: asset 66 M
+At 2023-08-06: asset 6 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-08-12: asset 95 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-08-13: asset 94 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1390,55 +1567,93 @@ At 2023-08-15: unit A PC
 
 -----------------
 
+At 2023-08-19: asset 16 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-08-22: asset 85 EM
+    Asset 90 was transferred from C to I, action score = 10.318529383195727
+
+-----------------
+
+At 2023-08-23: asset 12 EM
+    Asset 76 was transferred from C to D, action score = 10.312436893203882
+
+-----------------
+
+At 2023-08-24: asset 62 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-08-25: asset 54 EOL
+    No action was taken, action score = 0
+
+-----------------
+
 At 2023-08-30: unit B PC
 
-At 2023-08-30: asset 52 M
+At 2023-08-30: asset 68 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-09-04: asset 99 EOL
+At 2023-09-02: asset 70 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-09-11: asset 26 M
+At 2023-09-06: asset 1 EM
     No action was taken, action score = 0
 
 -----------------
+
+At 2023-09-12: asset 46 EM
 
 At 2023-09-12: unit I PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-09-22: asset 39 EOL
+At 2023-09-21: asset 17 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-09-28: asset 1 EOL
+At 2023-09-24: asset 40 M
+
+At 2023-09-24: asset 91 EM
+    Asset 57 was transferred from C to E, action score = 10.151047801147229
+
+-----------------
+
+At 2023-09-27: asset 34 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-10-04: asset 58 M
+At 2023-10-03: asset 40 EM
+    No action was taken, action score = 0
+
+-----------------
 
 At 2023-10-04: unit B PC
-
-At 2023-10-04: asset 84 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-10-10: asset 36 EOL
+At 2023-10-08: asset 75 EM
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-10-11: unit D PC
+    No action was taken, action score = 0
 
-At 2023-10-11: asset 50 M
+-----------------
+
+At 2023-10-19: asset 27 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1448,17 +1663,37 @@ At 2023-10-20: unit A PC
 
 -----------------
 
-At 2023-10-26: asset 66 EM
+At 2023-10-22: asset 49 EM
+    Asset 76 was transferred from D to H, action score = 10.038679245283019
+    Asset 63 was transferred from C to J, action score = 10.038679245283019
+
+-----------------
+
+At 2023-10-23: asset 93 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-11-07: asset 11 M
+At 2023-10-26: asset 26 M
+
+At 2023-10-26: asset 46 EOL
+    Asset 27 was transferred from D to C, action score = 9.989713747645952
+
+-----------------
+
+At 2023-11-08: asset 40 EOL
+
+At 2023-11-08: asset 10 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-11-08: asset 96 EOL
+At 2023-11-12: asset 62 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2023-11-17: asset 34 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1468,66 +1703,103 @@ At 2023-11-18: unit C PC
 
 -----------------
 
-At 2023-11-24: asset 73 M
+At 2023-11-29: asset 88 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-11-26: asset 48 EOL
+At 2023-11-30: asset 85 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-12-04: asset 49 M
+At 2023-12-01: asset 12 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-12-08: asset 37 M
+At 2023-12-14: asset 1 EOL
+    Asset 93 was transferred from J to B, action score = 3.1625979956025976
+    Asset 86 was transferred from G to J, action score = 3.1625979956025976
+    Asset 70 was transferred from J to D, action score = 3.1625979956025976
+    Asset 87 was transferred from J to A, action score = 3.1625979956025976
+    Asset 20 was transferred from J to H, action score = 3.1625979956025976
+
+-----------------
+
+At 2023-12-14: asset 4 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-12-11: asset 11 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2023-12-21: asset 73 EM
+At 2023-12-22: asset 17 EOL
     No action was taken, action score = 0
 
 -----------------
 
 At 2023-12-25: unit B PC
-
-At 2023-12-25: asset 12 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2023-12-29: asset 57 EOL
+At 2023-12-30: asset 14 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-01-01: asset 49 EM
+At 2024-01-02: asset 91 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-01-08: asset 37 EM
+At 2024-01-08: asset 14 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-01-11: asset 27 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-01-13: asset 58 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2024-01-20: unit D PC
 
-At 2024-01-20: asset 3 M
+At 2024-01-20: asset 88 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-01-29: asset 52 EM
+At 2024-01-24: asset 26 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-01-28: asset 14 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-01-29: asset 6 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-01-30: asset 49 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-02-03: asset 95 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-02-11: asset 16 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1537,7 +1809,12 @@ At 2024-02-13: unit G PC
 
 -----------------
 
-At 2024-02-20: asset 2 EOL
+At 2024-02-16: asset 10 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-02-23: asset 96 M
     No action was taken, action score = 0
 
 -----------------
@@ -1547,54 +1824,45 @@ At 2024-02-27: unit I PC
 
 -----------------
 
-At 2024-03-02: asset 70 EOL
-    Asset 97 was transferred from G to A, action score = 4.321078152753108
-    Asset 20 was transferred from G to C, action score = 4.321078152753108
+At 2024-03-07: asset 60 M
+    No action was taken, action score = 0
 
 -----------------
 
 At 2024-03-09: unit G PC
-    Asset 94 was transferred from G to B, action score = 10.230364320495795
-    Asset 60 was transferred from G to I, action score = 10.230364320495795
-    Asset 87 was transferred from G to D, action score = 10.230364320495795
-    Asset 41 was transferred from F to C, action score = 10.230364320495795
-
------------------
-
-At 2024-03-11: asset 26 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-03-25: asset 23 EOL
-    No action was taken, action score = 0
+    Asset 93 was transferred from B to E, action score = 5.314974767596282
+    Asset 24 was transferred from G to B, action score = 5.314974767596282
 
 -----------------
 
 At 2024-03-26: unit B PC
 
-At 2024-03-26: asset 50 EM
-    Asset 60 was transferred from I to A, action score = 2.935548330404218
-    Asset 52 was transferred from G to I, action score = 2.935548330404218
-    Asset 15 was transferred from F to G, action score = 2.935548330404218
-    Asset 29 was transferred from F to B, action score = 2.935548330404218
-
------------------
-
-At 2024-04-03: unit F PC
-    Asset 15 was transferred from G to D, action score = 5.409426152948045
-    Asset 17 was transferred from F to A, action score = 5.409426152948045
-    Asset 68 was transferred from E to I, action score = 5.409426152948045
-    Asset 95 was transferred from E to G, action score = 5.409426152948045
-
------------------
-
-At 2024-04-07: asset 66 EOL
+At 2024-03-26: asset 80 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-04-20: asset 80 M
+At 2024-04-03: unit F PC
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-04-03: asset 88 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-04-09: asset 75 EOL
+    Asset 90 was transferred from I to G, action score = 5.214366812227074
+
+-----------------
+
+At 2024-04-12: asset 58 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-05-03: asset 26 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1604,12 +1872,12 @@ At 2024-05-11: unit F PC
 
 -----------------
 
-At 2024-05-13: asset 95 M
-    No action was taken, action score = 0
+At 2024-05-20: asset 4 EOL
+    Asset 63 was transferred from J to G, action score = 5.11830930930931
 
 -----------------
 
-At 2024-05-15: asset 67 M
+At 2024-05-23: asset 96 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1619,22 +1887,42 @@ At 2024-05-24: unit H PC
 
 -----------------
 
-At 2024-05-29: asset 3 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-05-31: asset 58 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-06-01: asset 13 M
+At 2024-05-31: asset 2 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2024-06-14: unit G PC
+    Asset 76 was transferred from H to G, action score = 6.561820033955858
+
+-----------------
+
+At 2024-06-16: asset 6 EOL
+    Asset 20 was transferred from H to G, action score = 6.5550916030534365
+
+-----------------
+
+At 2024-06-18: asset 95 EOL
+    Asset 74 was transferred from J to G, action score = 6.548372881355933
+
+-----------------
+
+At 2024-06-20: asset 84 M
+    Asset 23 was transferred from J to G, action score = 6.541663844199831
+
+-----------------
+
+At 2024-06-21: asset 16 EOL
+    Asset 55 was transferred from F to G, action score = 6.537812949640289
+
+-----------------
+
+At 2024-06-22: asset 60 EM
+    Asset 63 was transferred from G to D, action score = 6.536186689227299
+
+-----------------
+
+At 2024-06-24: asset 80 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1644,29 +1932,32 @@ At 2024-07-09: unit A PC
 
 -----------------
 
-At 2024-07-14: asset 67 EM
+At 2024-07-14: asset 2 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-07-25: asset 80 EM
+At 2024-07-21: asset 58 EOL
     No action was taken, action score = 0
 
 -----------------
 
 At 2024-07-27: unit C PC
-    Asset 41 was transferred from C to B, action score = 4.266813255523135
-    Asset 20 was transferred from C to I, action score = 4.266813255523135
-    Asset 97 was transferred from A to F, action score = 4.266813255523135
-
------------------
-
-At 2024-08-04: asset 13 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-08-10: asset 52 EOL
+At 2024-07-29: asset 8 M
+    Asset 9 was transferred from C to G, action score = 6.429238650562265
+
+-----------------
+
+At 2024-08-03: asset 2 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2024-08-07: asset 96 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1676,23 +1967,23 @@ At 2024-08-12: unit F PC
 
 -----------------
 
-At 2024-08-22: asset 16 EOL
+At 2024-08-13: asset 80 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-09-14: asset 8 EOL
+At 2024-08-20: asset 97 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-09-16: asset 58 EOL
+At 2024-09-07: asset 24 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-09-20: asset 60 M
-    No action was taken, action score = 0
+At 2024-09-18: asset 84 EM
+    Asset 9 was transferred from G to E, action score = 6.292618633315208
 
 -----------------
 
@@ -1701,48 +1992,18 @@ At 2024-09-26: unit B PC
 
 -----------------
 
-At 2024-09-29: asset 60 EM
-    No action was taken, action score = 0
+At 2024-09-30: asset 60 EOL
+    Asset 21 was transferred from C to G, action score = 6.257792207792209
 
 -----------------
 
-At 2024-10-01: asset 6 M
-    No action was taken, action score = 0
+At 2024-10-06: asset 47 M
+    Asset 87 was transferred from A to G, action score = 6.241105263157896
 
 -----------------
 
-At 2024-10-02: asset 26 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2024-10-03: asset 17 M
-    No action was taken, action score = 0
-
------------------
-
-At 2024-10-12: asset 17 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-10-13: asset 11 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2024-10-25: asset 50 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2024-10-31: asset 87 M
-    No action was taken, action score = 0
-
------------------
-
-At 2024-11-07: asset 64 M
-    No action was taken, action score = 0
+At 2024-10-27: asset 8 EM
+    Asset 74 was transferred from G to I, action score = 6.188018288059236
 
 -----------------
 
@@ -1751,17 +2012,12 @@ At 2024-11-08: unit A PC
 
 -----------------
 
-At 2024-11-11: asset 60 EOL
-    No action was taken, action score = 0
+At 2024-11-11: asset 15 M
+    Asset 74 was transferred from I to G, action score = 6.146561053471668
 
 -----------------
 
 At 2024-11-15: unit C PC
-    No action was taken, action score = 0
-
------------------
-
-At 2024-11-19: asset 83 M
     No action was taken, action score = 0
 
 -----------------
@@ -1771,57 +2027,22 @@ At 2024-11-22: unit F PC
 
 -----------------
 
-At 2024-11-24: asset 73 EOL
-    No action was taken, action score = 0
-
------------------
-
 At 2024-11-30: unit G PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-12-03: asset 3 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2024-12-07: asset 94 M
-
-At 2024-12-07: asset 6 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-12-09: asset 17 EOL
-
 At 2024-12-09: unit E PC
-    Asset 41 was transferred from B to I, action score = 1.3467013943699035
-    Asset 29 was transferred from B to E, action score = 1.3467013943699035
-
------------------
-
-At 2024-12-15: asset 49 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-12-20: asset 29 EOL
+At 2024-12-27: asset 84 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2024-12-22: asset 37 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2024-12-28: asset 87 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2024-12-31: asset 64 EM
+At 2025-01-04: asset 47 EM
     No action was taken, action score = 0
 
 -----------------
@@ -1832,30 +2053,21 @@ At 2025-01-11: unit B PC
 -----------------
 
 At 2025-01-16: unit E PC
-    Asset 10 was transferred from H to A, action score = 4.592737169517885
-    Asset 47 was transferred from H to F, action score = 4.592737169517885
-    Asset 46 was transferred from H to E, action score = 4.592737169517885
-
------------------
-
-At 2025-01-27: asset 47 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-02-09: asset 46 EOL
+At 2025-02-04: asset 8 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-02-10: asset 24 M
-
-At 2025-02-10: asset 67 EOL
+At 2025-02-09: asset 15 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-02-15: asset 83 EM
+At 2025-02-17: asset 70 M
     No action was taken, action score = 0
 
 -----------------
@@ -1865,7 +2077,12 @@ At 2025-02-23: unit D PC
 
 -----------------
 
-At 2025-03-06: asset 13 EOL
+At 2025-03-08: asset 70 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2025-03-22: asset 87 M
     No action was taken, action score = 0
 
 -----------------
@@ -1875,66 +2092,64 @@ At 2025-03-25: unit D PC
 
 -----------------
 
-At 2025-03-27: asset 20 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2025-04-02: asset 80 EOL
-    No action was taken, action score = 0
-
------------------
-
 At 2025-04-05: unit E PC
-    Asset 54 was transferred from H to G, action score = 10.47136385191572
-    Asset 41 was transferred from I to H, action score = 10.47136385191572
-    Asset 10 was transferred from A to E, action score = 10.47136385191572
-
------------------
-
-At 2025-04-09: asset 54 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-04-12: asset 10 EOL
+At 2025-04-09: asset 70 EOL
+
+At 2025-04-09: asset 57 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-04-17: asset 68 EOL
+At 2025-04-14: asset 47 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-04-27: asset 47 EM
+At 2025-04-18: asset 93 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-05-09: asset 15 M
+At 2025-04-22: asset 57 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-05-11: asset 87 EOL
-
-At 2025-05-11: asset 24 EM
+At 2025-05-02: asset 93 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-05-12: asset 64 EOL
+At 2025-05-17: asset 57 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-05-14: asset 93 EOL
+At 2025-05-20: asset 15 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-06-21: asset 41 EOL
+At 2025-05-27: asset 93 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2025-06-19: asset 63 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2025-06-20: asset 87 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2025-06-28: asset 9 M
     No action was taken, action score = 0
 
 -----------------
@@ -1944,17 +2159,7 @@ At 2025-07-01: unit D PC
 
 -----------------
 
-At 2025-08-14: asset 6 EOL
-    No action was taken, action score = 0
-
------------------
-
 At 2025-08-15: unit D PC
-    No action was taken, action score = 0
-
------------------
-
-At 2025-08-19: asset 62 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1964,27 +2169,22 @@ At 2025-09-13: unit G PC
 
 -----------------
 
+At 2025-09-25: asset 87 EOL
+    No action was taken, action score = 0
+
+-----------------
+
 At 2025-09-27: unit F PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-10-07: asset 83 EOL
+At 2025-10-01: asset 55 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2025-10-17: unit E PC
-    No action was taken, action score = 0
-
------------------
-
-At 2025-10-28: asset 47 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2025-10-31: asset 24 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -1999,46 +2199,34 @@ At 2025-11-06: unit I PC
 
 -----------------
 
-At 2025-11-06: asset 28 EOL
+At 2025-11-10: asset 50 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2025-11-17: unit A PC
-    No action was taken, action score = 0
 
------------------
-
-At 2025-11-19: asset 97 EOL
+At 2025-11-17: asset 21 M
     No action was taken, action score = 0
 
 -----------------
 
 At 2025-11-20: unit G PC
-    Asset 76 was transferred from J to H, action score = 3.6710634920634924
-    Asset 21 was transferred from J to F, action score = 3.6710634920634924
-    Asset 9 was transferred from J to E, action score = 3.6710634920634924
-    Asset 55 was transferred from J to G, action score = 3.6710634920634924
-
------------------
-
-At 2025-11-29: unit C PC
-    Asset 76 was transferred from H to F, action score = 21.511694605152552
-    Asset 21 was transferred from F to E, action score = 21.511694605152552
-
------------------
-
-At 2025-12-11: asset 95 EM
-    Asset 40 was transferred from J to F, action score = 6.941984832816271
-
------------------
-
-At 2025-12-13: unit A PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2025-12-14: asset 54 EM
+At 2025-11-27: asset 55 EM
+    Asset 35 was transferred from J to G, action score = 2.7388472462764115
+
+-----------------
+
+At 2025-11-29: unit C PC
+    No action was taken, action score = 0
+
+-----------------
+
+At 2025-12-13: unit A PC
     No action was taken, action score = 0
 
 -----------------
@@ -2054,19 +2242,11 @@ At 2026-01-24: unit F PC
 -----------------
 
 At 2026-02-21: unit B PC
-    Asset 27 was transferred from J to I, action score = 3.876515640766902
-    Asset 75 was transferred from J to H, action score = 3.876515640766902
-    Asset 40 was transferred from F to J, action score = 3.876515640766902
-    Asset 76 was transferred from F to B, action score = 3.876515640766902
-
------------------
-
-At 2026-02-26: unit H PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2026-03-03: asset 94 EM
+At 2026-02-26: unit H PC
     No action was taken, action score = 0
 
 -----------------
@@ -2081,13 +2261,18 @@ At 2026-03-09: unit C PC
 
 -----------------
 
-At 2026-05-08: asset 94 EOL
-    No action was taken, action score = 0
+At 2026-04-13: asset 21 EM
+    Asset 35 was transferred from G to D, action score = 2.6095238095238096
 
 -----------------
 
 At 2026-05-20: unit B PC
-    Asset 72 was transferred from J to B, action score = 4.760801372100621
+    No action was taken, action score = 0
+
+-----------------
+
+At 2026-05-24: asset 55 EOL
+    Asset 41 was transferred from J to G, action score = 2.568163494652891
 
 -----------------
 
@@ -2096,12 +2281,17 @@ At 2026-05-30: unit D PC
 
 -----------------
 
-At 2026-06-16: asset 95 EOL
+At 2026-06-03: asset 63 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2026-06-18: asset 54 EOL
+At 2026-06-12: asset 50 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2026-06-23: asset 63 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -2112,16 +2302,6 @@ At 2026-06-27: unit C PC
 -----------------
 
 At 2026-07-17: unit D PC
-    No action was taken, action score = 0
-
------------------
-
-At 2026-07-23: asset 76 M
-    No action was taken, action score = 0
-
------------------
-
-At 2026-08-01: asset 76 EM
     No action was taken, action score = 0
 
 -----------------
@@ -2143,12 +2323,22 @@ At 2026-08-22: unit A PC
 
 -----------------
 
+At 2026-09-19: asset 35 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2026-10-05: asset 21 EOL
+    Asset 53 was transferred from J to G, action score = 2.4538299468583933
+
+-----------------
+
 At 2026-10-23: unit E PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2026-12-20: asset 55 M
+At 2026-12-16: asset 72 M
     No action was taken, action score = 0
 
 -----------------
@@ -2159,34 +2349,22 @@ At 2027-01-04: unit C PC
 -----------------
 
 At 2027-01-08: unit G PC
-    Asset 9 was transferred from E to J, action score = 5.048466302367943
-    Asset 74 was transferred from J to B, action score = 5.048466302367943
-    Asset 56 was transferred from J to A, action score = 5.048466302367943
-    Asset 35 was transferred from J to D, action score = 5.048466302367943
-    Asset 34 was transferred from J to G, action score = 5.048466302367943
+    Asset 18 was transferred from J to G, action score = 3.665852459016394
 
 -----------------
 
-At 2027-01-26: asset 15 EM
+At 2027-01-21: asset 77 M
+    No action was taken, action score = 0
 
-At 2027-01-26: asset 55 EM
-    Asset 34 was transferred from G to B, action score = 5.534342995169084
-    Asset 21 was transferred from E to A, action score = 5.534342995169084
+-----------------
+
+At 2027-01-25: asset 50 EOL
+    No action was taken, action score = 0
 
 -----------------
 
 At 2027-02-10: unit G PC
-    No action was taken, action score = 0
-
------------------
-
-At 2027-03-02: asset 76 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2027-03-05: asset 55 EOL
-    No action was taken, action score = 0
+    Asset 5 was transferred from J to G, action score = 4.2648908926961235
 
 -----------------
 
@@ -2196,7 +2374,7 @@ At 2027-04-20: unit F PC
 -----------------
 
 At 2027-05-09: unit G PC
-    No action was taken, action score = 0
+    Asset 98 was transferred from J to G, action score = 5.392657393850659
 
 -----------------
 
@@ -2205,93 +2383,181 @@ At 2027-05-13: unit A PC
 
 -----------------
 
-At 2027-05-27: unit C PC
-
-At 2027-05-27: unit F PC
-    Asset 40 was transferred from J to A, action score = 4.538463443052724
-    Asset 56 was transferred from A to F, action score = 4.538463443052724
+At 2027-05-18: asset 72 EM
+    No action was taken, action score = 0
 
 -----------------
 
-At 2027-05-31: asset 15 EOL
+At 2027-05-24: asset 20 M
+    Asset 59 was transferred from J to G, action score = 5.3671778425655985
+
+-----------------
+
+At 2027-05-27: unit C PC
+
+At 2027-05-27: unit F PC
     No action was taken, action score = 0
 
 -----------------
 
 At 2027-06-08: unit B PC
-    Asset 74 was transferred from B to G, action score = 4.551867924528302
-    Asset 72 was transferred from B to J, action score = 4.551867924528302
-    Asset 40 was transferred from A to D, action score = 4.551867924528302
-
------------------
-
-At 2027-06-30: asset 21 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2027-07-21: asset 77 M
+At 2027-06-13: asset 77 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2027-08-03: asset 56 M
+At 2027-06-24: asset 33 M
+
+At 2027-06-24: asset 86 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2027-08-09: asset 34 EOL
+At 2027-07-06: asset 61 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2027-08-28: asset 74 EOL
-    No action was taken, action score = 0
+At 2027-07-24: asset 74 M
+    Asset 65 was transferred from J to G, action score = 5.2687949011744495
+
+-----------------
+
+At 2027-08-10: asset 23 M
+    Asset 51 was transferred from J to G, action score = 5.241258836944128
+
+-----------------
+
+At 2027-08-22: asset 20 EM
+    Asset 41 was transferred from G to D, action score = 5.225253246753247
+
+-----------------
+
+At 2027-08-29: asset 90 M
+    Asset 69 was transferred from J to G, action score = 5.209903600793876
 
 -----------------
 
 At 2027-09-01: unit F PC
-    Asset 88 was transferred from J to G, action score = 5.783626062322947
-    Asset 53 was transferred from J to A, action score = 5.783626062322947
-    Asset 18 was transferred from J to D, action score = 5.783626062322947
-    Asset 5 was transferred from J to F, action score = 5.783626062322947
 
------------------
-
-At 2027-09-10: asset 56 EM
-    Asset 5 was transferred from F to G, action score = 1.564612602430065
-    Asset 53 was transferred from A to J, action score = 1.564612602430065
-
------------------
-
-At 2027-09-13: asset 72 M
+At 2027-09-01: asset 30 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2027-10-05: asset 56 EOL
+At 2027-09-05: asset 76 M
+    Asset 25 was transferred from J to G, action score = 5.1981680814940585
+
+-----------------
+
+At 2027-09-07: asset 32 M
+
+At 2027-09-07: asset 72 EOL
     No action was taken, action score = 0
+
+-----------------
+
+At 2027-09-11: asset 77 EOL
+
+At 2027-09-11: asset 33 EM
+
+At 2027-09-11: asset 86 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-09-13: asset 35 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-09-14: asset 61 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-09-16: asset 44 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-07: asset 30 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-09: asset 25 M
+    Asset 30 was transferred from J to G, action score = 5.145623318385651
 
 -----------------
 
 At 2027-10-10: unit G PC
-    Asset 14 was transferred from J to F, action score = 5.733943961894088
-    Asset 98 was transferred from J to A, action score = 5.733943961894088
-    Asset 65 was transferred from J to D, action score = 5.733943961894088
-    Asset 51 was transferred from J to G, action score = 5.733943961894088
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-11: asset 32 EM
+    No action was taken, action score = 0
 
 -----------------
 
 At 2027-10-16: unit A PC
-    Asset 14 was transferred from F to G, action score = 10.566853146853148
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-22: asset 74 EM
+    Asset 32 was transferred from J to E, action score = 11.724608209997209
+    Asset 61 was transferred from J to C, action score = 11.724608209997209
+    Asset 41 was transferred from D to J, action score = 11.724608209997209
+    Asset 33 was transferred from J to G, action score = 11.724608209997209
+
+-----------------
+
+At 2027-10-23: asset 86 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-23: asset 44 EM
+    No action was taken, action score = 0
 
 -----------------
 
 At 2027-10-25: unit B PC
-    Asset 90 was transferred from J to D, action score = 5.744669642857143
-    Asset 98 was transferred from A to J, action score = 5.744669642857143
-    Asset 69 was transferred from J to A, action score = 5.744669642857143
-    Asset 32 was transferred from J to F, action score = 5.744669642857143
+
+At 2027-10-25: asset 61 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-27: asset 35 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-10-28: asset 33 EOL
+    Asset 32 was transferred from E to J, action score = 11.650765542235852
+    Asset 41 was transferred from J to G, action score = 11.650765542235852
+
+-----------------
+
+At 2027-10-30: asset 69 M
+    Asset 44 was transferred from J to G, action score = 11.617166062970187
+
+-----------------
+
+At 2027-11-05: asset 32 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-11-08: asset 23 EM
+    No action was taken, action score = 0
 
 -----------------
 
@@ -2300,7 +2566,39 @@ At 2027-11-11: unit J PC
 
 -----------------
 
-At 2027-12-01: asset 32 EOL
+At 2027-11-14: asset 51 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-11-27: asset 90 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-11-30: asset 59 M
+
+At 2027-11-30: asset 20 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-12-04: asset 76 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-12-05: asset 65 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-12-11: asset 5 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2027-12-20: asset 98 M
     No action was taken, action score = 0
 
 -----------------
@@ -2315,7 +2613,24 @@ At 2027-12-30: unit F PC
 
 -----------------
 
-At 2028-01-10: asset 35 M
+At 2028-01-05: asset 41 M
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-01-07: asset 25 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-01-12: asset 44 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-01-13: asset 18 M
+
+At 2028-01-13: asset 30 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -2325,17 +2640,57 @@ At 2028-01-16: unit D PC
 
 -----------------
 
-At 2028-02-06: asset 69 EOL
+At 2028-01-25: asset 53 M
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-02-28: asset 35 EM
+At 2028-01-28: asset 69 EM
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-03-30: asset 65 M
+At 2028-01-30: asset 74 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-02-12: asset 51 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-02-16: asset 23 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-02-28: asset 59 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-03-04: asset 65 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-03-06: asset 90 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-03-10: asset 5 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-03-13: asset 76 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-03-19: asset 98 EM
     No action was taken, action score = 0
 
 -----------------
@@ -2345,12 +2700,27 @@ At 2028-04-01: unit E PC
 
 -----------------
 
+At 2028-04-04: asset 41 EM
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-04-12: asset 18 EM
+    No action was taken, action score = 0
+
+-----------------
+
 At 2028-04-14: unit D PC
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-04-21: asset 51 M
+At 2028-04-16: asset 25 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-04-24: asset 53 EM
     No action was taken, action score = 0
 
 -----------------
@@ -2360,37 +2730,42 @@ At 2028-04-29: unit E PC
 
 -----------------
 
-At 2028-05-08: asset 65 EM
+At 2028-05-07: asset 69 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-06-02: asset 88 M
+At 2028-05-22: asset 51 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-06-29: asset 90 M
+At 2028-06-07: asset 59 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-07-03: asset 35 EOL
+At 2028-06-12: asset 65 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-07-20: asset 51 EM
+At 2028-06-18: asset 5 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-07-27: asset 90 EM
+At 2028-06-27: asset 98 EOL
     No action was taken, action score = 0
 
 -----------------
 
-At 2028-07-29: asset 5 EOL
+At 2028-07-13: asset 41 EOL
+    No action was taken, action score = 0
+
+-----------------
+
+At 2028-07-21: asset 18 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -2400,29 +2775,12 @@ At 2028-08-01: unit G PC
 
 -----------------
 
-At 2028-08-03: asset 18 EOL
+At 2028-08-01: asset 53 EOL
     No action was taken, action score = 0
 
 -----------------
 
 At 2028-08-07: unit E PC
-
-At 2028-08-07: asset 88 EM
-    No action was taken, action score = 0
-
------------------
-
-At 2028-08-14: asset 65 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2028-08-20: asset 40 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2028-09-05: asset 90 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -2433,21 +2791,6 @@ At 2028-09-24: unit F PC
 -----------------
 
 At 2028-09-29: unit D PC
-    No action was taken, action score = 0
-
------------------
-
-At 2028-10-08: asset 51 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2028-10-16: asset 88 EOL
-    No action was taken, action score = 0
-
------------------
-
-At 2028-10-19: asset 14 EOL
     No action was taken, action score = 0
 
 -----------------
@@ -2542,15 +2885,15 @@ At 2030-05-21: unit G PC
 
 -----------------
 
-Total Transfers: 235
-Unit H uptime is 83.5795836131632%
-Unit I uptime is 77.3231842689502%
-Unit J uptime is 94.05720633157456%
-Unit A uptime is 34.89916379734382%
-Unit D uptime is -277.85087719298247%
-Unit B uptime is 89.66323666978485%
-Unit C uptime is 92.62276006516174%
-Unit E uptime is 81.48979133946601%
-Unit F uptime is 86.49667405764967%
-Unit G uptime is 83.6612867565775%
-Average System Uptime is 44.59420097066891%
+Total Transfers: 245
+Unit H uptime is 49.3619879113499%
+Unit I uptime is 45.512210593085946%
+Unit J uptime is 83.83782282699251%
+Unit A uptime is 31.308411214953267%
+Unit D uptime is 46.68615984405457%
+Unit B uptime is 31.875584658559404%
+Unit C uptime is 39.6555736560391%
+Unit E uptime is 33.56517837110164%
+Unit F uptime is 29.312638580931264%
+Unit G uptime is 71.67808976343136%
+Average System Uptime is 46.279365742049904%

@@ -22,7 +22,7 @@ data_file_dict = {}
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
 data_file = open("data.txt", "w")
-cap = 6500
+cap = 6200
 maintenance_lim = 3000
 maintenance = 180
 system_clock = 0
@@ -47,7 +47,7 @@ def initialize_unit_states():
     # initializing unit states
     for unit in unit_ids:
         cur.execute(
-            "UPDATE unit_state SET assets = " + str(assets_in_unit(unit)) + ", state = 1 WHERE unit_id = '" + unit + "'")
+            "UPDATE unit_state SET assets = " + str(len(assets_in_unit(unit))) + ", state = 1 WHERE unit_id = '" + unit + "'")
         cur.execute("SELECT asset_demand FROM unit" + unit + " WHERE id = 1")
         cur.execute(
             "UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
@@ -67,18 +67,20 @@ def initialize_asset_states():
 # ----------------------------------------DETECTING NEXT EVENT-------------------------------------------
 
 def set_events():
+    cur.execute("SELECT * FROM unit_state WHERE unit_id = 'A'")
+    print(cur.fetchone())
     cur.execute("TRUNCATE TABLE events")
-    for unit in unit_ids:
-        find_unit_event(unit)
+    for unit_id in unit_ids:
+        find_unit_event(unit_id)
 
 
-def find_unit_event(unit):
-    cur.execute("SELECT state,assets, assets_required FROM unit_state WHERE unit_id = '" + unit + "'")
+def find_unit_event(unit_id):
+    cur.execute("SELECT state,assets, assets_required FROM unit_state WHERE unit_id = '" + unit_id + "'")
     line = cur.fetchone()
     state = line[0]
-    assets_in = len(assets_in_unit(unit))
+    assets_in = len(assets_in_unit(unit_id))
 
-    unit_table = 'unit' + unit
+    unit_table = 'unit' + unit_id
 
     cur.execute("SELECT COUNT(id) FROM " + unit_table)
     schedule_length = cur.fetchone()[0]
@@ -89,26 +91,31 @@ def find_unit_event(unit):
                 state))
 
         phase = cur.fetchone()
-        cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit + "'")
+        cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "'")
         assets = cur.fetchall()
         if assets_in != 0:
             for asset in assets:
                 find_asset_event(asset, phase, assets_in)
 
-        cur.execute("SELECT * FROM unit" + unit + " WHERE id > " + str(state))
+        cur.execute("SELECT * FROM unit" + unit_id + " WHERE id > " + str(state))
 
         next_phase = cur.fetchone()
         # print(next_phase)
         # print(unit)
 
-        if next_phase != None:
+        if next_phase is not None:
             cur.execute("INSERT INTO events(id, object_type, event_date, event_type, new_required)"
-                        "VALUES ('" + unit + "', 'unit'," + str(next_phase[2]) + ",'PC', " + str(next_phase[4]) + ")")
+                        "VALUES ('" + unit_id + "', 'unit'," + str(next_phase[2]) + ",'PC', " + str(next_phase[4]) + ")")
         else:
             cur.execute("INSERT INTO events(id, object_type, event_date, event_type, new_required)"
-                        "VALUES ('" + unit + "', 'unit'," + str(phase[1]+1) + ",'PC', -1)")
+                        "VALUES ('" + unit_id + "', 'unit'," + str(phase[1] + 1) + ",'PC', -1)")
+
 
 def find_asset_event(asset, phase, assets_in):
+    if system_clock == 2415:
+        jackpot = None
+    if asset[0] == 76:
+        jackpoot = None
     curr_util = 0
     if asset[4] == 'O':
         curr_util = asset[3]
@@ -142,18 +149,17 @@ def find_asset_event(asset, phase, assets_in):
             # print("Asset " + str(asset[0]) + " EOL ")
 
         # Check if asset hits maintenance
-        else:
-            if temp_curr_util >= maintenance_checkpoint:
+        if temp_curr_util >= maintenance_checkpoint:
 
-                remaining = int((maintenance_checkpoint - curr_util) / hrs_per_day)
-                # print(remaining)
-                exec_date = system_clock + remaining
-                # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
-                command = """
-                                INSERT INTO events (id, object_type, event_date, event_type)
-                                VALUES(""" + str(asset[0]) + ", 'asset'," + str(exec_date) + ", 'M')"
+            remaining = int((maintenance_checkpoint - curr_util) / hrs_per_day)
+            # print(remaining)
+            exec_date = system_clock + remaining
+            # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
+            command = """
+                            INSERT INTO events (id, object_type, event_date, event_type)
+                            VALUES(""" + str(asset[0]) + ", 'asset'," + str(exec_date) + ", 'M')"
 
-                cur.execute(command)
+            cur.execute(command)
 
 
     # If asset was in maintenance
@@ -217,28 +223,29 @@ def execute_event(event):
             asset = cur.fetchone()
             if event[3] == "M":
                 cur.execute("UPDATE asset_states SET state = 'M' WHERE id = " + str(event_id))
-                cur.execute("SELECT curr_unit FROM asset_states")
+                cur.execute("SELECT curr_unit FROM asset_states WHERE id = " + str(event_id))
                 curr_unit = cur.fetchone()[0]
+                print("current unit: " + str(curr_unit))
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
                 cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + curr_unit + "'")
                 tep = cur.fetchone()
                 if tep[0] < 0:
-                    print("maintenance put unit " + curr_unit + " in the negatives")
+                    print("maintenance put unit " + curr_unit + " in the negatives: " + str(tep))
 
             elif event[3] == 'EOL':
                 cur.execute("UPDATE asset_states SET state = 'EOL', maintenance =0 WHERE id = " + str(event_id))
-                cur.execute("SELECT curr_unit FROM asset_states")
+                cur.execute("SELECT curr_unit FROM asset_states WHERE id = " + str(event_id))
                 curr_unit = cur.fetchone()[0]
                 cur.execute(
                     "UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
                 cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + curr_unit + "'")
                 tep = cur.fetchone()
                 if tep[0] < 0:
-                    print("eol put unit " + curr_unit + " in the negatives")
+                    print("eol put unit " + curr_unit + " in the negatives: " + str(tep))
 
             elif event[3] == "EM":
                 cur.execute("UPDATE asset_states SET state = 'O', maintenance_count = maintenance_count+1, maintenance = 0 WHERE id = " + event_id)
-                cur.execute("SELECT curr_unit FROM asset_states")
+                cur.execute("SELECT curr_unit FROM asset_states WHERE id = " + str(event_id))
                 curr_unit = cur.fetchone()[0]
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + curr_unit + "'")
 
