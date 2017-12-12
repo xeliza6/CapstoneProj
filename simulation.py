@@ -16,16 +16,13 @@ except:
 
 cur = conn.cursor()
 
-online_assets = []
-maintenance_assets = []
-eol_assets = []
-total_asset_demands = []
 
+data_file_dict = {}
 
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
 data_file = open("data.txt", "w")
-cap = 6000
+cap = 6500
 maintenance_lim = 3000
 maintenance = 180
 system_clock = 0
@@ -49,9 +46,8 @@ for unit in temp:
 def initialize_unit_states():
     # initializing unit states
     for unit in unit_ids:
-        cur.execute("SELECT id FROM asset_states WHERE curr_unit = '" + unit + "'")
         cur.execute(
-            "UPDATE unit_state SET assets = " + str(len(cur.fetchall())) + ", state = 1 WHERE unit_id = '" + unit + "'")
+            "UPDATE unit_state SET assets = " + str(assets_in_unit(unit)) + ", state = 1 WHERE unit_id = '" + unit + "'")
         cur.execute("SELECT asset_demand FROM unit" + unit + " WHERE id = 1")
         cur.execute(
             "UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
@@ -224,6 +220,10 @@ def execute_event(event):
                 cur.execute("SELECT curr_unit FROM asset_states")
                 curr_unit = cur.fetchone()[0]
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
+                cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + curr_unit + "'")
+                tep = cur.fetchone()
+                if tep[0] < 0:
+                    print("maintenance put unit " + curr_unit + " in the negatives")
 
             elif event[3] == 'EOL':
                 cur.execute("UPDATE asset_states SET state = 'EOL', maintenance =0 WHERE id = " + str(event_id))
@@ -231,9 +231,13 @@ def execute_event(event):
                 curr_unit = cur.fetchone()[0]
                 cur.execute(
                     "UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
+                cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + curr_unit + "'")
+                tep = cur.fetchone()
+                if tep[0] < 0:
+                    print("eol put unit " + curr_unit + " in the negatives")
 
             elif event[3] == "EM":
-                cur.execute("UPDATE asset_states SET state = 'O', maintenance_count = maintenance_count+1 WHERE id = " + event_id)
+                cur.execute("UPDATE asset_states SET state = 'O', maintenance_count = maintenance_count+1, maintenance = 0 WHERE id = " + event_id)
                 cur.execute("SELECT curr_unit FROM asset_states")
                 curr_unit = cur.fetchone()[0]
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + curr_unit + "'")
@@ -244,13 +248,7 @@ def execute_event(event):
         # Update next event in events table
         elif event[1] == 'unit':
             if event[4] == -1:
-                cur.execute("UPDATE unit_state SET state = -1, assets_required = 0 WHERE unit_id = '" + event_id + "'")
-                cur.execute("SELECT * FROM events")
-                e = cur.fetchall()
-                print(e)
-                if len(e) == 1:
-                    global end_condition
-                    end_condition = True
+                cur.execute("UPDATE unit_state SET state = -1, assets_required = 0, schedule_end = " + str(system_clock) + " WHERE unit_id = '" + event_id + "'")
             else:
                 cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
                     event[4]) + " WHERE unit_id = '" + event_id + "'")
@@ -298,8 +296,12 @@ def transfer(asset, unit_a, unit_b):
     global total_system_transfers
     asset_id = str(asset[0])
     cur.execute("UPDATE asset_states SET curr_unit = '" + unit_b + "' WHERE id = " + asset_id)
-    cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + unit_a + "'")
-    cur.execute("UPDATE unit_state SET assets = unit_state.assets+1 WHERE unit_id = '" + unit_b + "'")
+    cur.execute("UPDATE unit_state SET assets = unit_state.assets-1, transfers = transfers-1 WHERE unit_id = '" + unit_a + "'")
+    cur.execute("UPDATE unit_state SET assets = unit_state.assets+1, transfers = transfers +1 WHERE unit_id = '" + unit_b + "'")
+    cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + unit_a + "'")
+    tep = cur.fetchone()
+    if tep[0] <0:
+        print("transfer put unit " + unit_a + " in the negatives")
     total_system_transfers += 1
 
 
@@ -525,7 +527,7 @@ def get_phase_priority(unit_id):
     cur.execute("SELECT state FROM unit_state WHERE unit_id = '" + unit_id + "'" )
     curr_phase_status = cur.fetchall()[0][0]
     if curr_phase_status == -1:
-        return 6
+        return 30
     else:
         cur.execute("SELECT phase FROM unit" + unit_id + " WHERE id = " + str(curr_phase_status))
         phase = cur.fetchall()[0][0]
@@ -641,51 +643,60 @@ def calculate_average_uptime():
     transfers_array.append(total_system_transfers)
     time_array.append(system_clock)
 
-def check_month_unit(unit_id):
-    unit_data = open("data_" + unit_id,"w")
-    steps_passed = int((system_clock-old_system_clock)/time_stepper)
-    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O' AND curr_unit = '" + unit_id + "'")
-    online_count = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'M' AND curr_unit = '" + unit_id + "'")
-    maintenance_asset = cur.fetchone()[0]
+def initialize_data_files():
+    global data_file_dict
+    data_file_dict['global'] = open('data.txt','w')
+    for unit in unit_ids:
+        data_file_dict[unit] = open('data_' + unit + '.txt', 'w')
 
 
-def check_month():
-    global online_assets
-    global maintenance_assets
-    global eol_assets
-    global total_asset_demands
-    steps_passed = int((system_clock-old_system_clock)/time_stepper)
+def record_event_data():
     # finding the states
     cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'O'")
-    online_count = cur.fetchone()[0]
+    data_file_dict['global'].write(str(cur.fetchone()[0]) + "|")
     cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'M'")
-    maintenance_count = cur.fetchone()[0]
+    data_file_dict['global'].write(str(cur.fetchone()[0]) + "|")
     cur.execute("SELECT COUNT(state) FROM asset_states WHERE state = 'EOL'")
-    eol_count = cur.fetchone()[0]
+    data_file_dict['global'].write(str(cur.fetchone()[0]) + "|")
     cur.execute("SELECT SUM(assets_required) FROM unit_state")
-    total_asset_demand = cur.fetchone()[0]
-    for i in range(steps_passed):
-        online_assets.append(online_count)
-        maintenance_assets.append(maintenance_count)
-        eol_assets.append(eol_count)
-        total_asset_demands.append(total_asset_demand)
+    data_file_dict['global'].write(str(cur.fetchone()[0]) + "|")
+    data_file_dict['global'].write(str(system_clock)+ '\n')
 
-def write_data():
-    data_file.write(str(online_assets)+ '\n')
-    data_file.write(str(maintenance_assets)+ '\n')
-    data_file.write(str(eol_assets)+ '\n')
-    data_file.write(str(total_asset_demands)+ '\n')
-    data_file.close()
+    for key,value in data_file_dict.items():
+        if key != 'global':
+            cur.execute("SELECT schedule_end FROM unit_state WHERE unit_id = '" + key + "'")
+            if cur.fetchone()[0] is None:
+                cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + key + "' AND state = 'O'" )
+                value.write(str(cur.fetchone()[0]) + '|')
+                cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + key + "' AND state = 'M'" )
+                value.write(str(cur.fetchone()[0]) + '|')
+                cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + key + "' AND state = 'EOL'" )
+                value.write(str(cur.fetchone()[0]) + '|')
+                cur.execute("SELECT assets_required, transfers FROM unit_state WHERE unit_id = '" + key + "'")
+                temp = cur.fetchone()
+                value.write(str(temp[0]) + '|')
+                value.write(str(temp[1]) + '|')
+                value.write(str(system_clock) + '\n')
+            # global end_condition
+            # end_condition = True
+
+def close_data_files():
+    for key,value in data_file_dict.items():
+        value.write("end")
+        value.close()
 
 
 if __name__ == '__main__':
 
     initialize_unit_states()
     initialize_asset_states()
+    initialize_data_files()
 
-
+    # count = 0
     while end_condition is False:
+        # if count > 20:
+        #     break
+        cur.execute("UPDATE unit_state SET transfers = 0")
         calculate_downtime()
         old_system_clock = system_clock
         calculate_average_uptime()
@@ -695,7 +706,6 @@ if __name__ == '__main__':
         # print(cur.fetchone())
         if end_condition is True:
             break
-        check_month()
         boom = generate_options(get_holes())
         if boom[0] is not None:
             for b in boom[0]:
@@ -709,6 +719,8 @@ if __name__ == '__main__':
             print("day diff is negative. check for bugs")
             break
         logger.write("\n-----------------\n")
+        record_event_data()
+        # count = count +1
     print("Exiting Simulation")
     logger.write("\nTotal Transfers: " + str(total_system_transfers))
 
@@ -720,15 +732,16 @@ if __name__ == '__main__':
 
     for unit in unit_states:
         u_id = unit[0]
-        uptime = 100 - 100 * (float(unit[2]) / float(system_clock))
+        if unit[7] is None:
+            uptime = 100 - 100 * (float(unit[2]) / float(system_clock))
+        else:
+            uptime = 100 - 100 * (float(unit[2]) / float(unit[7]))
         logger.write("\nUnit " + str(u_id) + " uptime is " + str(uptime) + "%")
         avg_uptime += uptime
 
     logger.write("\nAverage System Uptime is " + str(avg_uptime / len(unit_states)) + "%")
-
-
+    close_data_files()
 
 logger.close()
 cur.close()
 conn.commit()
-write_data()

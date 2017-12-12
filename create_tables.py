@@ -135,6 +135,8 @@ def create_unit_state():
                     assets int NOT NULL,
                     assets_required int NOT NULL,
                     asset_type INT NOT NULL,
+                    transfers INT,
+                    schedule_end INT,
                     PRIMARY KEY(unit_id)
                 )
                 """
@@ -144,8 +146,8 @@ def create_unit_state():
         next(reader)
         for row in reader:
             command = """
-                INSERT INTO "unit_state" (unit_id, state, downtime, assets, assets_required, asset_type)
-                VALUES ('""" + row[0] +"',0,0,0,0,0)" +"""
+                INSERT INTO "unit_state" (unit_id, state, downtime, assets, assets_required, asset_type, transfers)
+                VALUES ('""" + row[0] +"',0,0,0,0,0,0)" +"""
                 ON CONFLICT DO NOTHING"""
             #print(command)
             cur.execute(command)
