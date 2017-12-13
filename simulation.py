@@ -40,6 +40,17 @@ uptimes_array = []
 time_array = []
 end_condition = False
 
+
+# User input values
+uptime_weight = float(input("\nWhat priority do you want to place on maximizing uptime? (1-10)\n"))/10.0
+transfer_weight = float(input("\nWhat priority do you want to place on minimizing transfers? (1-10)\n"))/10.0
+
+uptime_weight = uptime_weight / (uptime_weight + transfer_weight)
+transfer_weight = transfer_weight / (uptime_weight + transfer_weight)
+
+rank_opt_gen = int(input("\nHow many options should be generated for each spot at each step? (Default 5)\n"))
+rank_opt_eval = int(input("\nHow many strategies should be considered at each step? (Affects execution time, default 3)\n"))
+
 cur.execute("SELECT * FROM unit_state")
 unit_ids = []
 temp = cur.fetchall()
@@ -87,9 +98,9 @@ def find_unit_event(unit_id):
     assets_in = len(assets_in_unit(unit_id))
 
     unit_table = 'unit' + unit_id
-    if unit_id == 'POOL':
-        cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'M'")
-        print(cur.fetchall())
+    # if unit_id == 'POOL':
+    #     cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'M'")
+    #     print(cur.fetchall())
     cur.execute("SELECT COUNT(id) FROM " + unit_table)
     schedule_length = cur.fetchone()[0]
     if state != -1:
@@ -405,10 +416,10 @@ def get_ranked_options(all_options, num_spots, rank_depth):
                 unit_from_uptime = 1 - (cur.fetchall()[0][0] / float(system_clock))
 
                 priority_weight = 0.4
-                uptime_weight = 0.4
+                uptime_from_weight = 0.4
                 lifetime_weight = 0.2
 
-                option_score = pool_modifier + priority_gate*(priority_weight*priority_score + uptime_weight*unit_from_uptime + lifetime_weight*pct_life_remaining)
+                option_score = pool_modifier + priority_gate*(priority_weight*priority_score + uptime_from_weight*unit_from_uptime + lifetime_weight*pct_life_remaining)
 
             else:
                 option_score = 0
@@ -479,7 +490,7 @@ def generate_options(empty_spots):
     # SWITCHING TO RANKED OPTIONS HERE
     all_options = spot_options
 
-    rank_depth = 5
+    rank_depth = rank_opt_gen
     spot_options = get_ranked_options(spot_options, len(spot_indices), rank_depth)
 
     options_exhausted = False
@@ -525,7 +536,7 @@ def generate_options(empty_spots):
         # incrementing index
 
         # USE WHEN SWITCHING OFF OF RANDOMIZATION
-        option_depth = 2
+        option_depth = rank_opt_eval
         spot_indices = increment_index(spot_indices, spot_options, option_depth, 0)
         # print(option_ids)
         # USE FOR RANDOM SELECTION
@@ -568,8 +579,8 @@ def score_option(option, holes):
     # option[0][0] = asset_id #for option 0
     alpha = 10
 
-    scale_uptime = 0.8
-    scale_transfer = 0.2
+    scale_uptime = uptime_weight
+    scale_transfer = transfer_weight
 
     cur.execute("SELECT * FROM unit_state")
     old_unit_states = cur.fetchall()
