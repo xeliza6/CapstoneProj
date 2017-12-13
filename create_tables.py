@@ -1,6 +1,7 @@
 import psycopg2
 import csv
 from datetime import datetime, timedelta
+from shutil import copyfile
 
 date_format = "%Y-%m-%d"
 conn = None

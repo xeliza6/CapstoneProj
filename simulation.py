@@ -8,6 +8,7 @@ import matplotlib as plt
 date_format = "%Y-%m-%d"
 imp.reload(create_tables)
 create_tables.main()
+import csv
 
 try:
     conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
@@ -22,6 +23,8 @@ data_file_dict = {}
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
 data_file = open("data.txt", "w")
+schedule_file = open("result_schedule.csv", 'w')
+schedule_writer = csv.writer(schedule_file,lineterminator = '\n')
 cap = 8000
 maintenance_lim = 3000
 maintenance = 180
@@ -31,7 +34,7 @@ baseline_uptime = 0
 total_system_uptime = 0
 total_system_transfers = 0
 time_stepper = 30
-maintenance_util = 24
+maintenance_util = 7
 transfers_array = []
 uptimes_array = []
 time_array = []
@@ -60,11 +63,12 @@ def initialize_unit_states():
     # print(cur.fetchall())
 
 def initialize_asset_states():
-    cur.execute("SELECT id,curr_util_value FROM asset_states")
+    cur.execute("SELECT id,curr_util_value, curr_unit FROM asset_states")
     assets = cur.fetchall()
     for asset in assets:
         maintenance_count = int(asset[1] / maintenance_lim)
         cur.execute("UPDATE asset_states SET maintenance_count = " + str(maintenance_count) + "WHERE id = " + str(asset[0]))
+        schedule_writer.writerow([asset[0],asset[2],str(datetime.strftime(clock_zero, date_format))])
     cur.execute("SELECT * FROM asset_states")
     #print(cur.fetchall())
 
@@ -326,6 +330,8 @@ def transfer(asset, unit_a, unit_b):
     if tep[0] <0:
         print("transfer put unit " + unit_a + " in the negatives")
     total_system_transfers += 1
+    schedule_writer.writerow([asset[0], unit_b, datetime.strftime(clock_zero + timedelta(days=system_clock), date_format)])
+
 
 
 
@@ -712,18 +718,20 @@ def close_data_files():
     for key,value in data_file_dict.items():
         value.write("end")
         value.close()
+    schedule_file.close()
 
 
 if __name__ == '__main__':
-
+    schedule_writer.writerow(['AssetID', 'AssignedUnit', 'RecievedDate'])
     initialize_unit_states()
     initialize_asset_states()
     initialize_data_files()
 
     # count = 0
     while end_condition is False:
-        # if count > 20:
+        # if count > 5:
         #     break
+        # count = count+1
         cur.execute("UPDATE unit_state SET transfers = 0")
         calculate_downtime()
         old_system_clock = system_clock
