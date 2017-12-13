@@ -10,10 +10,11 @@ clock_zero = None
 def create_phases():
     command= """
             CREATE TABLE phases (
-                phase_id VARCHAR(2) NOT NULL,
+                phase_id VARCHAR(25) NOT NULL,
                 util_type VARCHAR(255) NOT NULL,
                 rate_unit VARCHAR(255) NOT NULL,
-                rate_value FLOAT NOT NULL
+                rate_value FLOAT NOT NULL,
+                priority INT NOT NULL
             )
             """
     cur.execute(command)
@@ -23,10 +24,10 @@ def create_phases():
         for row in reader:
             if row[1] == "Hours":
                 command = """
-                INSERT INTO "phases" (phase_id, util_type, rate_unit, rate_value)
-                VALUES ('""" + row[0] + "', '" + row[1] + "','" + row[2] + "','" + row[3] + "')"
-                #print(command)
+                INSERT INTO "phases" (phase_id, util_type, rate_unit, rate_value, priority)
+                VALUES ('""" + row[0] + "', '" + row[1] + "','" + row[2] + "','" + row[3] + "', 0)"
                 cur.execute(command)
+    cur.execute("INSERT INTO phases(phase_id, util_type, rate_unit, rate_value, priority) VALUES('INACTIVE', 'Hours', 'n/a', 0,10)")
 
 def drop_phases():
     cur.execute("DROP TABLE IF EXISTS phases")
@@ -48,6 +49,7 @@ def drop_events():
     cur.execute("DROP TABLE IF EXISTS events")
 
 def create_units():
+    latest_end_date = 0
     with open('Unit_Schedule.csv', 'rt', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile, dialect='excel')
         next(reader)
@@ -61,11 +63,21 @@ def create_units():
             end_date INT NOT NULL,
             asset_demand INT NOT NULL)
             """
-            #print( "command: " + command)
             cur.execute(command)
-
+            end_date = date_to_int(row[3])
+            if int(end_date) > latest_end_date:
+                latest_end_date = int(end_date)
             cur.execute( """INSERT INTO "unit""" + row[0].lower() + """"(phase,start_date,end_date, asset_demand)
-                                VALUES('""" + row[1] + "'," + date_to_int(row[2]) + "," + date_to_int(row[3]) + "," + row[4] + ")")
+                                VALUES('""" + row[1] + "'," + date_to_int(row[2]) + "," + str(end_date) + "," + row[4] + ")")
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS unitpool(
+    id SERIAL PRIMARY KEY,
+    phase VARCHAR(25) NOT NULL,
+    start_date INT NOT NULL,
+    end_date INT NOT NULL,
+    asset_demand INT NOT NULL)""")
+
+    cur.execute("INSERT INTO unitpool(phase,start_date,end_date,asset_demand) VALUES('INACTIVE', 0, " + str(latest_end_date) + ", 0)")
 
 def drop_units():
     with open('Unit_Schedule.csv', 'rt', encoding='utf-8') as csvfile:
@@ -73,13 +85,13 @@ def drop_units():
         next(reader)
         for row in reader:
             cur.execute("DROP TABLE IF EXISTS unit" + row[0])
-
+    cur.execute("DROP TABLE IF EXISTS unitpool")
 def create_assets():
     command = """
     CREATE TABLE asset_states (
     id INT NOT NULL,
     util_type VARCHAR(255) NOT NULL,
-    curr_unit VARCHAR(2),
+    curr_unit VARCHAR(25),
     curr_util_value INT NOT NULL,
     state VARCHAR(255),
     maintenance int NOT NULL,
@@ -105,25 +117,13 @@ def drop_assets():
     cur.execute("DROP TABLE IF EXISTS asset_states")
 
 
-def create_phase_priority():
-    command = """
-                CREATE TABLE phase_priority (
-                    phase_id VARCHAR(255) NOT NULL,
-                    priority int NOT NULL)
-                """
-    cur.execute(command)
+def add_phase_priority():
     with open('Phase_Asset_Priority.csv', 'rt', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile, dialect = 'excel')
         next(reader)
         for row in reader:
-            command = """
-                INSERT INTO "phase_priority" (phase_id, priority)
-                VALUES('""" + row[0] + "'," + row[1] + ")"
-            cur.execute(command)
+            cur.execute("UPDATE phases SET priority = " + row[1] + " WHERE phase_id = '" + row[0] + "'")
 
-
-def drop_phase_priority():
-    cur.execute("DROP TABLE IF EXISTS phase_priority")
 
 
 def create_unit_state():
@@ -151,6 +151,7 @@ def create_unit_state():
                 ON CONFLICT DO NOTHING"""
             #print(command)
             cur.execute(command)
+    cur.execute("INSERT INTO unit_state(unit_id, state, downtime, assets, assets_required, asset_type, transfers) VALUES('POOL',0,0,0,0,0,0)")
 
 def drop_unit_state():
     cur.execute("DROP TABLE IF EXISTS unit_state")
@@ -178,8 +179,7 @@ def main():
     create_events()
     drop_unit_state()
     create_unit_state()
-    drop_phase_priority()
-    create_phase_priority()
+    add_phase_priority()
     cur.close()
     conn.commit()
 

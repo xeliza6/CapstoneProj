@@ -22,7 +22,7 @@ data_file_dict = {}
 clock_zero = datetime.strptime("2018-01-01", date_format)
 logger = open("transfer_log.txt", 'w')
 data_file = open("data.txt", "w")
-cap = 6200
+cap = 8000
 maintenance_lim = 3000
 maintenance = 180
 system_clock = 0
@@ -31,6 +31,7 @@ baseline_uptime = 0
 total_system_uptime = 0
 total_system_transfers = 0
 time_stepper = 30
+maintenance_util = 24
 transfers_array = []
 uptimes_array = []
 time_array = []
@@ -46,11 +47,14 @@ for unit in temp:
 def initialize_unit_states():
     # initializing unit states
     for unit in unit_ids:
+        # initializing assets column in unit_state table
         cur.execute(
             "UPDATE unit_state SET assets = " + str(len(assets_in_unit(unit))) + ", state = 1 WHERE unit_id = '" + unit + "'")
+        # initializing asset demand in unit_state table
         cur.execute("SELECT asset_demand FROM unit" + unit + " WHERE id = 1")
         cur.execute(
             "UPDATE unit_state SET assets_required = " + str(cur.fetchall()[0][0]) + " WHERE unit_id = '" + unit + "'")
+
 
     # cur.execute("SELECT * FROM unit_state")
     # print(cur.fetchall())
@@ -67,8 +71,6 @@ def initialize_asset_states():
 # ----------------------------------------DETECTING NEXT EVENT-------------------------------------------
 
 def set_events():
-    cur.execute("SELECT * FROM unit_state WHERE unit_id = 'A'")
-    print(cur.fetchone())
     cur.execute("TRUNCATE TABLE events")
     for unit_id in unit_ids:
         find_unit_event(unit_id)
@@ -81,7 +83,9 @@ def find_unit_event(unit_id):
     assets_in = len(assets_in_unit(unit_id))
 
     unit_table = 'unit' + unit_id
-
+    if unit_id == 'POOL':
+        cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + unit_id + "' AND state = 'M'")
+        print(cur.fetchall())
     cur.execute("SELECT COUNT(id) FROM " + unit_table)
     schedule_length = cur.fetchone()[0]
     if state != -1:
@@ -93,7 +97,7 @@ def find_unit_event(unit_id):
         phase = cur.fetchone()
         cur.execute("SELECT * FROM asset_states WHERE curr_unit = '" + unit_id + "'")
         assets = cur.fetchall()
-        if assets_in != 0:
+        if len(assets) > 0:
             for asset in assets:
                 find_asset_event(asset, phase, assets_in)
 
@@ -112,10 +116,6 @@ def find_unit_event(unit_id):
 
 
 def find_asset_event(asset, phase, assets_in):
-    if system_clock == 2415:
-        jackpot = None
-    if asset[0] == 76:
-        jackpoot = None
     curr_util = 0
     if asset[4] == 'O':
         curr_util = asset[3]
@@ -125,12 +125,7 @@ def find_asset_event(asset, phase, assets_in):
     maintenance_checkpoint2 = 180
     end_date = phase[1]
     day_diff = end_date - system_clock+1
-    if phase[4] == 'perAsset_PerDay':
-        hrs_per_day = int(phase[5])
-    else:
-        hrs_per_day = phase[5] / assets_in
-    added_hours = day_diff * hrs_per_day
-    temp_curr_util = curr_util + added_hours
+
     # if asset[0] == 24:
     #     print(phase)
     #     print(assets_in)
@@ -139,6 +134,13 @@ def find_asset_event(asset, phase, assets_in):
     # If asset is not in maintenance
     if asset[4] == 'O':
         # Check if asset hits EOL
+        if phase[4] == 'perAsset_PerDay':
+            hrs_per_day = int(phase[5])
+        else:
+            hrs_per_day = phase[5] / assets_in
+        added_hours = day_diff * hrs_per_day
+        temp_curr_util = curr_util + added_hours
+
         if temp_curr_util >= cap:
             remaining = int((cap - curr_util) / hrs_per_day)
             # print(remaining)
@@ -165,8 +167,10 @@ def find_asset_event(asset, phase, assets_in):
     # If asset was in maintenance
     elif asset[4] == 'M':
         # Check if asset comes back online
+        added_hours = day_diff * maintenance_util
+        temp_curr_util = curr_util + added_hours
         if temp_curr_util >= maintenance_checkpoint2:
-            remaining = int((maintenance_checkpoint2 - curr_util) / hrs_per_day)
+            remaining = int((maintenance_checkpoint2 - curr_util) / maintenance_util)
             # print(remaining)
             exec_date = system_clock + remaining
             # print("Asset " + asset_id + " in maintenance on "+ str(exec_date))
@@ -225,7 +229,7 @@ def execute_event(event):
                 cur.execute("UPDATE asset_states SET state = 'M' WHERE id = " + str(event_id))
                 cur.execute("SELECT curr_unit FROM asset_states WHERE id = " + str(event_id))
                 curr_unit = cur.fetchone()[0]
-                print("current unit: " + str(curr_unit))
+                # print("current unit: " + str(curr_unit))
                 cur.execute("UPDATE unit_state SET assets = unit_state.assets-1 WHERE unit_id = '" + curr_unit + "'")
                 cur.execute("SELECT assets FROM unit_state WHERE unit_id = '" + curr_unit + "'")
                 tep = cur.fetchone()
@@ -254,8 +258,17 @@ def execute_event(event):
         # Update unit_state.asset_requirement
         # Update next event in events table
         elif event[1] == 'unit':
+            # Unit is ending its schedule:
+            #   reassign all assets to pool unit
             if event[4] == -1:
+                print("****UNIT " + event_id + "'s SCHEDULE HAS ENDED")
+                print("TRANSFERRING ASSETS INTO POOL")
                 cur.execute("UPDATE unit_state SET state = -1, assets_required = 0, schedule_end = " + str(system_clock) + " WHERE unit_id = '" + event_id + "'")
+                cur.execute("UPDATE asset_states SET curr_unit = 'POOL' WHERE curr_unit = '" + event_id + "'")
+                cur.execute("UPDATE unit_state SET assets = " + str(len(assets_in_unit('POOL'))) + " WHERE unit_id = 'POOL'")
+                cur.execute("SELECT assets FROM unit_state WHERE unit_id = 'POOL'")
+                print("ASSETS IN POOL: " + str(cur.fetchone()) + "****")
+                unit_ids.remove(event_id)
             else:
                 cur.execute("UPDATE unit_state SET state = unit_state.state+1, assets_required = " + str(
                     event[4]) + " WHERE unit_id = '" + event_id + "'")
@@ -267,8 +280,9 @@ def update_assets():
         cur.execute("SELECT state, assets, assets_required FROM unit_state WHERE unit_id = '" + unit + "'")
         line = cur.fetchone()
         if line[0] !=-1:
-            assets = len(assets_in_unit(unit))
-            if assets != 0:
+            cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + unit + "'")
+            assets = cur.fetchone()[0]
+            if assets > 0:
                 state = line[0]
                 table = 'unit' + unit
                 cur.execute(
@@ -287,7 +301,7 @@ def update_assets():
                 cur.execute("UPDATE asset_states SET curr_util_value = curr_util_value + " + str(
                     added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'O'")
                 cur.execute("UPDATE asset_states SET maintenance = maintenance + " + str(
-                    added_hours) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
+                    day_diff*maintenance_util) + " WHERE curr_unit = '" + unit + "' AND state = 'M'")
     cur.execute("SELECT * FROM asset_states WHERE state = 'O'")
     test = cur.fetchall()
     for t in test:
@@ -301,6 +315,8 @@ def update_assets():
 
 def transfer(asset, unit_a, unit_b):
     global total_system_transfers
+    if unit_a == 'POOL':
+        print("TRANSFERING FROM POOL TO " + unit_b)
     asset_id = str(asset[0])
     cur.execute("UPDATE asset_states SET curr_unit = '" + unit_b + "' WHERE id = " + asset_id)
     cur.execute("UPDATE unit_state SET assets = unit_state.assets-1, transfers = transfers-1 WHERE unit_id = '" + unit_a + "'")
@@ -347,7 +363,6 @@ def get_rand_option(options):
     return indices
 
 def get_ranked_options(all_options, num_spots, rank_depth):
-
     # 2D array representing best options per spot (going to length n)
     ranked_options = [[0 for x in range(num_spots)] for y in range(rank_depth)]
 
@@ -365,17 +380,19 @@ def get_ranked_options(all_options, num_spots, rank_depth):
                 asset_id = option[0][0]
                 unit_id_from = option[1]
                 unit_id_to = option[2]
-
                 cur.execute("SELECT curr_util_value FROM asset_states WHERE id = " + str(asset_id))
                 pct_life_remaining = float(cap - cur.fetchall()[0][0]) / float(cap)
                 unit_from_priority = get_phase_priority(unit_id_from)
                 unit_to_priority = get_phase_priority(unit_id_to)
 
+                pool_modifier = 0
+                if unit_id_from == "POOL":
+                    pool_modifier += 10
                 if unit_from_priority == 0:
                     priority_score = 0
                     priority_gate = 0
                 else:
-                    priority_score = (unit_to_priority - unit_from_priority) / 10.0
+                    priority_score = (unit_from_priority - unit_to_priority) / 10.0
                     priority_gate = 1
 
                 cur.execute("SELECT downtime FROM unit_state WHERE unit_id = '" + unit_id_from + "'")
@@ -385,7 +402,7 @@ def get_ranked_options(all_options, num_spots, rank_depth):
                 uptime_weight = 0.4
                 lifetime_weight = 0.2
 
-                option_score = priority_gate*(priority_weight*priority_score + uptime_weight*unit_from_uptime + lifetime_weight*pct_life_remaining)
+                option_score = pool_modifier + priority_gate*(priority_weight*priority_score + uptime_weight*unit_from_uptime + lifetime_weight*pct_life_remaining)
 
             else:
                 option_score = 0
@@ -429,14 +446,14 @@ def generate_options(empty_spots):
 
     # storing options for each spot in a dict keyed by spot order,
     # with an array stored
+
     spot_options = {}
     spot_id = 0
     for spot in empty_spots:
         # spot is a tuple of unit, and asset type
         spot_options[spot_id] = [None]
 
-        unit_list = unit_ids
-        for spot_unit in unit_list:
+        for spot_unit in unit_ids:
 
             if spot_unit != spot[0]:
 
@@ -532,14 +549,11 @@ def generate_options(empty_spots):
 # Returns phase priority for a unit's current state
 def get_phase_priority(unit_id):
     cur.execute("SELECT state FROM unit_state WHERE unit_id = '" + unit_id + "'" )
-    curr_phase_status = cur.fetchall()[0][0]
-    if curr_phase_status == -1:
-        return 30
-    else:
-        cur.execute("SELECT phase FROM unit" + unit_id + " WHERE id = " + str(curr_phase_status))
-        phase = cur.fetchall()[0][0]
-        cur.execute("SELECT priority from phase_priority WHERE phase_id = '" + phase + "'")
-        return cur.fetchall()[0][0]
+    curr_phase_status = cur.fetchone()[0]
+    cur.execute("SELECT priority FROM unit" + unit_id +
+    " LEFT OUTER JOIN phases ON unit" + unit_id + ".phase = phases.phase_id WHERE unit" + unit_id + ".id = " + str(curr_phase_status))
+    priority = cur.fetchone()[0]
+    return priority
 
 
 
@@ -572,6 +586,7 @@ def score_option(option, holes):
     # states are 1 if surplus, 0 if exact, -1 if offline
     # querying unit surplus & states
 
+    pool_modifier = 0
     # uptime/downtime changes
     for asset in option:
         asset_id = asset[0]
@@ -580,8 +595,12 @@ def score_option(option, holes):
             unit_id_from = asset[1]
             unit_id_to = asset[2]
 
+
             unit_surplus[unit_id_from] -= 1
             unit_surplus[unit_id_to] += 1
+
+            if unit_id_from == "POOL":
+                pool_modifier += 10
 
     unit_changes = {}
 
@@ -610,7 +629,7 @@ def score_option(option, holes):
     holes_total = len(holes)
     transfer_num = len(option)
     score_transfer = transfer_num / holes_total - beta * (total_system_transfers)
-    return scale_transfer * score_transfer + scale_uptime * score_uptime
+    return scale_transfer * score_transfer + scale_uptime * score_uptime + pool_modifier
 
 
 # ---------------------------------------------HELPER METHODS-------------------------------------------------
@@ -640,15 +659,17 @@ def get_holes():
     holes_tuple = []
     for s in stuff:
         holes_tuple.append((s[0], s[5]))
+    print("NUMBER OF HOLES: " + str(len(holes_tuple)))
     return holes_tuple
 
 def calculate_average_uptime():
     global transfers_array
     global uptimes_array
     global time_array
-    uptimes_array.append(total_system_uptime/len(unit_ids))
-    transfers_array.append(total_system_transfers)
-    time_array.append(system_clock)
+    if len(unit_ids) != 0:
+        uptimes_array.append(total_system_uptime/len(unit_ids))
+        transfers_array.append(total_system_transfers)
+        time_array.append(system_clock)
 
 def initialize_data_files():
     global data_file_dict
