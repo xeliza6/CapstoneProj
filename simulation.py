@@ -641,7 +641,7 @@ def score_option(option, holes):
             score_uptime += phase_weight * alpha * unit_downtime[unit_id]
 
     # transfer score
-    beta = 0.005
+    beta = 0.01
 
     holes_total = len(holes)
     transfer_num = len(option)
@@ -709,6 +709,7 @@ def record_event_data():
 
     for key,value in data_file_dict.items():
         if key != 'global':
+            unit_table = 'unit' + key
             cur.execute("SELECT schedule_end FROM unit_state WHERE unit_id = '" + key + "'")
             if cur.fetchone()[0] is None:
                 cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + key + "' AND state = 'O'" )
@@ -717,11 +718,19 @@ def record_event_data():
                 value.write(str(cur.fetchone()[0]) + '|')
                 cur.execute("SELECT COUNT(state) FROM asset_states WHERE curr_unit = '" + key + "' AND state = 'EOL'" )
                 value.write(str(cur.fetchone()[0]) + '|')
-                cur.execute("SELECT assets_required, transfers FROM unit_state WHERE unit_id = '" + key + "'")
+                # cur.execute("SELECT assets_required, transfers, priority FROM unit_state WHERE unit_id = '" + key + "'")
+                cur.execute("SELECT assets_required, transfers, state FROM unit_state WHERE unit_id = '" + key + "'")
                 temp = cur.fetchone()
+                state = temp[2]
+                cur.execute(
+                    "SELECT priority FROM " + unit_table +
+                    " LEFT OUTER JOIN phases ON " + unit_table + ".phase = phases.phase_id WHERE " + unit_table + ".id = " + str(
+                        state))
+                priority = cur.fetchone()[0]
                 value.write(str(temp[0]) + '|')
                 value.write(str(temp[1]) + '|')
-                value.write(str(system_clock) + '\n')
+                value.write(str(system_clock) + '|')
+                value.write(str(priority) + '\n')
             # global end_condition
             # end_condition = True
 
