@@ -1,16 +1,13 @@
 import psycopg2
-import math
 import random
-import imp
 import create_tables
 from datetime import datetime, timedelta
-import matplotlib as plt
 date_format = "%Y-%m-%d"
 
 create_tables.main()
 
 try:
-    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='pass'")
+    conn = psycopg2.connect("dbname='scheduling' user='postgres' host='localhost' password='mac.gpotat0'")
 except:
     print("I am unable to connect to the database")
 
@@ -339,6 +336,7 @@ def get_rand_option(options):
 
     return indices
 
+
 def get_ranked_options(all_options, num_spots, rank_depth):
 
     # 2D array representing best options per spot (going to length n)
@@ -496,7 +494,7 @@ def generate_options(empty_spots):
         # incrementing index
 
         # USE WHEN SWITCHING OFF OF RANDOMIZATION
-        option_depth = 3
+        option_depth = 2
         spot_indices = increment_index(spot_indices, spot_options, option_depth, 0)
         # print(option_ids)
         # USE FOR RANDOM SELECTION
@@ -699,7 +697,6 @@ if __name__ == '__main__':
     unit_states = cur.fetchall()
 
     avg_uptime = 0
-
 
     for unit in unit_states:
         u_id = unit[0]
