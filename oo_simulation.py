@@ -19,6 +19,12 @@ sim_phases, sim_units, sim_assets, util_limits, maintenance_hurdles = oo_create_
 
 # transfers recorded as (asset, unit from, unit to, time)
 transfer_record = []
+system_state_record = {}
+
+for unit_id in sim_units:
+    system_state_record[unit_id] = []
+
+system_state_record['global'] = []
 
 system_clock = 0
 old_system_clock = 0
@@ -143,10 +149,36 @@ def find_next_event(event_list):
             concurrent_events.append(next_planned_event)
         return concurrent_events
 
+# stores system state at each event in dictionary keyed on unit id (keyed on 'global' for
+# summary statistics.
+# Data stored as (time, online assets, maintenance assets, offline assets, asset demand, asset shortage)
+def record_system_state():
+    time = system_clock
 
-def record_system_state(event):
-    a = 1
-    # record goings on
+    # global tracking variables
+    global_online_assets = 0
+    global_maintenance_assets = 0
+    global_offline_assets = 0
+    global_asset_demand = 0
+    global_shortage = 0
+
+    for unit_id, unit in sim_units.items():
+        online = unit.online_asset_count()
+        maintenance = unit.maintenance_asset_count()
+        offline = unit.offline_asset_count()
+        demand = unit.asset_demand()
+        shortage = unit.asset_shortage()
+
+        global_online_assets += online
+        global_maintenance_assets += maintenance
+        global_offline_assets += offline
+        global_asset_demand += demand
+        global_shortage += shortage
+
+        system_state_record[unit_id].append((time, online, maintenance, offline, demand, shortage))
+
+    system_state_record['global'].append((time, global_online_assets, global_maintenance_assets,
+                                         global_offline_assets, global_asset_demand, global_shortage))
 
 
 def process_event(event, event_list):
@@ -192,8 +224,6 @@ def process_event(event, event_list):
 
     else:
         print("ERROR: UNRECOGNIZED EVENT TYPE: " + event.type)
-
-    record_system_state(event)
 
     return event_str
 
@@ -296,7 +326,7 @@ def fill_holes(empty_spots):
         if best_option != 0:
             swapped_assets.append(best_option)
             unit_out_id = sim_assets[best_option].unit.id
-            transfers.append((best_option, unit_out_id , targeted_unit_id))
+            transfers.append((best_option, unit_out_id , targeted_unit_id, best_score))
             # changing temporary unit states
 
             # adding to shortage
@@ -321,9 +351,13 @@ def fill_holes(empty_spots):
         unit_to = sim_units[transfer[2]]
 
         unit_from.transfer_asset(asset, unit_to, system_clock)
-        transfer_record.append((asset.id, unit_from.id, unit_to.id, system_clock))
+
+        # transfers for all time recorded with data format
+        # (asset id, unit from id, unit to id, time, and score of the transfer)
+        transfer_record.append((asset.id, unit_from.id, unit_to.id, system_clock, transfer[3]))
 
     return transfer_str
+
 
 if __name__ == '__main__':
     # main loop goes here
@@ -341,9 +375,11 @@ if __name__ == '__main__':
         if len(next_events) == 0:
             # if no intermediate events, pop off the next scheduled event and analyze it
             report_str += process_event(event_list.pop(0), event_list)
+            record_system_state()
         else:
             for event in next_events:
                 report_str += process_event(event, event_list)
+                record_system_state()
 
         # once events have been processed and changes have been made
         # to the system, search for "holes" and redistribute assets
@@ -354,6 +390,5 @@ if __name__ == '__main__':
             report_str += fill_holes(holes)
 
         print(report_str)
-
 
     print("Num transfers = " + str(len(transfer_record)))
