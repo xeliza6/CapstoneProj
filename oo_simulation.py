@@ -29,8 +29,7 @@ system_state_record['global'] = []
 system_clock = 0
 old_system_clock = 0
 
-total_asset_demand = 0
-total_demand_served = 0
+
 MAINTENANCE_HOURS_PER_DAY = 8
 
 
