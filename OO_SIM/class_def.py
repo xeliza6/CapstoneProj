@@ -83,7 +83,7 @@ class Unit:
             return self.__schedule[self.__phase_idx][0]
         else:
             return "EOS"
-        
+
     def get_schedule(self):
         return self.__schedule
 
@@ -94,6 +94,22 @@ class Unit:
         count = 0
         for asset_id, asset in self.__assets.items():
             if asset.state() == State.ONLINE:
+                count += 1
+
+        return count
+
+    def offline_asset_count(self):
+        count = 0
+        for asset_id, asset in self.__assets.items():
+            if asset.state() == State.OFFLINE:
+                count += 1
+
+        return count
+
+    def maintenance_asset_count(self):
+        count = 0
+        for asset_id, asset in self.__assets.items():
+            if asset.state() == State.MAINTENANCE:
                 count += 1
 
         return count
