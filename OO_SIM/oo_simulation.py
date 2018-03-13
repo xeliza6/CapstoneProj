@@ -357,8 +357,7 @@ def fill_holes(empty_spots):
 
     return transfer_str
 
-
-if __name__ == '__main__':
+def main():
     # main loop goes here
 
     time_stepper = 30
@@ -391,3 +390,11 @@ if __name__ == '__main__':
         print(report_str)
 
     print("Num transfers = " + str(len(transfer_record)))
+
+    # syntax would be:
+    # import oo_simulation
+    # system_state_record, transfer_record = oo_simulation.main()
+    return system_state_record, transfer_record
+
+if __name__ == '__main__':
+    main()
