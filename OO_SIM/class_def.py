@@ -164,7 +164,7 @@ class Asset:
 
     def raise_flag(self):
         self.__update_flag = True
-        self.__future_events = []
+        #self.__future_events = []
 
     def update(self, new_future_events):
         self.__update_flag = False
