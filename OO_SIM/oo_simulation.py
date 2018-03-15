@@ -73,7 +73,7 @@ def find_unscheduled_events(event):
     for id, asset in sim_assets.items():
 
         # if the events need to be updated
-        if asset.flag_up() and asset.state() == State.ONLINE:
+        if asset.state() == State.ONLINE: #and asset.flag_up():
             future_asset_events = []
 
             unit_phase = asset.unit.current_phase()
@@ -117,11 +117,16 @@ def find_unscheduled_events(event):
 
             # updating the asset with the knowledge of future events
             asset.update(future_asset_events)
+        elif asset.state() == State.MAINTENANCE:
+            time_to_end_maintenance = asset.future_events()[0].time - system_clock
 
-        else:
-            for unsched_event in asset.future_events():
-                if unsched_event.time <= event.time:
-                    unsched_events.append(unsched_event)
+            if time_to_end_maintenance <= time_elapsed:
+                unsched_events.append(asset.future_events()[0])
+
+        # else:
+        #     for unsched_event in asset.future_events():
+        #         if unsched_event.time <= event.time:
+        #             unsched_events.append(unsched_event)
 
     unsched_events.sort(key=lambda ev: ev.time)
     return unsched_events
@@ -288,7 +293,7 @@ def fill_holes(empty_spots):
 
         unit_to = sim_units[targeted_unit_id]
 
-        best_score = 0.25  # threshold set
+        best_score = 0.00  # threshold set
         best_option = 0
 
         for asset_id, asset in sim_assets.items():
@@ -311,6 +316,15 @@ def fill_holes(empty_spots):
                     else:
                         score = (unit_from_priority/unit_to_priority) - \
                             (unit_from_shortage/unit_to_shortage)
+                        if unit_from_shortage >= 0:
+                            from_shortage_new = unit_from_shortage + 1
+                            to_shortage_new = unit_to_shortage - 1
+
+                            past_priority_to = unit_to_priority / unit_to_shortage
+                            new_priority_from = unit_from_priority / from_shortage_new
+
+                            if new_priority_from < past_priority_to:
+                                score = 0
                 else:
                     score = 0
 
@@ -356,6 +370,7 @@ def fill_holes(empty_spots):
         transfer_record.append((asset.id, unit_from.id, unit_to.id, system_clock, transfer[3]))
 
     return transfer_str
+
 
 def main():
     # main loop goes here
