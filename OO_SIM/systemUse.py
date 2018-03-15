@@ -8,36 +8,22 @@ Created on Tue Feb 13 11:10:39 2018
 import pandas as pd
 import plotly as py
 import plotly.graph_objs as go
-import read_temp
+import oo_simulation
 
-sim_state_history = {}
-def read_file(system_state_record):
-    for unit_id, state_data in system_state_record.items(): 
-        df = pd.DataFrame( columns=['asset_ID','Unit_From','Unit_To','clock','score'])
-        i = 0
-        for state in state_data:
-            df.loc[i] = state
-            i += 1
-        
-        sim_state_history[unit_id] = df  
+system_state_record, transfer_record = oo_simulation.main()
 
-data_file = read_temp.read_global_data()
-df1 = pd.DataFrame()
-df1['online'] =      data_file[0] 
-#df1['maintenance'] = data_file[1]
-#df1['offline'] =     data_file[2]
-df1['asset_demand'] = data_file[3]
-df1['time_period'] = data_file[4]
-
-#for i in range(len(df1['time_period'])):
-#    df1['maintenance'] = data_file[0][i]+data_file[1][i]
-#    df1['offline'] = data_file[0][i]+data_file[1][i]+data_file[2][i]
-
-
-online = go.Scatter(x=df1['time_period'],y=df1['online'],fill='tonexty',name='Online')
-maint = go.Scatter(x=df1['time_period'],y=df1['maintenance'], fill ='tonexty',name='Maintenance')
-offline = go.Scatter(x=df1['time_period'],y=df1['offline'],fill='tonexty',name='Offline')
-demand = go.Scatter(x=df1['time_period'],y=df1['asset_demand'], fill ='tonexty',name='Demand')
+#Make dataframe to conatin the system_state_record
+df = pd.DataFrame(columns=['time', 'online', 'maintenance','offline', 'asset_demand', 'shortage'])
+i = 0
+while i < len(system_state_record['global']):
+    df.loc[i] = system_state_record['global'][i]
+    i = i+1
+#set up lines to plot    
+online = go.Scatter(x=df['time'],y=df['online'],fill='tonexty',name='Online')
+maint = go.Scatter(x=df['time'],y=df['maintenance'], fill ='tonexty',name='Maintenance')
+offline = go.Scatter(x=df['time'],y=df['offline'],fill='tonexty',name='Offline')
+demand = go.Scatter(x=df['time'],y=df['asset_demand'], fill ='tonexty',name='Demand')
+#orgainze the data and create a a layout
 data= [demand,offline,maint,online]
 layout = go.Layout(dict(title = 'Total Asset System Usage'),
     showlegend=True,
@@ -49,6 +35,7 @@ layout = go.Layout(dict(title = 'Total Asset System Usage'),
         dtick=10
     )
 )
+    #create figure and plot
 fig = go.Figure(data=data,layout=layout)
 
-py.offline.plot(fig, filename ='systemUse')
+py.offline.plot(fig, filename ='systemUse.html')
