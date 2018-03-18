@@ -1,3 +1,5 @@
 EventType,UtilType,Hurdle,EventLength
-Event1,Hours,8000,180
-Event2,Cycles,1500,200
+Event1,Hours,5000,600
+Event2,Cycles,1500,250
+Event3,Hours,3000,500
+Event4,Hours,7500,10000
