@@ -7,6 +7,8 @@ Created on Tue Feb 13 11:10:39 2018
 """
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+
 
 import oo_simulation
 
@@ -29,5 +31,12 @@ plt.style.use('fivethirtyeight')
 plt.title('System Usage Plot')
 plt.xlabel('Time in Days',fontsize=12)
 plt.ylabel('Number of Assets',fontsize=12)
-plt.stackplot(time,online, maintenance, offline, labels=['Online','Maintenance','Offline'])
-plt.legend(loc='lower left')
+plt.plot(time,shortage,label='Shortage',linewidth=1)
+plt.stackplot(time,online, maintenance, offline,
+              labels=['Online','Maintenance','Offline'])
+fontP = FontProperties()
+fontP.set_size('small')
+plt.legend(loc='lower right',prop=fontP)
+
+plt.show()
+
