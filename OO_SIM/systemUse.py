@@ -27,16 +27,23 @@ offline= list(df['offline'])
 demand = list(df['asset_demand'])
 shortage = list(df['shortage'])
 time= list(df['time'])
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
 plt.style.use('fivethirtyeight')
 plt.title('System Usage Plot')
 plt.xlabel('Time in Days',fontsize=12)
 plt.ylabel('Number of Assets',fontsize=12)
-plt.plot(time,shortage,label='Shortage',linewidth=1)
-plt.stackplot(time,online, maintenance, offline,
-              labels=['Online','Maintenance','Offline'])
+ax.plot(time,demand,label='Demand',linewidth=1,color='#8b8b8b')
+ax.stackplot(time,online, maintenance, offline,
+              labels=['Online','Maintenance','Offline'], colors=['#6d904f','#e5ae38','#fc4f30'])
+handles, labels = ax.get_legend_handles_labels()
+#lgd = ax.legend(handles, labels, bbox_to_anchor=(1.04,1))
+#ax.grid('on')
+#fig.savefig('SystemUse', bbox_extra_artists=(lgd,), bbox_inches='tight')
 fontP = FontProperties()
 fontP.set_size('small')
-plt.legend(loc='lower right',prop=fontP)
+plt.legend(bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=1.2, frameon=False,prop=fontP, ncol=4)
+
+#plt.legend(loc=(1.04,1),prop=fontP)
 
 plt.show()
-
