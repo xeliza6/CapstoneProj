@@ -192,6 +192,7 @@ def process_event(event, event_list):
     for unit_id, unit in sim_units.items():
         unit.update(event.time - system_clock, sim_phases)
     system_clock = event.time
+
     event_str = "T: " + str(int(event.time)) + " | "
 
     # handling unique event behavior
@@ -282,9 +283,9 @@ def fill_holes(empty_spots):
     unit_states = temp_unit_states()
     ranked_units = rank_units(unit_states)
     swapped_assets = []
-    units_transferred_to = []
     transfers = []
     skipped_units = []
+    units_transferred_to = []
 
     while (len(ranked_units) - len(skipped_units)) > 0:
 
@@ -343,7 +344,6 @@ def fill_holes(empty_spots):
             swapped_assets.append(best_option)
             unit_out_id = sim_assets[best_option].unit.id
             transfers.append((best_option, unit_out_id , targeted_unit_id, best_score))
-
             if targeted_unit_id not in units_transferred_to:
                 units_transferred_to.append(targeted_unit_id)
             # changing temporary unit states

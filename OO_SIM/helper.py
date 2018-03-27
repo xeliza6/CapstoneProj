@@ -54,7 +54,7 @@ for index in range(0,len(transfer_data)):
     # if the system time has changed, transfer the remaining assets in each unit to its current self
     if t[3]!=time_stamp:
         for k in unit_ids:
-            if units_dict[k][0]<=0:
+            if units_dict[k][0]==0:
                 same_unit_dict[time_step][k] = 0.001
             else:
                 same_unit_dict[time_step][k] = units_dict[k][0]

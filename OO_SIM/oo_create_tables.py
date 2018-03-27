@@ -78,7 +78,6 @@ def create_assets(units):
                 assets[id] = Asset(id, initial_util, units[unit], type)
 
                 units[unit].add_asset(assets[id])
-
     return assets
 
 
@@ -121,7 +120,6 @@ def main():
     assets = create_assets(units)
 
     util_limits, maintenance_hurdles = misc_data()
-
     return phases, units, assets, util_limits, maintenance_hurdles
 
 
