@@ -20,8 +20,6 @@ import oo_simulation
 #run the simulation
 system_state_record, transfer_record = oo_simulation.main()
 units=['A','B','C','D','E','F','G','H','I','J']
-#fig, axs = plt.subplots(10,1,sharex=True)
-#fig.subplots_adjust(hspace=0)
 
 index = 1
 #Make dataframe to conatin the system_state_record
@@ -44,7 +42,7 @@ for unit in units:
     plt.title('Unit '+unit+' Usage Plot')
     plt.xlabel('Time in Days',fontsize=12)
     plt.ylabel('Number of Assets',fontsize=12)
-    plt.plot(time,demand,label='Demand',linewidth=1,color='#8b8b8b')
+    plt.plot(time,demand,label='Demand',linewidth=1,color='#30a2da')
     plt.stackplot(time,online, maintenance, offline, labels=['Online','Maintenance','Offline'],colors=['#6d904f','#e5ae38','#fc4f30'])
     index=index+1
     plt.legend(loc='lower left')
