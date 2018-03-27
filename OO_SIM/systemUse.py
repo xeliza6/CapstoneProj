@@ -6,8 +6,10 @@ Created on Tue Feb 13 11:10:39 2018
 @author: robmaj12
 """
 import pandas as pd
-import plotly as py
-import plotly.graph_objs as go
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+
+
 import oo_simulation
 
 system_state_record, transfer_record = oo_simulation.main()
@@ -18,24 +20,25 @@ i = 0
 while i < len(system_state_record['global']):
     df.loc[i] = system_state_record['global'][i]
     i = i+1
-#set up lines to plot    
-online = go.Scatter(x=df['time'],y=df['online'],fill='tonexty',name='Online')
-maint = go.Scatter(x=df['time'],y=df['maintenance'], fill ='tonexty',name='Maintenance')
-offline = go.Scatter(x=df['time'],y=df['offline'],fill='tonexty',name='Offline')
-demand = go.Scatter(x=df['time'],y=df['asset_demand'], fill ='tonexty',name='Demand')
-#orgainze the data and create a a layout
-data= [demand,offline,maint,online]
-layout = go.Layout(dict(title = 'Total Asset System Usage'),
-    showlegend=True,
-    xaxis=dict(
-        type='linear', title= 'Time in Days',
-    ),
-    yaxis=dict(
-        type='linear',title='Number of Assets',
-        dtick=10
-    )
-)
-    #create figure and plot
-fig = go.Figure(data=data,layout=layout)
+    
+online= list(df['online'])
+maintenance= list(df['maintenance'])
+offline= list(df['offline'])
+demand = list(df['asset_demand'])
+shortage = list(df['shortage'])
+time= list(df['time'])
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
+plt.style.use('fivethirtyeight')
+plt.title('System Usage Plot')
+plt.xlabel('Time in Days',fontsize=12)
+plt.ylabel('Number of Assets',fontsize=12)
+ax.plot(time,demand,label='Demand',linewidth=1.5,color='#30a2da')
+ax.stackplot(time,online, maintenance, offline,
+              labels=['Online','Maintenance','Offline'], colors=['#6d904f','#e5ae38','#fc4f30'])
+handles, labels = ax.get_legend_handles_labels()
 
-py.offline.plot(fig, filename ='systemUse.html')
+fontP = FontProperties()
+fontP.set_size('small')
+plt.legend(bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=1.2, frameon=False,prop=fontP, ncol=4)
+plt.show()
