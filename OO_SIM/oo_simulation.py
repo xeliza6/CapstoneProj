@@ -18,6 +18,7 @@ data_file = open("data.txt", "w")
 sim_phases, sim_units, sim_assets, util_limits, maintenance_hurdles = oo_create_tables.main()
 
 # transfers recorded as (asset, unit from, unit to, time)
+sankey_record = []
 transfer_record = []
 system_state_record = {}
 
@@ -203,6 +204,7 @@ def process_event(event, event_list):
         event_str += "E: PC | U: " + event.unit + " | "
     # asset maintenance start event
     elif event.type == 'MS':
+        sankey_record.append([sim_assets[event.asset].id,sim_assets[event.asset].unit.id,"MA",system_clock,0])
         sim_assets[event.asset].enter_maintenance()
         sim_assets[event.asset].unit.raise_flags()
         maintenance_length = event.hurdle.length / MAINTENANCE_HOURS_PER_DAY
@@ -211,12 +213,14 @@ def process_event(event, event_list):
         event_str += "E: MS | A: " + event.asset + " | "
     # asset maintenance exit event
     elif event.type == 'ME':
+        sankey_record.append([sim_assets[event.asset].id,"MA",sim_assets[event.asset].unit.id,system_clock,0])
         sim_assets[event.asset].exit_maintenance()
         sim_assets[event.asset].unit.raise_flags()
         event_str += "E: ME | A: " + event.asset + " | "
 
     # asset end of life event
     elif event.type == 'EOL':
+        sankey_record.append([sim_assets[event.asset].id,sim_assets[event.asset].unit.id,"EOL",system_clock,0])
         sim_assets[event.asset].end_of_life()
         sim_assets[event.asset].unit.raise_flags()
         event_str += "E: EOL | A: " + event.asset + " | "
@@ -322,7 +326,6 @@ def fill_holes(empty_spots):
 
                             past_priority_to = unit_to_priority / unit_to_shortage
                             new_priority_from = unit_from_priority / from_shortage_new
-
                             if new_priority_from < past_priority_to:
                                 score = 0
                 else:
@@ -368,9 +371,13 @@ def fill_holes(empty_spots):
         # transfers for all time recorded with data format
         # (asset id, unit from id, unit to id, time, and score of the transfer)
         transfer_record.append((asset.id, unit_from.id, unit_to.id, system_clock, transfer[3]))
+        sankey_record.append((asset.id, unit_from.id, unit_to.id, system_clock, transfer[3]))
 
     return transfer_str
 
+def get_sankey_data():
+    main()
+    return sankey_record
 
 def main():
     # main loop goes here
