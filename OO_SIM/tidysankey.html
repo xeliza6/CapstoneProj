@@ -6,32 +6,33 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['sankey']});
 
-      function drawChart(r,nc,lc) {
+      function drawChart(r,nc) {
 	  console.log(r)
-	  console.log(lc)
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'From');
         data.addColumn('string', 'To');
         data.addColumn('number', 'Weight');
+		data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}});
         data.addRows(r);
 
         // Sets chart options.
         var options = {
           width: 40000,
-		  height: 1200,
+		  height: 700,
+		  padding: 30,
 		  sankey: {
 			iterations: 0,
 			node: { 
 				width: 9,
 				nodePadding: 30,
-				colors:nc
+				colors:nc,
+				labelPadding: 20
 			},
 			link:{
 				colorMode: 'gradient',
-				colors:lc
-			}
-
-		}
+			},
+		},
+			 tooltip: { isHtml: true }
         };
 
         // Instantiates and draws our chart, passing in some options.
@@ -56,31 +57,37 @@
 				insertcolor = colorlines[c].split(":");
 				colorsDict[insertcolor[0]]=insertcolor[1];
 			}
+			secondToLastTime = colorlines[colorlines.length-1]
 			console.log(colorsDict)
-			for(var i=0; i<lines.length-1; i++){
+			for(var i=0; i<lines.length-2; i++){
 				transfer = lines[i].split('|');
+				var source = transfer[0]
+				var target = transfer[1]
 				transfer[2]=parseInt(transfer[2]);
-				//console.log(transfer)
+				transfer[3] = transfer[3].replace('*','\n')
 				rows.push(transfer);
-				if (transfer[0] === transfer[1]){
+				if (source === target){
 					linkColors.push(defaultLinkCol)
 				}
 				else{
-					if(transfer[0][1] === 'O'){
-						nodeColors.push(colorsDict[transfer[0].substring(0,3)]);
-						linkColors.push(colorsDict[transfer[0].substring(0,3)]);
+					if(source[1] === 'O'){
+						nodeColors.push(colorsDict[source.substring(0,3)]);
+						if(source.substring(3,source.length) === secondToLastTime)
+								nodeColors.push(colorsDict[target.substring(0,3)]);
 					}
-					else if(transfer[0][1]=== 'A'){
-						nodeColors.push(colorsDict[transfer[0].substring(0,2)]);
-						linkColors.push(colorsDict[transfer[0].substring(0,2)]);
+					else if(source[1]=== 'A'){
+						nodeColors.push(colorsDict[source.substring(0,2)]);
+						if(source.substring(2,source.length)===secondToLastTime)
+							nodeColors.push(colorsDict[target.substring(0,2)]);
 					}
 					else{
 						nodeColors.push(colorsDict[transfer[0][0]]);
-						linkColors.push(colorsDict[transfer[0][0]]);
+						if(source.substring(1,source.length)===secondToLastTime)
+							nodeColors.push(colorsDict[target[0]]);
 					}
 				}
 			}
-			drawChart(rows,nodeColors,linkColors);
+			drawChart(rows,nodeColors);
 			console.log(colorsDict)
 		};
 		  reader.readAsText(file);
@@ -89,7 +96,7 @@
     </script>
   </head>
   <body>
-    <div id="sankey_basic" style="width: 900px; height: 300px;"></div>
+    <div id="sankey_basic" style="width: 900px; height: 300px; padding: 30px;"></div>
   </body>
 </html></title>
 </head>

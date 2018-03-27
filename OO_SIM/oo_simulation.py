@@ -204,7 +204,7 @@ def process_event(event, event_list):
         event_str += "E: PC | U: " + event.unit + " | "
     # asset maintenance start event
     elif event.type == 'MS':
-        sankey_record.append([sim_assets[event.asset].id,sim_assets[event.asset].unit.id,"MA",system_clock,0])
+        #sankey_record.append([sim_assets[event.asset].id,sim_assets[event.asset].unit.id,"MA",system_clock,0])
         sim_assets[event.asset].enter_maintenance()
         sim_assets[event.asset].unit.raise_flags()
         maintenance_length = event.hurdle.length / MAINTENANCE_HOURS_PER_DAY
@@ -213,7 +213,7 @@ def process_event(event, event_list):
         event_str += "E: MS | A: " + event.asset + " | "
     # asset maintenance exit event
     elif event.type == 'ME':
-        sankey_record.append([sim_assets[event.asset].id,"MA",sim_assets[event.asset].unit.id,system_clock,0])
+        #sankey_record.append([sim_assets[event.asset].id,"MA",sim_assets[event.asset].unit.id,system_clock,0])
         sim_assets[event.asset].exit_maintenance()
         sim_assets[event.asset].unit.raise_flags()
         event_str += "E: ME | A: " + event.asset + " | "
