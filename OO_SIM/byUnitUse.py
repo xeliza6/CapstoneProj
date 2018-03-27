@@ -15,7 +15,7 @@ Created on Tue Feb 13 11:10:39 2018
 """
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from matplotlib.font_manager import FontProperties
 import oo_simulation
 #run the simulation
 system_state_record, transfer_record = oo_simulation.main()
@@ -44,7 +44,12 @@ for unit in units:
     plt.title('Unit '+unit+' Usage Plot')
     plt.xlabel('Time in Days',fontsize=12)
     plt.ylabel('Number of Assets',fontsize=12)
-    plt.stackplot(time,online, maintenance, offline, labels=['Online','Maintenance','Offline'])
+    plt.plot(time,demand,label='Demand',linewidth=1,color='#8b8b8b')
+    plt.stackplot(time,online, maintenance, offline, labels=['Online','Maintenance','Offline'],colors=['#6d904f','#e5ae38','#fc4f30'])
     index=index+1
     plt.legend(loc='lower left')
+    fontP = FontProperties()
+    fontP.set_size('small')
+    plt.legend(bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=1.2,
+               frameon=False,prop=fontP, ncol=4)
 plt.show()
