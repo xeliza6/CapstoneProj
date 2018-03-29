@@ -121,8 +121,7 @@ class Unit:
             asset.raise_flag()
 
     def end_schedule(self):
-        if self.__phase_idx >= len(self.__schedule):
-            self.__state = State.OFFLINE
+        self.__state = State.OFFLINE
         self.raise_flags()
 
     def raise_flags(self):
