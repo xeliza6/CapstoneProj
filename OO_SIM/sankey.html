@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <input type="file" name="file" id="file">
+
+    <script type="text/javascript" src="tidysankey.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['sankey']});
+
+      function drawChart(r) {
+	  console.log(r)
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Weight');
+        data.addRows(r);
+
+        // Sets chart options.
+        var options = {
+		  margin: 30,
+		  sankey: {
+			iterations: 0,
+			node: { 
+				width: 20,
+				nodePadding: 40,
+				interactivity: true
+			}
+		}
+        };
+
+        // Instantiates and draws our chart, passing in some options.
+        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        chart.draw(data, options);
+      }
+	  
+	document.getElementById('file').onchange = function(){
+   
+		var sortedUnits = [];
+		var sortedKeys = [];
+		var units_dict = {};
+		var transfer_dict = {};
+		rows = [];
+		var file = this.files[0];
+
+
+		var reader = new FileReader();
+		reader.onload = function(progressEvent){
+			// By lines
+			var lines = this.result.split('\n');
+			units = lines[0].substring(0,lines[0].length-2);
+			units = units.split(',');
+			for(var u=0;u<units.length;u++){
+				unit = units[u].split(':');
+				sortedUnits.push(unit[0])
+				units_dict[unit[0]] = [parseInt(unit[1]),parseInt(unit[1])];
+				for(var u2=0;u2<units.length;u2++){
+					transfer_dict[unit[0]+units[u2].split(':')[0] ]= 0;
+					sortedKeys.push(unit[0]+units[u2].split(':')[0]);
+				}
+			}
+			console.log(units_dict)
+			console.log(transfer_dict)
+			sortedKeys.sort();
+			sortedUnits.sort();
+			console.log(sortedUnits)
+			var timeStepper = 0;
+
+			for(var line = 1; line < lines.length-1; line++){
+				timeStepper +=1;
+				for(u in units_dict){
+			        units_dict[u][0] = units_dict[u][1]
+			    }
+				transfers=lines[line];
+				transfers = transfers.substring(0,transfers.length-2).split('|');
+				for(var t = 0; t<transfers.length;t++){
+					transfer = transfers[t].split(',');
+					var source = String(transfer[1]);
+					var target = String(transfer[2]);
+					
+					transfer_dict[source+target] +=1;
+					units_dict[source][0] -=1;
+					units_dict[source][1] -=1;
+					units_dict[target][1] +=1;
+
+				}
+				transfer_dict[source+source] = units_dict[source][0];
+				for(var u3=0;u3< sortedUnits.length;u3++){
+					repeat = sortedUnits[u3]
+					rows.push([repeat+timeStepper,repeat+(timeStepper+1),units_dict[repeat][0]])
+				}
+				for(var k=0;k< sortedKeys.length;k++){
+					key = sortedKeys[k];
+					if(transfer_dict[key]!=0)
+						rows.push([key[0]+timeStepper,key[1]+(timeStepper+1),transfer_dict[key]])
+					transfer_dict[key] = 0;
+				}
+			}
+			drawChart(rows);
+		};
+		  reader.readAsText(file);
+	};
+	  
+    </script>
+  </head>
+  <body>
+    <div id="sankey_basic" style="width: 900px; height: 300px;\\\"></div>
+  </body>
+</html>
