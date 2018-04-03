@@ -20,16 +20,17 @@ class Unit:
         self.__schedule = []
         self.__eos_time = first_phase[2]
 
-        self.append_phase(first_phase)
-
         self.__phase_idx = 0
         self.__state = State.ONLINE
-        self.__cumulative_downtime = 0
+        self.__cumulative_downtime = {}
+
+        self.append_phase(first_phase)
 
     # appends in order (phase id, start_dt, end_dt, assets_required)
     def append_phase(self, phase):
         self.__schedule.append(phase)
         self.__eos_time = max(self.__eos_time, int(phase[2]))
+        self.__cumulative_downtime[phase[0]] = 0
 
     def asset_demand(self):
         if self.__state == State.ONLINE:
@@ -43,9 +44,9 @@ class Unit:
     def update(self, time_elapsed, phases):
         assets_required = self.__schedule[self.__phase_idx][3]
 
-        performance = float(self.online_asset_count())/float(assets_required)
+        performance = min(float(self.online_asset_count())/float(assets_required), 1)
 
-        self.__cumulative_downtime += (1 - performance)*time_elapsed
+        self.__cumulative_downtime[self.__schedule[self.__phase_idx][0]] += (1 - performance)*time_elapsed
 
         curr_util_rates = phases[self.current_phase()].util_rates
 
@@ -67,8 +68,8 @@ class Unit:
         unit_to.add_asset(asset)
         asset.transfer(unit_to, time)
 
-    def get_downtime_pct(self, system_clock):
-        return float(self.__cumulative_downtime) / float(system_clock)
+    def get_cumulative_downtime(self):
+        return self.__cumulative_downtime
 
     def add_asset(self, asset):
         self.__assets[asset.id] = asset
