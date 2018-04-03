@@ -17,10 +17,16 @@ data_file = open("data.txt", "w")
 
 sim_phases, sim_units, sim_assets, util_limits, maintenance_hurdles = oo_create_tables.main()
 
+
+
 # transfers recorded as (asset, unit from, unit to, time)
 sankey_record = []
 transfer_record = []
 system_state_record = {}
+global_phase_cumulative_downtime = {}
+
+for phase_id in sim_phases:
+    global_phase_cumulative_downtime[phase_id] = 0
 
 for unit_id in sim_units:
     system_state_record[unit_id] = []
@@ -90,31 +96,32 @@ def find_unscheduled_events(event):
                 else:
                     util_rate = rate[1]
 
-                # exploring maintenance hurdles for this utilization type
-                for hurdle_id, hurdle in maintenance_hurdles.items():
-                    if hurdle.util_type == util_type:
-                        if curr_util < hurdle.hurdle and util_rate > 0:
-                            time_to_hurdle = (hurdle.hurdle - curr_util) / util_rate
-                            new_maintenance = MaintenanceEvent(system_clock + time_to_hurdle, asset.id, True, hurdle)
-                            future_asset_events.append(new_maintenance)
+                if util_rate != 0:
+                    # exploring maintenance hurdles for this utilization type
+                    for hurdle_id, hurdle in maintenance_hurdles.items():
+                        if hurdle.util_type == util_type:
+                            if curr_util < hurdle.hurdle and util_rate > 0:
+                                time_to_hurdle = (hurdle.hurdle - curr_util) / util_rate
+                                new_maintenance = MaintenanceEvent(system_clock + time_to_hurdle, asset.id, True, hurdle)
+                                future_asset_events.append(new_maintenance)
 
-                            if time_to_hurdle <= time_elapsed:
-                                unsched_events.append(new_maintenance)
+                                if time_to_hurdle <= time_elapsed:
+                                    unsched_events.append(new_maintenance)
 
-                # if there are no remaining maintenance hurdles for this asset
-                # the last known event will be end of life, which can now be found
-                # it's a waste of time to schedule an end of life event while there
-                # are any remaining maintenance hurdles, since it will make it difficult
-                # to actually find
+                    # if there are no remaining maintenance hurdles for this asset
+                    # the last known event will be end of life, which can now be found
+                    # it's a waste of time to schedule an end of life event while there
+                    # are any remaining maintenance hurdles, since it will make it difficult
+                    # to actually find
 
-                # future asset event list will be empty if end of life is all that remains
-                if len(future_asset_events) == 0:
-                    time_to_eol = (util_limits[util_type] - curr_util)/ util_rate
-                    asset_eol = EOLEvent(system_clock + time_to_eol, asset.id, util_type)
-                    future_asset_events.append(asset_eol)
+                    # future asset event list will be empty if end of life is all that remains
+                    if len(future_asset_events) == 0:
+                        time_to_eol = (util_limits[util_type] - curr_util) / util_rate
+                        asset_eol = EOLEvent(system_clock + time_to_eol, asset.id, util_type)
+                        future_asset_events.append(asset_eol)
 
-                    if time_to_eol <= time_elapsed:
-                        unsched_events.append(asset_eol)
+                        if time_to_eol <= time_elapsed:
+                            unsched_events.append(asset_eol)
 
             # updating the asset with the knowledge of future events
             asset.update(future_asset_events)
@@ -402,7 +409,7 @@ def main():
         else:
             for event in next_events:
                 report_str += process_event(event, event_list)
-                record_system_state()
+            record_system_state()
 
         # once events have been processed and changes have been made
         # to the system, search for "holes" and redistribute assets
@@ -416,6 +423,11 @@ def main():
 
     print("Num transfers = " + str(len(transfer_record)))
 
+    # calculating global cumulative downtime
+    for unit_it, unit in sim_units.items():
+        unit_downtime = unit.get_cumulative_downtime()
+        for phase_id, cumulative_downtime in unit_downtime.items():
+            global_phase_cumulative_downtime[phase_id] += cumulative_downtime
     # syntax would be:
     # import oo_simulation
     # system_state_record, transfer_record = oo_simulation.main()
