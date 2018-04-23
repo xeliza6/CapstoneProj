@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <input type="file" name="file" id="file">
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['timeline']});
+	  function drawChart(rows) {
+        var container = document.getElementById('timeline');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+
+
+        dataTable.addColumn({ type: 'string', id: 'Unit' });
+		dataTable.addColumn({ type: 'string', id: 'Phase' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+		dataTable.addColumn({ type: 'string', role: 'tooltip' });
+
+        dataTable.addRows(rows);
+		var options = {
+      timeline: { colorByRowLabel: true }
+    };
+
+        chart.draw(dataTable);
+      }
+	  
+	document.getElementById('file').onchange = function(){
+		var file = this.files[0];
+		var reader = new FileReader();
+		reader.onload = function(progressEvent){
+			var lines = this.result.split('\n');
+			var rows = []
+			for(var i=1; i<lines.length-1; i++){
+				row = lines[i].split(',');
+				row[0] = "Unit " + row[0].substring(1,row[0].length-1)
+				row[1] = "Phase " + row[1].substring(1,row[1].length-1)
+
+				row[2] = new Date(row[2])
+				row[3] = new Date(row[3])
+				rows.push(row)
+			}
+			console.log(rows)
+			drawChart(rows)
+		};
+		  reader.readAsText(file);
+	};
+	  
+    </script>
+  </head>
+  <body>
+    <div id="timeline" style="height: 700; width: 5000;"></div>
+  </body>
+</html></title>
+</head>
+<body>

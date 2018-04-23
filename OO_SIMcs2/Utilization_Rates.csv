@@ -1,0 +1,9 @@
+"Phase","UtilType","RateUnit","RateValue"
+"A","Hours","perUnit_perDay",10
+"B","Hours","perUnit_perDay",15
+"C","Hours","perUnit_perDay",20
+"D","Hours","perAsset_PerDay",2.1
+"E","Hours","perUnit_perDay",8
+"F","Hours","perUnit_perDay",9
+"G","Hours","perAsset_PerDay",2.2
+"H","Hours","perUnit_perDay",15
