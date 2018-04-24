@@ -11,8 +11,18 @@ from matplotlib.font_manager import FontProperties
 
 
 import oo_simulation
+import sys
 
-system_state_record, transfer_record = oo_simulation.main()
+case=''
+filepath = ''
+if len(sys.argv)>1:
+    case = sys.argv[1]
+
+if case != '' and len(sys.argv)>1:
+    filepath = './cases/' + case + '/'
+else:
+    filepath = './cases/default/'
+system_state_record, transfer_record = oo_simulation.main(filepath)
 
 #Make dataframe to conatin the system_state_record
 df = pd.DataFrame(columns=['time', 'online', 'maintenance','offline', 'asset_demand', 'shortage'])
@@ -27,7 +37,7 @@ offline= list(df['offline'])
 demand = list(df['asset_demand'])
 shortage = list(df['shortage'])
 time= list(df['time'])
-fig = plt.figure(1)
+fig = plt.figure(1,figsize=(8,6),dpi=100)
 ax = fig.add_subplot(111)
 plt.style.use('fivethirtyeight')
 plt.title('System Usage Plot')
@@ -41,4 +51,5 @@ handles, labels = ax.get_legend_handles_labels()
 fontP = FontProperties()
 fontP.set_size('small')
 plt.legend(bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=1.2, frameon=False,prop=fontP, ncol=4)
+plt.savefig(filepath+'systemUse.png')
 plt.show()

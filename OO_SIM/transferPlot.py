@@ -18,7 +18,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import oo_simulation
 from matplotlib.font_manager import FontProperties
-system_state_record, transfer_record = oo_simulation.main()
+import sys
+
+case=''
+filepath = ''
+if len(sys.argv)>1:
+    case = sys.argv[1]
+
+if case != '' and len(sys.argv)>1:
+    filepath = './cases/' + case + '/'
+else:
+    filepath = './cases/default/'
+
+system_state_record, transfer_record = oo_simulation.main(filepath)
 units=['A','B','C','D','E','F','G','H','I','J']
 maxT = len(transfer_record)-1
 maxTime = transfer_record[maxT][3]
@@ -45,7 +57,7 @@ df['time']= time
 df['transfers']= counts
 time = list(df['time'])
 transfers = list(df['transfers'])
-fig = plt.figure(1)
+fig = plt.figure(1,dpi=100)
 ax = fig.add_subplot(111)
 plt.style.use('fivethirtyeight')
 plt.title('System Transfers by Month')
@@ -58,5 +70,5 @@ fontP = FontProperties()
 fontP.set_size('small')
 plt.legend(bbox_to_anchor=(0,1.02,1,0.2), loc="lower left",
            borderaxespad=1.2, frameon=False,prop=fontP, ncol=1)
-
+plt.savefig(filepath+'transferPlot.png')
 plt.show()

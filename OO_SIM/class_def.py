@@ -31,6 +31,8 @@ class Unit:
         self.__schedule.append(phase)
         self.__eos_time = max(self.__eos_time, int(phase[2]))
         self.__cumulative_downtime[phase[0]] = 0
+        self.__downtime = 0
+        self._partial_downtime = 0
 
     def asset_demand(self):
         if self.__state == State.ONLINE:
@@ -47,7 +49,8 @@ class Unit:
         performance = min(float(self.online_asset_count())/float(assets_required), 1)
 
         self.__cumulative_downtime[self.__schedule[self.__phase_idx][0]] += (1 - performance)*time_elapsed
-
+        self.__downtime += (1 - performance)*time_elapsed
+        self.__partial_downtime = (1-performance)*time_elapsed
         curr_util_rates = phases[self.current_phase()].util_rates
 
         # updating asset utilizations
@@ -71,6 +74,11 @@ class Unit:
     def get_cumulative_downtime(self):
         return self.__cumulative_downtime
 
+    def get_downtime(self):
+        return self.__downtime
+
+    def get_partial_downtime(self):
+        return self.__partial_downtime
     def add_asset(self, asset):
         self.__assets[asset.id] = asset
         self.raise_flags()

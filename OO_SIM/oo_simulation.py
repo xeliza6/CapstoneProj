@@ -5,17 +5,32 @@ from class_def import State, Unit, Asset, Phase, Hurdle, Event, PhaseChangeEvent
 import oo_create_tables
 from datetime import datetime, timedelta
 from math import exp
+import sys
+
+
+case=''
+filepath = ''
+if len(sys.argv)>1:
+    case = sys.argv[1]
+
+if case != '' and len(sys.argv)>1:
+    print("Running simulation on case study: " + case)
+    filepath = './cases/' + case + '/'
+else:
+    filepath = './cases/default/'
+
 
 date_format = "%Y-%m-%d"
 clock_zero = datetime.strptime("2018-01-01", date_format)
 
 
-logger = open("transfer_log.txt", 'w')
-data_file = open("data.txt", "w")
-
+logger = open(filepath + "transfer_log.txt", 'w')
+data_file = open(filepath + "data.txt", "w")
+datapoints = open(filepath + 'unit_datapoints.csv', 'w')
+datapoints.write('id,time,priority,dmnd,short,prtdown,ttldown,prtgdown,ttlgdown\n')
 ## Global Simulation Variables
 
-sim_phases, sim_units, sim_assets, util_limits, maintenance_hurdles = oo_create_tables.main()
+sim_phases, sim_units, sim_assets, util_limits, maintenance_hurdles = oo_create_tables.main(filepath)
 
 
 
@@ -24,6 +39,8 @@ sankey_record = []
 transfer_record = []
 system_state_record = {}
 global_phase_cumulative_downtime = {}
+time_elapsed = 0
+total_global_downtime = 0
 
 for phase_id in sim_phases:
     global_phase_cumulative_downtime[phase_id] = 0
@@ -70,6 +87,7 @@ def generate_starting_events():
 
 def find_unscheduled_events(event):
     global system_clock
+    global time_elapsed
     # exploring all assets and units for potential
     # unscheduled events before the current event
     unsched_events = []
@@ -165,6 +183,7 @@ def find_next_event(event_list):
 # summary statistics.
 # Data stored as (time, online assets, maintenance assets, offline assets, asset demand, asset shortage)
 def record_system_state():
+    global total_global_downtime
     time = system_clock
 
     # global tracking variables
@@ -186,6 +205,12 @@ def record_system_state():
         global_offline_assets += offline
         global_asset_demand += demand
         global_shortage += shortage
+
+        partial_global_downtime = (global_shortage * system_clock)*time_elapsed
+        total_global_downtime +=(global_shortage * system_clock)*time_elapsed
+        datapoints.write(unit_id + "," + str(system_clock) + "," + str(sim_phases[unit.current_phase()].priority)
+                         + "," + str(demand) + "," + str(shortage) + "," + str(unit.get_partial_downtime()) + ","
+                         + str(unit.get_downtime()) +","+ str(partial_global_downtime) + "," + str(total_global_downtime) + '\n')
 
         system_state_record[unit_id].append((time, online, maintenance, offline, demand, shortage))
 
@@ -385,11 +410,11 @@ def fill_holes(empty_spots):
 
     return transfer_str
 
-def get_sankey_data():
-    main()
+def get_sankey_data(filepath):
+    main(filepath)
     return sankey_record
 
-def main():
+def main(filepath):
     # main loop goes here
 
     time_stepper = 30
@@ -435,4 +460,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(filepath)

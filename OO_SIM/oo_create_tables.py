@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from class_def import Unit, Asset, Phase, Hurdle
 import csv
+import sys
 
 # Important Global Variables
 START_DATE = "2018-01-01"
@@ -8,17 +9,17 @@ DATE_FORMAT = "%Y-%m-%d"
 clock_zero = None
 
 
-def create_phase_data():
+def create_phase_data(filepath):
     # phase dict structure: Phase ID - Key
     # Vals - priority - util rates (dict of UtilType (key) to (RateUnit, RateValue) tuple)
     phases = {}
-    with open('Phase_Asset_Priority.csv', 'rt', encoding='utf-8') as priority_file:
+    with open(filepath+'Phase_Asset_Priority.csv', 'rt', encoding='utf-8') as priority_file:
         reader = csv.reader(priority_file, dialect='excel')
         next(reader)
         for row in reader:
             phases[row[0]] = Phase(row[0], int(row[1]))
         phases["EOS"] = Phase("EOS", 100)
-    with open('Utilization_Rates.csv', 'rt', encoding='utf-8') as util_rate_file:
+    with open(filepath+'Utilization_Rates.csv', 'rt', encoding='utf-8') as util_rate_file:
         reader = csv.reader(util_rate_file, dialect='excel')
         next(reader)
         for row in reader:
@@ -30,10 +31,10 @@ def create_phase_data():
     return phases
 
 
-def create_units():
+def create_units(filepath):
 
     units = {}
-    with open('Unit_Schedule.csv', 'rt', encoding='utf-8') as unit_schedule_file:
+    with open(filepath+'Unit_Schedule.csv', 'rt', encoding='utf-8') as unit_schedule_file:
         reader = csv.reader(unit_schedule_file, dialect='excel')
         next(reader)
         for row in reader:
@@ -49,11 +50,11 @@ def create_units():
     return units
 
 
-def create_assets(units):
+def create_assets(units,filepath):
 
     assets = {}
-    with open('Asset_Initial_Utilization_v2.csv', 'rt', encoding='utf-8') as asset_util_file:
-        with open('Asset_Schedule.csv', 'rt', encoding='utf-8') as asset_schedule_file:
+    with open(filepath+'Asset_Initial_Utilization_v2.csv', 'rt', encoding='utf-8') as asset_util_file:
+        with open(filepath+'Asset_Schedule.csv', 'rt', encoding='utf-8') as asset_schedule_file:
             reader = csv.reader(asset_util_file, dialect='excel')
             reader2 = csv.reader(asset_schedule_file, dialect='excel')
             next(reader)
@@ -81,9 +82,9 @@ def create_assets(units):
     return assets
 
 
-def misc_data():
+def misc_data(filepath):
 
-    with open('Utilization_Limits.csv', 'rt', encoding='utf-8') as util_limits_file:
+    with open(filepath+'Utilization_Limits.csv', 'rt', encoding='utf-8') as util_limits_file:
         reader = csv.reader(util_limits_file, dialect='excel')
         next(reader)
 
@@ -92,7 +93,7 @@ def misc_data():
         for row in reader:
             util_limits[row[0]] = int(row[1])
 
-    with open('Maintenance_Hurdles.csv', 'rt', encoding='utf-8') as main_hurdle_file:
+    with open(filepath+'Maintenance_Hurdles.csv', 'rt', encoding='utf-8') as main_hurdle_file:
         reader = csv.reader(main_hurdle_file,dialect='excel')
         next(reader)
 
@@ -111,17 +112,17 @@ def date_to_int(date):
     return (temp - clock_zero).days
 
 
-def main():
+def main(filepath):
     global clock_zero
     clock_zero = datetime.strptime(START_DATE, DATE_FORMAT)
 
-    phases = create_phase_data()
-    units = create_units()
-    assets = create_assets(units)
+    phases = create_phase_data(filepath)
+    units = create_units(filepath)
+    assets = create_assets(units,filepath)
 
-    util_limits, maintenance_hurdles = misc_data()
+    util_limits, maintenance_hurdles = misc_data(filepath)
     return phases, units, assets, util_limits, maintenance_hurdles
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1])

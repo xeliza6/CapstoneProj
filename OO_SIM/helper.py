@@ -5,8 +5,22 @@ from collections import OrderedDict
 import math
 import random
 from datetime import datetime, timedelta
-yal = open("tidytransfers.txt", 'w')
-logger = open("transfer_log.txt", 'w')
+import sys
+
+case=''
+filepath = ''
+if len(sys.argv)>1:
+    case = sys.argv[1]
+
+if case != '' and len(sys.argv)>1:
+    filepath = './cases/' + case + '/'
+else:
+    filepath = './cases/default/'
+
+
+
+yal = open(filepath + "tidytransfers.txt", 'w')
+logger = open(filepath + "transfer_log.txt", 'w')
 
 
 def get_rand_color():
@@ -85,8 +99,8 @@ def get_transfers_dict(transfers_array):
 
 
 units_dict = OrderedDict()
-temp_units = oo_create_tables.create_units()
-oo_create_tables.create_assets(temp_units)
+temp_units = oo_create_tables.create_units(filepath)
+oo_create_tables.create_assets(temp_units,filepath)
 
 unit_ids = [k for k in temp_units]
 unit_ids.sort()
@@ -101,7 +115,7 @@ units_dict["EOL"] = 0
 for u in units_dict:
     units_dict[u] = [units_dict[u], units_dict[u]]
 
-transfer_data = oo_simulation.get_sankey_data()
+transfer_data = oo_simulation.get_sankey_data(filepath)
 transfer_data = transfer_data[:1000]
 
 same_unit_dict, transfers, time_step = get_transfers_dict(transfer_data)
