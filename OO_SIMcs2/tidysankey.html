@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <input type="file" name="file" id="file">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['sankey']});
+
+      function drawChart(r,nc) {
+	  console.log(r)
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Weight');
+		data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}});
+        data.addRows(r);
+
+        // Sets chart options.
+        var options = {
+          width: 40000,
+		  height: 700,
+		  padding: 30,
+		  sankey: {
+			iterations: 0,
+			node: { 
+				width: 9,
+				nodePadding: 30,
+				colors:nc,
+				labelPadding: 20
+			},
+			link:{
+				colorMode: 'gradient',
+			},
+		},
+			 tooltip: { isHtml: true }
+        };
+
+        // Instantiates and draws our chart, passing in some options.
+        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        chart.draw(data, options);
+      }
+	  
+	document.getElementById('file').onchange = function(){
+		var nodeColors = [];
+		var linkColors = [];
+		var defaultLinkCol = '#848484';
+		var colorsDict = {};
+		var rows = [];
+		var file = this.files[0];
+		var reader = new FileReader();
+		reader.onload = function(progressEvent){
+			// By lines
+			var lines = this.result.split('\n');
+			var colorlines = lines[lines.length-1];
+			colorlines = colorlines.split(',');
+			for(var c=0;c<colorlines.length-1;c++){
+				insertcolor = colorlines[c].split(":");
+				colorsDict[insertcolor[0]]=insertcolor[1];
+			}
+			secondToLastTime = colorlines[colorlines.length-1]
+			console.log(colorsDict)
+			for(var i=0; i<lines.length-2; i++){
+				transfer = lines[i].split('|');
+				var source = transfer[0]
+				var target = transfer[1]
+				transfer[2]=parseInt(transfer[2]);
+				transfer[3] = transfer[3].replace('*','\n')
+				rows.push(transfer);
+				if (source === target){
+					linkColors.push(defaultLinkCol)
+				}
+				else{
+					if(source[1] === 'O'){
+						nodeColors.push(colorsDict[source.substring(0,3)]);
+						if(source.substring(3,source.length) === secondToLastTime)
+								nodeColors.push(colorsDict[target.substring(0,3)]);
+					}
+					else if(source[1]=== 'A'){
+						nodeColors.push(colorsDict[source.substring(0,2)]);
+						if(source.substring(2,source.length)===secondToLastTime)
+							nodeColors.push(colorsDict[target.substring(0,2)]);
+					}
+					else{
+						nodeColors.push(colorsDict[transfer[0][0]]);
+						if(source.substring(1,source.length)===secondToLastTime)
+							nodeColors.push(colorsDict[target[0]]);
+					}
+				}
+			}
+			drawChart(rows,nodeColors);
+			console.log(colorsDict)
+		};
+		  reader.readAsText(file);
+	};
+	  
+    </script>
+  </head>
+  <body>
+    <div id="sankey_basic" style="width: 900px; height: 300px; padding: 30px;"></div>
+  </body>
+</html></title>
+</head>
+<body>
